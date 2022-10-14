@@ -1,6 +1,5 @@
 import { genTokenData } from "./token";
 export const tokenData = genTokenData(13);
-
 console.log(tokenData)
 
 export class Random {

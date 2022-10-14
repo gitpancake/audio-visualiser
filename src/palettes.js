@@ -1,13 +1,11 @@
 export const palettes = [
   {
     name: "Original",
-    background: [
-      {
-        r: 20,
-        g: 20,
-        b: 20,
-      },
-    ],
+    background: {
+      r: 20,
+      g: 20,
+      b: 20,
+    },
     colors: [
       {
         r: 0,
@@ -35,13 +33,11 @@ export const palettes = [
 
 export const defaultPalette = {
   name: "Default",
-  background: [
-    {
-      r: 20,
-      g: 20,
-      b: 20,
-    },
-  ],
+  background: {
+    r: 20,
+    g: 20,
+    b: 20,
+  },
   colors: [
     {
       r: 50,

@@ -1,7 +1,5 @@
 import { palettes } from "./palettes";
-import { Random, tokenData } from "./random";
-console.log(tokenData)
-
+import { Random } from "./random";
 const R = new Random();
 
 export const config = {
@@ -9,10 +7,18 @@ export const config = {
   canvasHeight: 1200,
   gridMargin: {
     x: 50,
-    y: 50
+    y: 50,
   },
+  gridSize: {
+    x: R.random_int(1,10),
+    y: R.random_int(1,10)
+  },
+  gridSpacing: 100,//R.random_choice([0,20,40,60,80,100]),
   palette: R.random_choice(palettes),
+  noisey: R.random_bool(0.5)
 };
+
+console.log(config)
 
 export const calculateFeatures = (tokenData) => {
   const features = {};

@@ -9,22 +9,24 @@ const R = new Random();
  * @param {number} amount amount of blocks
  * @param {number} sum total sum of blocks
  * Credit - https://stackoverflow.com/a/50405632/2126900
-*/
-export const gridDivider = (min, max, length, sum) => {
-    return Array.from(
-        { length },
-        (_, i) => {
-            var smin = (length - i - 1) * min,
-                smax = (length - i - 1) * max,
-                offset = Math.max(sum - smax, min),
-                random = 1 + Math.min(sum - offset, max - offset, sum - smin - min),
-                value = Math.floor(R.random_dec() * random + offset);
+ */
+export const gridDivider = (min, max, amt, sum) => {
+  return Array.from({ length: amt }, (_, i) => {
+    var smin = (amt - i - 1) * min,
+      smax = (amt - i - 1) * max,
+      offset = Math.max(sum - smax, min),
+      random = 1 + Math.min(sum - offset, max - offset, sum - smin - min),
+      value = Math.floor(R.random_dec() * random + offset);
 
-            sum -= value;
-            return value;
-        }
-    );
+    sum -= value;
+    return shuffle(value);
+  });
 };
 
-
-// R.random_dec()
+export const shuffle = (a) => {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(R.random_dec() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
