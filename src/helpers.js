@@ -11,16 +11,18 @@ const R = new Random();
  * Credit - https://stackoverflow.com/a/50405632/2126900
  */
 export const gridDivider = (min, max, amt, sum) => {
-  return Array.from({ length: amt }, (_, i) => {
-    var smin = (amt - i - 1) * min,
-      smax = (amt - i - 1) * max,
-      offset = Math.max(sum - smax, min),
-      random = 1 + Math.min(sum - offset, max - offset, sum - smin - min),
-      value = Math.floor(R.random_dec() * random + offset);
+  return shuffle(
+    Array.from({ length: amt }, (_, i) => {
+      var smin = (amt - i - 1) * min,
+        smax = (amt - i - 1) * max,
+        offset = Math.max(sum - smax, min),
+        random = 1 + Math.min(sum - offset, max - offset, sum - smin - min),
+        value = Math.floor(R.random_dec() * random + offset);
 
-    sum -= value;
-    return shuffle(value);
-  });
+      sum -= value;
+      return value;
+    })
+  );
 };
 
 export const shuffle = (a) => {

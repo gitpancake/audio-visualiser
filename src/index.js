@@ -1,94 +1,77 @@
 import { tokenData } from "./random";
 import { config, calculateFeatures } from "./config";
+const c = config;
 import { gridDivider } from "./helpers";
 
 console.log();
 
 // Setup Canvas
 window.setup = () => {
-  createCanvas(config.canvasWidth, config.canvasHeight);
+  createCanvas(c.canvasWidth, c.canvasHeight);
   noLoop();
   noFill();
   noStroke();
-  const bg = config.palette.background;
+  const bg = c.palette.background;
   background(color(bg.r, bg.g, bg.b));
 };
 
-const gridWidth = config.canvasWidth - config.gridMargin.x * 2;
-const gridHeight = config.canvasHeight - config.gridMargin.y * 2;
+const gridWidth = c.canvasWidth - c.gridMargin.x * 2;
+const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
 console.table({ gridWidth, gridHeight });
 
 window.draw = () => {
   stroke(255);
 
-  //   const blockSizesY = gridDivider(
-  //     gridHeight / 10,
-  //     gridHeight,
-  //     config.gridSize.y,
-  //     gridHeight
-  //   );
+  const loopOneCount = c.isCascade ? c.gridSize.x : c.gridSize.y;
+  const loopOneDiv = loopOneCount*2;
+  const loopOneMargin = c.isCascade ? c.gridMargin.x : c.gridMargin.y;
+  const loopOneDimension = c.isCascade ? gridWidth : gridHeight;
 
-  //   let blockTranslateY = config.gridMargin.y;
+  const loopTwoCount = c.isCascade ? c.gridSize.y : c.gridSize.x;
+  const loopTwoDiv = loopTwoCount*2;
+  const loopTwoMargin = c.isCascade ? c.gridMargin.y : c.gridMargin.x;
+  const loopTwoDimension = c.isCascade ? gridHeight : gridWidth;
 
-  //   for (let y = 0; y < config.gridSize.y; y++) {
-  //     let blockTranslateX = config.gridMargin.x;
-
-  //     const blockSizesX = gridDivider(
-  //       gridWidth / 10,
-  //       gridWidth,
-  //       config.gridSize.x,
-  //       gridWidth
-  //     );
-
-  //     for (let x = 0; x < config.gridSize.x; x++) {
-  //       push();
-
-  //       translate(blockTranslateX, blockTranslateY);
-
-  //       rect(0, 0, blockSizesX[x], blockSizesY[y]);
-
-  //       blockTranslateX += blockSizesX[x];
-
-  //       pop();
-  //     }
-  //     blockTranslateY += blockSizesY[y];
-  //   }
-
-  const blockSizesX = gridDivider(
-    gridWidth / 10,
-    gridWidth,
-    config.gridSize.x,
-    gridWidth
+  const blockSizesA = gridDivider(
+    loopOneDimension / loopOneDiv,
+    loopOneDimension,
+    loopOneCount,
+    loopOneDimension
   );
 
-  let blockTranslateX = config.gridMargin.x;
+  let blockTranslateA = loopOneMargin;
 
-  for (let x = 0; x < config.gridSize.x; x++) {
+  for (let a = 0; a < loopOneCount; a++) {
+    let blockTranslateB = loopTwoMargin;
 
-    let blockTranslateY = config.gridMargin.y;
-
-    const blockSizesY = gridDivider(
-      gridHeight / 10,
-      gridHeight,
-      config.gridSize.y,
-      gridHeight
+    const blockSizesB = gridDivider(
+      loopTwoDimension / loopTwoDiv,
+      loopTwoDimension,
+      loopTwoCount,
+      loopTwoDimension
     );
 
-    for (let y = 0; y < config.gridSize.y; y++) {
+    for (let b = 0; b < loopTwoCount; b++) {
+
+      const blockW = c.isCascade ? blockSizesA[a] : blockSizesB[b];
+      const blockH = c.isCascade ? blockSizesB[b] : blockSizesA[a];
 
       push();
 
-      translate(blockTranslateX, blockTranslateY);
+      if (c.isCascade) {
+        translate(blockTranslateA, blockTranslateB);
+      } else {
+        translate(blockTranslateB, blockTranslateA);
+      }
 
-      rect(0, 0, blockSizesX[x], blockSizesY[y]);
+      rect(0, 0, blockW, blockH);
 
-      blockTranslateY += blockSizesY[y];
       pop();
 
+      blockTranslateB += blockSizesB[b];
     }
 
-    blockTranslateX += blockSizesX[x];
-    
-  }
+    blockTranslateA += blockSizesA[a];
 
+  }
 };
