@@ -18,32 +18,63 @@ const gridWidth = config.canvasWidth - config.gridMargin.x * 2;
 const gridHeight = config.canvasHeight - config.gridMargin.y * 2;
 console.table({ gridWidth, gridHeight });
 
-// console.table({ blockSizesX, blockSizesY });
-
 window.draw = () => {
   stroke(255);
 
-  const blockSizesY = gridDivider(
-    gridHeight / 10,
-    gridHeight,
-    config.gridSize.y,
-    gridHeight
+  //   const blockSizesY = gridDivider(
+  //     gridHeight / 10,
+  //     gridHeight,
+  //     config.gridSize.y,
+  //     gridHeight
+  //   );
+
+  //   let blockTranslateY = config.gridMargin.y;
+
+  //   for (let y = 0; y < config.gridSize.y; y++) {
+  //     let blockTranslateX = config.gridMargin.x;
+
+  //     const blockSizesX = gridDivider(
+  //       gridWidth / 10,
+  //       gridWidth,
+  //       config.gridSize.x,
+  //       gridWidth
+  //     );
+
+  //     for (let x = 0; x < config.gridSize.x; x++) {
+  //       push();
+
+  //       translate(blockTranslateX, blockTranslateY);
+
+  //       rect(0, 0, blockSizesX[x], blockSizesY[y]);
+
+  //       blockTranslateX += blockSizesX[x];
+
+  //       pop();
+  //     }
+  //     blockTranslateY += blockSizesY[y];
+  //   }
+
+  const blockSizesX = gridDivider(
+    gridWidth / 10,
+    gridWidth,
+    config.gridSize.x,
+    gridWidth
   );
 
-  let blockTranslateY = config.gridMargin.y;
+  let blockTranslateX = config.gridMargin.x;
 
-  for (let y = 0; y < config.gridSize.y; y++) {
+  for (let x = 0; x < config.gridSize.x; x++) {
 
-    let blockTranslateX = config.gridMargin.x;
+    let blockTranslateY = config.gridMargin.y;
 
-    const blockSizesX = gridDivider(
-      gridWidth / 10,
-      gridWidth,
-      config.gridSize.x,
-      gridWidth
+    const blockSizesY = gridDivider(
+      gridHeight / 10,
+      gridHeight,
+      config.gridSize.y,
+      gridHeight
     );
 
-    for (let x = 0; x < config.gridSize.x; x++) {
+    for (let y = 0; y < config.gridSize.y; y++) {
 
       push();
 
@@ -51,11 +82,13 @@ window.draw = () => {
 
       rect(0, 0, blockSizesX[x], blockSizesY[y]);
 
-    blockTranslateX += blockSizesX[x];
-
+      blockTranslateY += blockSizesY[y];
       pop();
-    }
-    blockTranslateY += blockSizesY[y];
 
+    }
+
+    blockTranslateX += blockSizesX[x];
+    
   }
+
 };
