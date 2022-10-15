@@ -1,3 +1,4 @@
+import { defaultPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
@@ -34,4 +35,8 @@ export const shuffle = (a) => {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+};
+
+export const pickRndColor = (palette = defaultPalette) => {
+  return R.random_choice(palette.colors);
 };

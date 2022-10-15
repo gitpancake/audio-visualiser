@@ -15,7 +15,7 @@ export const config = {
   },
   gridSpacing: R.random_choice([8, 16, 32]),
   palette: R.random_choice(palettes),
-  isNoisey: R.random_bool(0.5),
+  isNoisy: R.random_bool(0.5),
   isCascade: true, //R.random_bool(0.5)
 };
 

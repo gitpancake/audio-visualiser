@@ -1,6 +1,9 @@
 import { gridDivider } from "./helpers";
+import { Random } from "./random";
+const R = new Random();
 import { config } from "./config";
 const c = config;
+import { Scribbles } from "./shapes";
 
 // Setup Canvas
 window.setup = () => {
@@ -18,13 +21,13 @@ console.table({ gridWidth, gridHeight });
 
 window.draw = () => {
   // DEBUG
-  stroke("red");
-  rect(
-    c.gridMargin.x,
-    c.gridMargin.y,
-    c.canvasWidth - c.gridMargin.x * 2,
-    c.canvasHeight - c.gridMargin.y * 2
-  );
+  //   stroke("red");
+  //   rect(
+  //     c.gridMargin.x,
+  //     c.gridMargin.y,
+  //     c.canvasWidth - c.gridMargin.x * 2,
+  //     c.canvasHeight - c.gridMargin.y * 2
+  //   );
   // DEBUG - END
 
   stroke(255);
@@ -62,8 +65,10 @@ window.draw = () => {
     );
 
     for (let b = 0; b < loopTwoCount; b++) {
-      const blockW = c.isCascade ? blockDimA[a] : blockDimB[b];
-      const blockH = c.isCascade ? blockDimB[b] : blockDimA[a];
+      let blockW = c.isCascade ? blockDimA[a] : blockDimB[b];
+      let blockH = c.isCascade ? blockDimB[b] : blockDimA[a];
+      blockW = blockW - spacing;
+      blockH = blockH - spacing;
 
       push();
 
@@ -74,7 +79,13 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      rect(0, 0, blockW - spacing, blockH - spacing);
+      // rect(0, 0, blockW, blockH);
+      // Background - 3 Options
+      // Scribbles
+      // Coils
+      // Trigonometry
+      const scribbles = new Scribbles(blockW, blockH, c.isNoisy, c.palette);
+      scribbles.show();
 
       pop();
 
