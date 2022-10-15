@@ -1,6 +1,5 @@
-import { tokenData } from "./random";
 import { gridDivider } from "./helpers";
-import { config, calculateFeatures } from "./config";
+import { config } from "./config";
 const c = config;
 
 // Setup Canvas
