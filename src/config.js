@@ -10,13 +10,13 @@ export const config = {
     y: 40,
   },
   gridSize: {
-    x: R.random_int(1,8),
-    y: R.random_int(2,10)
+    x: R.random_int(1,4),
+    y: R.random_int(2,4)
   },
   gridSpacing: R.random_choice([8, 16, 32]),
   palette: R.random_choice(palettes),
-  isNoisy: R.random_bool(0.5),
-  isCascade: true, //R.random_bool(0.5)
+  isNoisy: true,///R.random_bool(0.5),
+  isCascade: R.random_bool(0.5)
 };
 
 console.table(config);

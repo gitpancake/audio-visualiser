@@ -1,4 +1,4 @@
-import { gridDivider } from "./helpers";
+import { gridDivider, debugGrid } from "./helpers";
 import { Random } from "./random";
 const R = new Random();
 import { config } from "./config";
@@ -86,10 +86,17 @@ window.draw = () => {
       // Coils
       // Trigonometry
       const scribbles = new Scribbles(blockW, blockH, c.isNoisy, c.palette);
-      const flower = new Flower(blockW, blockH, c.isNoisy, c.palette);
+      const flower = new Flower(blockW, blockH, c.isNoisy, c.palette, Math.floor(Math.sqrt(blockW * blockH)/100));
 
       scribbles.show();
-      flower.draw();
+
+      const p3 = 0.25; // percentage - 0.1 = 10% etc..
+      const h3 = blockH;
+      const w3 = blockW;
+
+      if (h3 > w3 + w3 * p3) {
+        flower.draw();
+      } 
 
       pop();
 
@@ -97,4 +104,6 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
+//   debugGrid(25);
+
 };

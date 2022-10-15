@@ -10,10 +10,10 @@ export class Flower {
      * @constructor
      * @param {number} width container width
      * @param {string} height container height
+     * @param {string} isNoisey enable noisey drawings
      * @param {string} colorPalette colour palette
      * @param {string} strokeSize petal stroke size
      * @param {string} petalAmount amount of petals
-     * @param {string} isNoisey enable noisey drawings
      */
     constructor(
       width,
@@ -28,10 +28,12 @@ export class Flower {
       this.height = height;
       this.colorPalette = colorPalette;
       this.petalAmount = petalAmount;
-      this.strokeSize = strokeSize / petalAmount;
+      this.strokeSize = strokeSize;
       this.isOrientationVertical = false;
       this.colorBg = this.colorPalette.background;
       this.isNoisey = isNoisey;
+      
+      console.log(this.strokeSize)
       // this.radius;
   
       if (this.width > this.height) {
@@ -79,12 +81,12 @@ export class Flower {
           const c = petal.c; // draw crop
           const k = m / n;
           const count = m * 2;
-          const radiusScale = R.random_num(3, 3.5);
+          const radiusScale = R.random_num(2.6, 4);
           const lineStep = TWO_PI * reduceDenominator(m, n);
   
           let thetaOuter = theta;
           const petalOuter = R.random_choice(petalOptions);
-          const radiusScaleOuter = R.random_num(2.1, 2.5);
+          const radiusScaleOuter = R.random_num(1.9, 2.5);
           const mOuter = petalOuter.m;
           const nOuter = petalOuter.n;
           const kOuter = mOuter / nOuter;
@@ -98,13 +100,13 @@ export class Flower {
           translate(shapeTranslateX, shapeTranslateY);
   
           // DEBUG
-          strokeWeight(1);
-        //   stroke("red");
+        //   strokeWeight(2);
+        //   stroke("purple");
         //   fill(20)
         //   circle(shapeWidth / 2, shapeHeight / 2, shapeWidth);
           // DEBUG - END
   
-          stroke(color(colour.r, colour.g, colour.b));
+          stroke(color(this.colorBg.r, this.colorBg.g, this.colorBg.b));
           strokeWeight(this.strokeSize);
   
           if (R.random_bool(0.5)) {
@@ -112,18 +114,18 @@ export class Flower {
             fill(color(colour.r, colour.g, colour.b));
           }
   
-          if (R.random_bool(0.25)) {
-            beginShape(LINES);
-            thetaOuter = theta * 10;
-          } else if (R.random_bool(0.25)) {
-            beginShape(POINTS);
-            thetaOuter = theta * 10;
-          } else {
+        //   if (R.random_bool(0.25)) {
+        //     beginShape(LINES);
+        //     thetaOuter = theta * 10;
+        //   } else if (R.random_bool(0.25)) {
+        //     beginShape(POINTS);
+            // thetaOuter = theta * 10;
+        //   } else {
             beginShape();
-          }
+        //   }
   
           for (let i = 0; i < lineStepOuter; i += thetaOuter) {
-            const noise = this.isNoisey ? R.random_dec() : 0;
+            const noise = this.isNoisey ? R.random_dec() *this.strokeSize : 0;
             const radius = (shapeWidth * Math.cos(i * kOuter)) / radiusScaleOuter;
             let xPos = radius * Math.cos(i) + shapeWidth / 2 + noise;
             let yPos = radius * Math.sin(i) + shapeHeight / 2 + noise;

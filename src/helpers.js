@@ -47,3 +47,15 @@ export const reduceDenominator = (numerator, denominator) => {
   }
   return denominator / rec(numerator, denominator);
 };
+
+export const debugGrid = (spacer = 50) => {
+  // Debug Grid
+  let div = spacer;
+  strokeWeight(1);
+  stroke(255);
+  for (let col = 1; col < width / div; col++) {
+    for (let row = 1; row < height / div; row++) {
+      point(col * div, row * div);
+    }
+  }
+};
