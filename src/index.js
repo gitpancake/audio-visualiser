@@ -3,7 +3,7 @@ import { Random } from "./random";
 const R = new Random();
 import { config } from "./config";
 const c = config;
-import { Scribbles } from "./shapes";
+import { Flower, Scribbles } from "./shapes";
 
 // Setup Canvas
 window.setup = () => {
@@ -80,13 +80,16 @@ window.draw = () => {
 
       // SHAPE LOGIC - HERE
       // rect(0, 0, blockW, blockH);
-      
+
       // Background - 3 Options
       // Scribbles
       // Coils
       // Trigonometry
       const scribbles = new Scribbles(blockW, blockH, c.isNoisy, c.palette);
+      const flower = new Flower(blockW, blockH, c.isNoisy, c.palette);
+
       scribbles.show();
+      flower.draw();
 
       pop();
 

@@ -28,8 +28,10 @@ export class Scribbles {
     const lines = lineContainerSize / curveSize - 1;
 
     let lineTranslate = curveSize;
+    push()
 
     for (let l = 0; l < lines; l++) {
+
       const theta = .1;
       const offset = R.random_int(1, 5);
       const curveType = R.random_choice([QUARTER_PI, HALF_PI, PI]);
@@ -62,5 +64,6 @@ export class Scribbles {
 
       lineTranslate =+ curveSize;
     }
+    pop()
   }
 }

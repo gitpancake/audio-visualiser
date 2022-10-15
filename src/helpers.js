@@ -40,3 +40,10 @@ export const shuffle = (a) => {
 export const pickRndColor = (palette = defaultPalette) => {
   return R.random_choice(palette.colors);
 };
+
+export const reduceDenominator = (numerator, denominator) => {
+  function rec(a, b) {
+    return b ? rec(b, a % b) : a;
+  }
+  return denominator / rec(numerator, denominator);
+};
