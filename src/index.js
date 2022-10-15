@@ -18,7 +18,17 @@ const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
 console.table({ gridWidth, gridHeight });
 
 window.draw = () => {
+  // DEBUG
   stroke("red");
+  rect(
+    c.gridMargin.x,
+    c.gridMargin.y,
+    c.canvasWidth - c.gridMargin.x * 2,
+    c.canvasHeight - c.gridMargin.y * 2
+  );
+  // DEBUG - END
+
+  stroke(255);
 
   const spacing = c.gridSpacing;
   const loopOneCount = c.isCascade ? c.gridSize.x : c.gridSize.y;
@@ -32,16 +42,6 @@ window.draw = () => {
   const loopTwoSpacing = spacing / loopTwoCount;
   const loopTwoMargin = c.isCascade ? c.gridMargin.y : c.gridMargin.x;
   const loopTwoDim = c.isCascade ? gridHeight : gridWidth;
-
-  //
-  rect(
-    c.gridMargin.x,
-    c.gridMargin.y,
-    c.canvasWidth - c.gridMargin.x * 2,
-    c.canvasHeight - c.gridMargin.y * 2
-  );
-
-  stroke(255);
 
   const blockDimA = gridDivider(
     loopOneDim / loopOneDiv,
@@ -74,13 +74,13 @@ window.draw = () => {
         translate(blockTranslateB, blockTranslateA);
       }
 
+      // SHAPE LOGIC - HERE
       rect(0, 0, blockW - spacing, blockH - spacing);
 
       pop();
 
       blockTranslateB += blockDimB[b] + loopTwoSpacing;
     }
-
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
 };
