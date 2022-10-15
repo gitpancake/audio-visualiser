@@ -4,7 +4,6 @@ const R = new Random();
 /**
  * Grid Divider
  ** https://stackoverflow.com/a/50405632/2126900
- * @constructor
  * @param {number} min min block size
  * @param {number} max max block size
  * @param {number} amount amount of blocks
@@ -25,6 +24,10 @@ export const gridDivider = (min, max, amt, sum) => {
   );
 };
 
+/**
+ * Array Shuffler
+ * @param {Array} a array to shuffle
+ */
 export const shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(R.random_dec() * (i + 1));
