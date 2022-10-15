@@ -3,12 +3,12 @@ const R = new Random();
 
 /**
  * Grid Divider
+ ** https://stackoverflow.com/a/50405632/2126900
  * @constructor
  * @param {number} min min block size
  * @param {number} max max block size
  * @param {number} amount amount of blocks
  * @param {number} sum total sum of blocks
- * Credit - https://stackoverflow.com/a/50405632/2126900
  */
 export const gridDivider = (min, max, amt, sum) => {
   return shuffle(
