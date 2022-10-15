@@ -80,6 +80,7 @@ window.draw = () => {
 
       // SHAPE LOGIC - HERE
       // rect(0, 0, blockW, blockH);
+      
       // Background - 3 Options
       // Scribbles
       // Coils
