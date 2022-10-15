@@ -79,24 +79,55 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      // rect(0, 0, blockW, blockH);
+      //   rect(0, 0, blockW, blockH);
+
+      // Colour Palettes - 5 Options
+      // - Kamerun
+      // - B&W / Grayscale
+      // - Golden / Coppper
+      // - TBC
+      // - TBC
 
       // Background - 3 Options
-      // Scribbles
-      // Coils
-      // Trigonometry
+      // Scribbles - implemented, need to tidy up and add rari.
+      // Coils - need to implement from prev project iter
+      // Trigonometry - need to implement - look at 
+
+      // Foreground - 3 Options?
+      // Flowers
+      // Eye
+      // Shields / Trigonmetric TAN
+
+      // Grid Styles - 2 Options
+      // Normal Grid
+      // Cascading Grid
+
+      // Draw Styles -  2 Options
+      // Normal
+      // Noisy / Hand Drawn
+
+      // Other Rarity
+      // Overstitch fun/back-stitch ... 
+      // LineOver fun/lineover branch
+
       const scribbles = new Scribbles(blockW, blockH, c.isNoisy, c.palette);
-      const flower = new Flower(blockW, blockH, c.isNoisy, c.palette, Math.floor(Math.sqrt(blockW * blockH)/100));
+      const flower = new Flower(
+        blockW,
+        blockH,
+        c.isNoisy,
+        c.palette,
+        Math.floor(Math.sqrt(blockW * blockH) / 100)
+      );
 
       scribbles.show();
 
-      const p3 = 0.25; // percentage - 0.1 = 10% etc..
+      const p3 = 0.5; // percentage - 0.1 = 10% etc..
       const h3 = blockH;
       const w3 = blockW;
 
       if (h3 > w3 + w3 * p3) {
         flower.draw();
-      } 
+      }
 
       pop();
 
@@ -104,6 +135,5 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-//   debugGrid(25);
-
+    debugGrid(25);
 };

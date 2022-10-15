@@ -10,12 +10,12 @@ export const config = {
     y: 40,
   },
   gridSize: {
-    x: R.random_int(1,4),
-    y: R.random_int(2,4)
+    x: R.random_int(2,10),
+    y: R.random_int(1,10)
   },
   gridSpacing: R.random_choice([8, 16, 32]),
   palette: R.random_choice(palettes),
-  isNoisy: true,///R.random_bool(0.5),
+  isNoisy: R.random_bool(0.5),
   isCascade: R.random_bool(0.5)
 };
 

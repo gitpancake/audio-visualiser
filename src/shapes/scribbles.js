@@ -22,9 +22,11 @@ export class Scribbles {
     const lineSize = isLineVertical ? this.height : this.width;
 
     // If vertical use width else use height
-    const lineDiv = 1;//this.isNoisy ? R.random_int(1, 5) : 1;
+    // const lineDiv = this.isNoisy ? R.random_int(1, 5) : 1;
+    const lineDiv = R.random_int(1, 2);
+
     const lineContainerSize = isLineVertical ? this.width : this.height;
-    const curveSize = lineDiv; //R.random_int(1, 10);
+    const curveSize = R.random_int(1, 4);
     const lines = lineContainerSize / curveSize - 1;
 
     let lineTranslate = curveSize;
@@ -34,7 +36,7 @@ export class Scribbles {
 
       const theta = 1;
       const offset = R.random_int(1, 5);
-      const curveType = R.random_choice([QUARTER_PI, HALF_PI, PI]);
+      const curveType = R.random_choice([QUARTER_PI, HALF_PI]);
 
       if (isLineVertical) {
         translate(lineTranslate, 0);
