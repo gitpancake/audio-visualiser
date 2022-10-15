@@ -6,20 +6,20 @@ export const config = {
   canvasWidth: 900,
   canvasHeight: 1200,
   gridMargin: {
-    x: 20,
-    y: 20,
+    x: 40,
+    y: 40,
   },
   gridSize: {
     x: R.random_int(1,5),
     y: R.random_int(2,10)
   },
-  gridSpacing: R.random_choice([0,4,8,12]),
+  gridSpacing: R.random_choice([4, 8, 16]),
   palette: R.random_choice(palettes),
   isNoisey: R.random_bool(0.5),
-  isCascade: R.random_bool(0.5)
+  isCascade: true, //R.random_bool(0.5)
 };
 
-console.table(config)
+console.table(config);
 
 export const calculateFeatures = (tokenData) => {
   const features = {};

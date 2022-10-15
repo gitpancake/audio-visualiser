@@ -1,9 +1,7 @@
 import { tokenData } from "./random";
+import { gridDivider } from "./helpers";
 import { config, calculateFeatures } from "./config";
 const c = config;
-import { gridDivider } from "./helpers";
-
-console.log();
 
 // Setup Canvas
 window.setup = () => {
@@ -20,41 +18,53 @@ const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
 console.table({ gridWidth, gridHeight });
 
 window.draw = () => {
-  stroke(255);
+  stroke("red");
 
+  const spacing = c.gridSpacing;
   const loopOneCount = c.isCascade ? c.gridSize.x : c.gridSize.y;
-  const loopOneDiv = loopOneCount*2;
+  const loopOneDiv = loopOneCount * 2;
+  const loopOneSpacing = spacing / loopOneCount;
   const loopOneMargin = c.isCascade ? c.gridMargin.x : c.gridMargin.y;
-  const loopOneDimension = c.isCascade ? gridWidth : gridHeight;
+  const loopOneDim = c.isCascade ? gridWidth : gridHeight;
 
   const loopTwoCount = c.isCascade ? c.gridSize.y : c.gridSize.x;
-  const loopTwoDiv = loopTwoCount*2;
+  const loopTwoDiv = loopTwoCount * 2;
+  const loopTwoSpacing = spacing / loopTwoCount;
   const loopTwoMargin = c.isCascade ? c.gridMargin.y : c.gridMargin.x;
-  const loopTwoDimension = c.isCascade ? gridHeight : gridWidth;
+  const loopTwoDim = c.isCascade ? gridHeight : gridWidth;
 
-  const blockSizesA = gridDivider(
-    loopOneDimension / loopOneDiv,
-    loopOneDimension,
-    loopOneCount,
-    loopOneDimension
+  //
+  rect(
+    c.gridMargin.x,
+    c.gridMargin.y,
+    c.canvasWidth - c.gridMargin.x * 2,
+    c.canvasHeight - c.gridMargin.y * 2
   );
 
-  let blockTranslateA = loopOneMargin;
+  stroke(255);
+
+  const blockDimA = gridDivider(
+    loopOneDim / loopOneDiv,
+    loopOneDim,
+    loopOneCount,
+    loopOneDim
+  );
+
+  let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
 
   for (let a = 0; a < loopOneCount; a++) {
-    let blockTranslateB = loopTwoMargin;
+    let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
 
-    const blockSizesB = gridDivider(
-      loopTwoDimension / loopTwoDiv,
-      loopTwoDimension,
+    const blockDimB = gridDivider(
+      loopTwoDim / loopTwoDiv,
+      loopTwoDim,
       loopTwoCount,
-      loopTwoDimension
+      loopTwoDim
     );
 
     for (let b = 0; b < loopTwoCount; b++) {
-
-      const blockW = c.isCascade ? blockSizesA[a] : blockSizesB[b];
-      const blockH = c.isCascade ? blockSizesB[b] : blockSizesA[a];
+      const blockW = c.isCascade ? blockDimA[a] : blockDimB[b];
+      const blockH = c.isCascade ? blockDimB[b] : blockDimA[a];
 
       push();
 
@@ -64,14 +74,13 @@ window.draw = () => {
         translate(blockTranslateB, blockTranslateA);
       }
 
-      rect(0, 0, blockW, blockH);
+      rect(0, 0, blockW - spacing, blockH - spacing);
 
       pop();
 
-      blockTranslateB += blockSizesB[b];
+      blockTranslateB += blockDimB[b] + loopTwoSpacing;
     }
 
-    blockTranslateA += blockSizesA[a];
-
+    blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
 };
