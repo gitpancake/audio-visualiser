@@ -34,14 +34,11 @@ console.table(config);
 
 export const calculateFeatures = (tokenData) => {
   const features = {};
-    features["Grid Dimensions"] = `${config.gridSize.x} x ${config.gridSize.y}`;
-    features["Line Width"] = 10;
+  features["Grid Dimensions"] = `${config.gridSize.x} x ${config.gridSize.y}`;
+  features["Line Width"] = 10;
   features["Canvas Height"] = config.canvasHeight;
   features["Canvas Width"] = config.canvasWidth;
   features["Palette"] = config.palette.name;
-
-console.log(features);
-
 
   return features;
 };
