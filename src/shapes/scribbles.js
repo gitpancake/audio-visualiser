@@ -12,7 +12,7 @@ export class Scribbles {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFreeform
+    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -21,7 +21,7 @@ export class Scribbles {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFreeform = isFreeform;
+    this.isFree = isFree;
   }
 
   show() {
@@ -33,10 +33,12 @@ export class Scribbles {
 
     const isLineVertical = R.random_bool(0.5);
     const lineSize = isLineVertical ? this.height : this.width;
-    const lineDiv = this.isGlitch ? R.random_num(1.1, 2) : 1;
+    const lineDiv = this.isGlitch && !this.isFree ? R.random_num(1.1, 2) : 1;
     const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_int(1, 4);
+    const curveSize = R.random_num(1, 5);
     const lineCount = containerSize / curveSize / lineDiv;
+    const toggleRot = R.random_bool(0.5);
+    let lineTranslate = curveSize;
 
     // console.table({
     //   isLineVertical,
@@ -46,11 +48,10 @@ export class Scribbles {
     //   curveSize,
     //   lineCount,
     //   lineTranslate,
+    //   toggleRot
     // });
 
     push();
-
-    let lineTranslate = curveSize;
 
     for (let l = 0; l < lineCount; l++) {
       let divider = R.random_int(10, 1000);
@@ -65,8 +66,13 @@ export class Scribbles {
         translate(0, lineTranslate);
       }
 
-      if (this.isFreeform) {
-        rotate(-rotation);
+      if (this.isFree) {
+        if (this.isGlitch) {
+          const newRotation = toggleRot ? -rotation : rotation;
+          rotate(newRotation);
+        } else {
+          rotate(-rotation);
+        }
       }
 
       beginShape();

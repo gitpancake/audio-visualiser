@@ -17,7 +17,6 @@ window.setup = () => {
 
 const gridWidth = c.canvasWidth - c.gridMargin.x * 2;
 const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
-console.table({ gridWidth, gridHeight });
 
 window.draw = () => {
   // DEBUG
@@ -89,7 +88,6 @@ window.draw = () => {
       // - TBC
 
       // Background - 3 Options
-      // Scribbles - implemented, need to tidy up and add rari.
       // Coils - need to implement from prev project iter
       // Trigonometry - need to implement - look at
 
@@ -118,7 +116,7 @@ window.draw = () => {
         c.isCascade,
         c.isOverstitch,
         c.isGlitch,
-        c.isFreeform
+        c.isFree
       );
       scribbles.show();
 
@@ -135,7 +133,7 @@ window.draw = () => {
             c.palette,
             Math.floor(Math.sqrt(blockW * blockH) / 100)
           );
-          flower.draw();
+        //   flower.draw();
         }
       }
 
