@@ -2,12 +2,12 @@ import { palettes } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isFree = R.random_bool(0.5);
-const isOverstitch = isFree ? false : R.random_bool(0.5);
+const isFree = R.random_bool(0);
+const isOverstitch = isFree ? false : R.random_bool(0);
 
 let rarities = {
   isCascade: R.random_bool(0.5),
-  isGlitch: R.random_bool(0.5),
+  isGlitch: R.random_bool(0),
   isFree,
   isOverstitch,
   isNoisy: isFree ? true : R.random_bool(0.5),
@@ -22,8 +22,8 @@ export const config = {
     y: isFree ? 40 : 40,
   },
   gridSize: {
-    x: R.random_int(1, 10),
-    y: R.random_int(2, 10),
+    x: R.random_int(1, 15),
+    y: R.random_int(2, 15),
   },
   gridSpacing: R.random_choice([4, 8, 16, 32]),
   palette: R.random_choice(palettes),

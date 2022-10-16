@@ -78,10 +78,10 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      //   rect(0, 0, blockW, blockH);
+      // strokeWeight(4)
+      // rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
-      // - Kamerun
       // - B&W / Grayscale
       // - Golden / Coppper
       // - TBC
@@ -133,7 +133,7 @@ window.draw = () => {
             c.palette,
             Math.floor(Math.sqrt(blockW * blockH) / 100)
           );
-        //   flower.draw();
+          //   flower.draw();
         }
       }
 
@@ -143,5 +143,5 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-    // debugGrid(25);
+  // debugGrid(25);
 };

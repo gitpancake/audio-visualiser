@@ -29,6 +29,36 @@ export const palettes = [
       },
     ],
   },
+  {
+    name: "Regal",
+    background: {
+      r: 20,
+      g: 20,
+      b: 20,
+    },
+    colors: [
+      {
+        r: 207,
+        g: 219,
+        b: 213,
+      },
+      {
+        r: 232,
+        g: 237,
+        b: 223,
+      },
+      {
+        r: 245,
+        g: 203,
+        b: 92,
+      },
+      {
+        r: 51,
+        g: 53,
+        b: 51,
+      },
+    ],
+  },
 ];
 
 export const defaultPalette = {
