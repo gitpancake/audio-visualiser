@@ -48,14 +48,18 @@ export const reduceDenominator = (numerator, denominator) => {
   return denominator / rec(numerator, denominator);
 };
 
-export const debugGrid = (spacer = 50) => {
+export const debugGrid = (spacer = 50, s=50, sw=2, noisey = false) => {
   // Debug Grid
   let div = spacer;
-  strokeWeight(1);
-  stroke(255);
+  stroke(s);
+  strokeWeight(sw);
   for (let col = 1; col < width / div; col++) {
     for (let row = 1; row < height / div; row++) {
-      point(col * div, row * div);
+      const noiseX = noisey ? R.random_dec() * 10 : 0;
+      const noiseY = noisey ? R.random_dec() * 10 : 0;
+      const x = col * div + noiseX;
+      const y = row * div + noiseY;
+      point(x, y);
     }
   }
 };

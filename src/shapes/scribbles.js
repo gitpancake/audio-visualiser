@@ -32,36 +32,30 @@ export class Scribbles {
     strokeWeight(2);
 
     const isLineVertical = R.random_bool(0.5);
-
-    // If vertical use width else use height
     const lineSize = isLineVertical ? this.height : this.width;
     const lineDiv = this.isGlitch ? R.random_num(1.1, 2) : 1;
     const containerSize = isLineVertical ? this.width : this.height;
     const curveSize = R.random_int(1, 4);
     const lineCount = containerSize / curveSize / lineDiv;
 
-    console.table({
-      //   isLineVertical,
-      //   lineSize,
-      //   lineDiv,
-      //   containerSize,
-      //   curveSize,
-      lineCount,
-      //   lineTranslate,
-    });
+    // console.table({
+    //   isLineVertical,
+    //   lineSize,
+    //   lineDiv,
+    //   containerSize,
+    //   curveSize,
+    //   lineCount,
+    //   lineTranslate,
+    // });
 
     push();
 
     let lineTranslate = curveSize;
 
     for (let l = 0; l < lineCount; l++) {
-      let rotation = radians(l / 100);
+      let divider = R.random_int(10, 1000);
+      let rotation = radians(l / divider);
 
-      if (this.isFreeform) {
-        rotate(-rotation);
-      }
-
-      const theta = 1;
       const offset = R.random_num(1, 10);
       const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
@@ -71,11 +65,15 @@ export class Scribbles {
         translate(0, lineTranslate);
       }
 
+      if (this.isFreeform) {
+        rotate(-rotation);
+      }
+
       beginShape();
 
-      for (let i = offset; i < lineSize - offset; i += theta) {
+      for (let i = offset; i < lineSize - offset; i += 1) {
         let x, y;
-        let noise = this.isNoisy ? R.random_dec() * 2 : 0;
+        let noise = this.isNoisy ? R.random_dec() : 0;
 
         if (isLineVertical) {
           if (this.isOverstitch && !this.isCascade) {

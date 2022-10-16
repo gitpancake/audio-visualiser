@@ -2,7 +2,7 @@ import { palettes } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isFreeform = R.random_bool(0.6);
+const isFreeform = R.random_bool(0.5);
 const isOverstitch = isFreeform ? false : R.random_bool(0.5);
 
 let rarities = {
@@ -11,7 +11,7 @@ let rarities = {
   isGlitch: isFreeform ? false : R.random_bool(0.2),
   isFreeform,
   isOverstitch,
-  isFloral: isOverstitch ? false : R.random_bool(0.3)
+  isFloral: isFreeform || isOverstitch ? false : R.random_bool(0.9)
 }
 
 export const config = {
@@ -22,7 +22,7 @@ export const config = {
     y: isFreeform ? 0 : 40,
   },
   gridSize: {
-    x: R.random_int(2,10),
+    x: R.random_int(1,10),
     y: R.random_int(1,10)
   },
   gridSpacing: R.random_choice([8, 16, 32]),

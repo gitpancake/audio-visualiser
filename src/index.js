@@ -79,7 +79,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-    //   rect(0, 0, blockW, blockH);
+      //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - Kamerun
@@ -122,20 +122,22 @@ window.draw = () => {
       );
       scribbles.show();
 
-      // const p3 = 0.5; // percentage - 0.1 = 10% etc..
-      // const h3 = blockH;
-      // const w3 = blockW;
+      if (c.isFloral) {
+        const p3 = 0.5; // percentage - 0.1 = 10% etc..
+        const h3 = blockH;
+        const w3 = blockW;
 
-      // if (h3 > w3 + w3 * p3) {
-      //   const flower = new Flower(
-      //     blockW,
-      //     blockH,
-      //     c.isNoisy,
-      //     c.palette,
-      //     Math.floor(Math.sqrt(blockW * blockH) / 100)
-      //   );
-      //   flower.draw();
-      // }
+        if (h3 > w3 + w3 * p3) {
+          const flower = new Flower(
+            blockW,
+            blockH,
+            c.isNoisy,
+            c.palette,
+            Math.floor(Math.sqrt(blockW * blockH) / 100)
+          );
+          flower.draw();
+        }
+      }
 
       pop();
 
@@ -143,5 +145,5 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-  //   debugGrid(25);
+    // debugGrid(25);
 };
