@@ -2,12 +2,24 @@ import { palettes } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
+const isFreeform = R.random_bool(0.6);
+const isOverstitch = isFreeform ? false : R.random_bool(0.5);
+
+let rarities = {
+  isNoisy: isFreeform ? true : R.random_bool(0.5),
+  isCascade: R.random_bool(0.5),
+  isGlitch: isFreeform ? false : R.random_bool(0.2),
+  isFreeform,
+  isOverstitch,
+  isFloral: isOverstitch ? false : R.random_bool(0.3)
+}
+
 export const config = {
   canvasWidth: 900,
   canvasHeight: 1200,
   gridMargin: {
-    x: 40,
-    y: 40,
+    x: isFreeform ? 0 : 40,
+    y: isFreeform ? 0 : 40,
   },
   gridSize: {
     x: R.random_int(2,10),
@@ -15,8 +27,7 @@ export const config = {
   },
   gridSpacing: R.random_choice([8, 16, 32]),
   palette: R.random_choice(palettes),
-  isNoisy: R.random_bool(0.5),
-  isCascade: R.random_bool(0.5)
+  ...rarities
 };
 
 console.table(config);

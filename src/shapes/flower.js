@@ -33,7 +33,7 @@ export class Flower {
       this.colorBg = this.colorPalette.background;
       this.isNoisey = isNoisey;
       
-      console.log(this.strokeSize)
+    //   console.log(this.strokeSize)
       // this.radius;
   
       if (this.width > this.height) {

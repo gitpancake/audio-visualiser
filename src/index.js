@@ -79,7 +79,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      //   rect(0, 0, blockW, blockH);
+    //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - Kamerun
@@ -91,7 +91,7 @@ window.draw = () => {
       // Background - 3 Options
       // Scribbles - implemented, need to tidy up and add rari.
       // Coils - need to implement from prev project iter
-      // Trigonometry - need to implement - look at 
+      // Trigonometry - need to implement - look at
 
       // Foreground - 3 Options?
       // Flowers
@@ -107,27 +107,35 @@ window.draw = () => {
       // Noisy / Hand Drawn
 
       // Other Rarity
-      // Overstitch fun/back-stitch ... 
+      // Overstitch fun/back-stitch ...
       // LineOver fun/lineover branch
 
-      const scribbles = new Scribbles(blockW, blockH, c.isNoisy, c.palette);
-      const flower = new Flower(
+      const scribbles = new Scribbles(
         blockW,
         blockH,
-        c.isNoisy,
         c.palette,
-        Math.floor(Math.sqrt(blockW * blockH) / 100)
+        c.isNoisy,
+        c.isCascade,
+        c.isOverstitch,
+        c.isGlitch,
+        c.isFreeform
       );
-
       scribbles.show();
 
-      const p3 = 0.5; // percentage - 0.1 = 10% etc..
-      const h3 = blockH;
-      const w3 = blockW;
+      // const p3 = 0.5; // percentage - 0.1 = 10% etc..
+      // const h3 = blockH;
+      // const w3 = blockW;
 
-      if (h3 > w3 + w3 * p3) {
-        flower.draw();
-      }
+      // if (h3 > w3 + w3 * p3) {
+      //   const flower = new Flower(
+      //     blockW,
+      //     blockH,
+      //     c.isNoisy,
+      //     c.palette,
+      //     Math.floor(Math.sqrt(blockW * blockH) / 100)
+      //   );
+      //   flower.draw();
+      // }
 
       pop();
 
@@ -135,5 +143,5 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-    debugGrid(25);
+  //   debugGrid(25);
 };

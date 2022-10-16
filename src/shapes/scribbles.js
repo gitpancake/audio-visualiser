@@ -4,11 +4,24 @@ import { Random } from "../random";
 const R = new Random();
 
 export class Scribbles {
-  constructor(w, h, isNoisy, palette = defaultPalette) {
+  constructor(
+    w,
+    h,
+    palette = defaultPalette,
+    isNoisy,
+    isCascade,
+    isOverstitch,
+    isGlitch,
+    isFreeform
+  ) {
     this.width = w;
     this.height = h;
-    this.isNoisy = isNoisy;
     this.palette = palette;
+    this.isNoisy = isNoisy;
+    this.isCascade = isCascade;
+    this.isOverstitch = isOverstitch;
+    this.isGlitch = isGlitch;
+    this.isFreeform = isFreeform;
   }
 
   show() {
@@ -19,24 +32,38 @@ export class Scribbles {
     strokeWeight(2);
 
     const isLineVertical = R.random_bool(0.5);
-    const lineSize = isLineVertical ? this.height : this.width;
 
     // If vertical use width else use height
-    // const lineDiv = this.isNoisy ? R.random_int(1, 5) : 1;
-    const lineDiv = R.random_int(1, 2);
-
-    const lineContainerSize = isLineVertical ? this.width : this.height;
+    const lineSize = isLineVertical ? this.height : this.width;
+    const lineDiv = this.isGlitch ? R.random_num(1.1, 2) : 1;
+    const containerSize = isLineVertical ? this.width : this.height;
     const curveSize = R.random_int(1, 4);
-    const lines = lineContainerSize / curveSize - 1;
+    const lineCount = containerSize / curveSize / lineDiv;
+
+    console.table({
+      //   isLineVertical,
+      //   lineSize,
+      //   lineDiv,
+      //   containerSize,
+      //   curveSize,
+      lineCount,
+      //   lineTranslate,
+    });
+
+    push();
 
     let lineTranslate = curveSize;
-    push()
 
-    for (let l = 0; l < lines; l++) {
+    for (let l = 0; l < lineCount; l++) {
+      let rotation = radians(l / 100);
+
+      if (this.isFreeform) {
+        rotate(-rotation);
+      }
 
       const theta = 1;
-      const offset = R.random_int(1, 5);
-      const curveType = R.random_choice([QUARTER_PI, HALF_PI]);
+      const offset = R.random_num(1, 10);
+      const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
       if (isLineVertical) {
         translate(lineTranslate, 0);
@@ -47,25 +74,31 @@ export class Scribbles {
       beginShape();
 
       for (let i = offset; i < lineSize - offset; i += theta) {
-
         let x, y;
-        let noise = this.isNoisy ? R.random_dec() : 0;
+        let noise = this.isNoisy ? R.random_dec() * 2 : 0;
 
         if (isLineVertical) {
-          x = cos(i * radians(curveType)) * curveSize + noise;
+          if (this.isOverstitch && !this.isCascade) {
+            x = tan(i * radians(curveType)) * curveSize + noise;
+          } else {
+            x = cos(i * radians(curveType)) * curveSize + noise;
+          }
           y = i * 1;
         } else {
+          if (this.isOverstitch && this.isCascade) {
+            y = tan(i * radians(curveType)) * curveSize + noise;
+          } else {
+            y = cos(i * radians(curveType)) * curveSize + noise;
+          }
           x = i * 1;
-          y = cos(i * radians(curveType)) * curveSize + noise;
         }
 
         vertex(x, y);
       }
 
       endShape();
-
-      lineTranslate =+ curveSize;
+      lineTranslate = +curveSize;
     }
-    pop()
+    pop();
   }
 }
