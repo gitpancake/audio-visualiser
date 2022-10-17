@@ -48,7 +48,7 @@ export const reduceDenominator = (numerator, denominator) => {
   return denominator / rec(numerator, denominator);
 };
 
-export const debugGrid = (spacer = 50, s=50, sw=2, noisey = false) => {
+export const debugGrid = (spacer = 50, s=255, sw=4, noisey = true) => {
   // Debug Grid
   let div = spacer;
   stroke(s);

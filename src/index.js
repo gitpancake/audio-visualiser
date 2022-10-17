@@ -3,7 +3,7 @@ import { Random } from "./random";
 const R = new Random();
 import { config } from "./config";
 const c = config;
-import { Bamileke, Flower, Rose, Scribbles } from "./shapes";
+import { Bamileke, Flower, Scribbles } from "./shapes";
 
 // Setup Canvas
 window.setup = () => {
@@ -52,6 +52,7 @@ window.draw = () => {
   );
 
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
+//   debugGrid(50);
 
   for (let a = 0; a < loopOneCount; a++) {
     let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
@@ -89,9 +90,9 @@ window.draw = () => {
       // Background - 3 Options
       // Coils - need to implement from prev project iter
 
-      // Foreground - 3 Options?
-      // Flowers
-      // Eye
+      // Foreground - 3 Options? // maybe
+      // Flowers ?
+      // Eyes ?
       // Shields / Trigonmetric TAN
 
       // Grid Styles - 2 Options
@@ -104,7 +105,7 @@ window.draw = () => {
 
       // Other Rarity
       // Overstitch fun/back-stitch ...
-      // LineOver fun/lineover branch
+      // Bamileke print - blue palette
 
       const scribbles = new Scribbles(
         blockW,
@@ -157,5 +158,4 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-  // debugGrid(25);
 };
