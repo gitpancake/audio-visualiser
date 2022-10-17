@@ -20,13 +20,14 @@ const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
 
 window.draw = () => {
   // DEBUG
-  stroke("red");
-  //   rect(
-  //     c.gridMargin.x,
-  //     c.gridMargin.y,
-  //     c.canvasWidth - c.gridMargin.x * 2,
-  //     c.canvasHeight - c.gridMargin.y * 2
-  //   );
+  // stroke("red");
+  // strokeWeight(4);
+  // rect(
+  //   c.gridMargin.x,
+  //   c.gridMargin.y,
+  //   c.canvasWidth - c.gridMargin.x * 2,
+  //   c.canvasHeight - c.gridMargin.y * 2
+  // );
   // DEBUG - END
 
   stroke(255);
@@ -52,7 +53,7 @@ window.draw = () => {
   );
 
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
-//   debugGrid(50);
+  //   debugGrid(50);
 
   for (let a = 0; a < loopOneCount; a++) {
     let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
@@ -79,7 +80,6 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      //   strokeWeight(4);
       //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
@@ -94,18 +94,6 @@ window.draw = () => {
       // Flowers ?
       // Eyes ?
       // Shields / Trigonmetric TAN
-
-      // Grid Styles - 2 Options
-      // Normal Grid
-      // Cascading Grid
-
-      // Draw Styles -  2 Options
-      // Normal
-      // Noisy / Hand Drawn
-
-      // Other Rarity
-      // Overstitch fun/back-stitch ...
-      // Bamileke print - blue palette
 
       const scribbles = new Scribbles(
         blockW,

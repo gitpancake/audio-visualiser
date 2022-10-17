@@ -11,8 +11,8 @@ let rarities = {
   isFree,
   isOverstitch,
   isBamileke,
-  isGlitch: isBamileke ? false : R.random_bool(0.25),
-  isNoisy: isFree ? true : R.random_bool(0.5),
+  isGlitch: isBamileke ? false : R.random_bool(0.5),
+  isNoisy: isFree || isBamileke ? true : R.random_bool(0.5),
   isFloral: isFree || isOverstitch || isBamileke ? false : R.random_bool(0.5),
 };
 
