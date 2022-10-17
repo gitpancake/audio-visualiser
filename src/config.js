@@ -1,17 +1,19 @@
-import { palettes } from "./palettes";
+import { palettes, bamPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isFree = R.random_bool(0);
-const isOverstitch = isFree ? false : R.random_bool(0);
+const isBamileke = R.random_bool(.1)
+const isFree = isBamileke ? false : R.random_bool(.25);
+const isOverstitch = isFree || isBamileke ? false : R.random_bool(0.5);
 
 let rarities = {
   isCascade: R.random_bool(0.5),
-  isGlitch: R.random_bool(0),
   isFree,
   isOverstitch,
+  isBamileke,
+  isGlitch: isBamileke ? false : R.random_bool(0.25),
   isNoisy: isFree ? true : R.random_bool(0.5),
-  isFloral: isFree || isOverstitch ? false : R.random_bool(0.5),
+  isFloral: isFree || isOverstitch || isBamileke ? false : R.random_bool(0.5),
 };
 
 export const config = {
@@ -26,7 +28,7 @@ export const config = {
     y: R.random_int(2, 15),
   },
   gridSpacing: R.random_choice([4, 8, 16, 32]),
-  palette: R.random_choice(palettes),
+  palette: isBamileke ? bamPalette : R.random_choice(palettes),
   ...rarities,
 };
 

@@ -64,15 +64,36 @@ export const palettes = [
 export const defaultPalette = {
   name: "Default",
   background: {
-    r: 20,
-    g: 20,
-    b: 20,
+    r: 0,
+    g: 0,
+    b: 0,
   },
   colors: [
     {
-      r: 50,
-      g: 50,
-      b: 50,
+      r: 255,
+      g: 255,
+      b: 255,
+    },
+  ],
+};
+
+export const bamPalette = {
+  name: "Blue Wash",
+  background: {
+    r: 6,
+    g: 71,
+    b: 137,
+  },
+  colors: [
+    {
+      r: 163,
+      g: 213,
+      b: 255,
+    },
+    {
+      r: 245,
+      g: 247,
+      b: 250,
     },
   ],
 };

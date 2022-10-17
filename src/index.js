@@ -3,7 +3,7 @@ import { Random } from "./random";
 const R = new Random();
 import { config } from "./config";
 const c = config;
-import { Flower, Scribbles } from "./shapes";
+import { Bamileke, Flower, Rose, Scribbles } from "./shapes";
 
 // Setup Canvas
 window.setup = () => {
@@ -20,7 +20,7 @@ const gridHeight = c.canvasHeight - c.gridMargin.y * 2;
 
 window.draw = () => {
   // DEBUG
-  //   stroke("red");
+  stroke("red");
   //   rect(
   //     c.gridMargin.x,
   //     c.gridMargin.y,
@@ -78,18 +78,16 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      // strokeWeight(4)
-      // rect(0, 0, blockW, blockH);
+      //   strokeWeight(4);
+      //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - B&W / Grayscale
-      // - Golden / Coppper
       // - TBC
       // - TBC
 
       // Background - 3 Options
       // Coils - need to implement from prev project iter
-      // Trigonometry - need to implement - look at
 
       // Foreground - 3 Options?
       // Flowers
@@ -118,24 +116,40 @@ window.draw = () => {
         c.isGlitch,
         c.isFree
       );
-      scribbles.show();
 
-      if (c.isFloral) {
-        const p3 = 0.5; // percentage - 0.1 = 10% etc..
-        const h3 = blockH;
-        const w3 = blockW;
+      const bamileke = new Bamileke(
+        blockW,
+        blockH,
+        c.palette,
+        c.isNoisy,
+        c.isCascade,
+        c.isOverstitch,
+        c.isGlitch,
+        c.isFree
+      );
 
-        if (h3 > w3 + w3 * p3) {
-          const flower = new Flower(
-            blockW,
-            blockH,
-            c.isNoisy,
-            c.palette,
-            Math.floor(Math.sqrt(blockW * blockH) / 100)
-          );
-          //   flower.draw();
-        }
+      if (c.isBamileke) {
+        bamileke.show();
+      } else {
+        scribbles.show();
       }
+
+      //   if (c.isFloral) {
+      //     const p3 = 0.5; // percentage - 0.1 = 10% etc..
+      //     const h3 = blockH;
+      //     const w3 = blockW;
+
+      //     if (h3 > w3 + w3 * p3) {
+      //       const flower = new Flower(
+      //         blockW,
+      //         blockH,
+      //         c.isNoisy,
+      //         c.palette,
+      //         Math.floor(Math.sqrt(blockW * blockH) / 100)
+      //       );
+      //         flower.draw();
+      //     }
+      //   }
 
       pop();
 
