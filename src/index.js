@@ -4,6 +4,7 @@ const R = new Random();
 import { config } from "./config";
 const c = config;
 import { Bamileke, Flower, Scribbles } from "./shapes";
+import { Motif } from "./shapes/motif";
 
 // Setup Canvas
 window.setup = () => {
@@ -80,7 +81,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      //   rect(0, 0, blockW, blockH);
+        rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - B&W / Grayscale
@@ -117,10 +118,24 @@ window.draw = () => {
         c.isFree
       );
 
+      const motif = new Motif(
+        blockW,
+        blockH,
+        c.palette,
+        c.isNoisy,
+        c.isCascade,
+        c.isOverstitch,
+        c.isGlitch,
+        c.isFree
+      );
+
       if (c.isBamileke) {
         bamileke.show();
       } else {
-        scribbles.show();
+
+        // scribbles.show();
+        motif.show();
+
       }
 
       //   if (c.isFloral) {
