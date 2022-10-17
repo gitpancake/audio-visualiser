@@ -49,7 +49,7 @@ export class Bamileke {
 
     beginShape();
     for (let i = 0; i < lineStep; i += theta) {
-      let noise = this.isNoisy ? R.random_dec() * 2 : 0;
+      let noise = this.isNoisy ? R.random_dec() : 0;
       let sPos = (this.width * Math.cos(k * i)) / 2 + noise;
       let xPos = sPos * Math.tan(k * i) + this.width / 2 + noise;
       let yPos = sPos * Math.tan(i) + this.height / 2 + noise;
