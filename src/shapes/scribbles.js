@@ -34,12 +34,13 @@ export class Scribbles {
     const lineSize = isLineVertical ? this.height : this.width;
     const containerSize = isLineVertical ? this.width : this.height;
     const curveSize = R.random_num(1, 8);
-    const lineCount = containerSize / curveSize;
+    const lineCountOffset = 1;
+    const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
     let lineTranslate = curveSize;
 
     push();
 
-    for (let l = 0; l < lineCount; l++) {
+    for (let l = 0; l < lineCount ; l++) {
       const thickness = R.random_int(1, 2);
       strokeWeight(thickness);
 
@@ -47,7 +48,7 @@ export class Scribbles {
       let divider = this.isGlitch ? R.random_int(1, 100) : 100;
       let rotation = radians(l / divider);
 
-      const offset = R.random_num(1, 5);
+      const offset = R.random_num(1, 10);
       const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
       if (isLineVertical) {
