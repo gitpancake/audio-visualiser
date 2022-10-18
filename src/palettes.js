@@ -80,9 +80,9 @@ export const defaultPalette = {
 export const bamPalette = {
   name: "Blue Wash",
   background: {
-    r: 6,
-    g: 71,
-    b: 137,
+    r: 2,
+    g: 62,
+    b: 138,
   },
   colors: [
     {

@@ -64,20 +64,16 @@ export const bamilekeOverlayOptions = [
   { d: 10, n: 7 },
 ];
 
-// shape options
-// d - denominator
-// n - numerator
 export const motifOptions = [
-  { d: 1, n: 9 },
-  { d: 3, n: 4 },
-  { d: 3, n: 5 },
-  { d: 3, n: 7 },
-  { d: 3, n: 8 },
-  { d: 3, n: 10 },
+  // { d: 1, n: 9 },
+  // { d: 3, n: 4 },
+  // { d: 3, n: 5 },
+  // { d: 3, n: 7 },
+  // { d: 3, n: 8 },
+  // { d: 3, n: 10 },
   { d: 5, n: 1 },
-  { d: 5, n: 2 },
-  { d: 5, n: 3 },
-  { d: 5, n: 4 },
-  { d: 5, n: 6 },
-  { d: 12, n: 5 },
+  // { d: 5, n: 2 },
+  // { d: 5, n: 3 },
+  // { d: 5, n: 4 },
+  // { d: 5, n: 6 },
 ];

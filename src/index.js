@@ -81,7 +81,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-        rect(0, 0, blockW, blockH);
+    //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - B&W / Grayscale
@@ -130,12 +130,20 @@ window.draw = () => {
       );
 
       if (c.isBamileke) {
+          motif.show();
+        if (R.random_bool(0.8)) {
+        }
         bamileke.show();
       } else {
-
-        // scribbles.show();
-        motif.show();
-
+          if (R.random_bool(0.8)) {
+            scribbles.show();
+        } else {
+            if (R.random_bool(0.5)) {
+                motif.draw();
+            } else {
+                motif.show()
+            }
+        }
       }
 
       //   if (c.isFloral) {

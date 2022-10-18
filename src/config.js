@@ -2,7 +2,7 @@ import { palettes, bamPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isBamileke = R.random_bool(0)
+const isBamileke = R.random_bool(0.1)
 const isFree = isBamileke ? false : R.random_bool(.25);
 const isOverstitch = isFree || isBamileke ? false : R.random_bool(0.5);
 
@@ -20,12 +20,12 @@ export const config = {
   canvasWidth: 900,
   canvasHeight: 1200,
   gridMargin: {
-    x: isFree ? 40 : 40,
-    y: isFree ? 40 : 40,
+    x: isFree ? 80 : 40,
+    y: isFree ? 80 : 40,
   },
   gridSize: {
-    x: 2,//R.random_int(1, 15),
-    y: 2//R.random_int(2, 15),
+    x: R.random_int(2, 15),
+    y: R.random_int(2, 15),
   },
   gridSpacing: R.random_choice([4, 8, 16, 32]),
   palette: isBamileke ? bamPalette : R.random_choice(palettes),

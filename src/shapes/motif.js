@@ -31,42 +31,66 @@ export class Motif {
 
     const col = pickRndColor(this.palette);
     stroke(color(col.r, col.g, col.b));
-    strokeWeight(2);
+    strokeWeight(3);
 
-    const shape = R.random_choice(motifOptions);
-    console.log(shape)
+    const rows = this.height / 10;
+    const cols = this.width / 10;
+    const radius = 5;
+    const angle = TWO_PI / 10;
 
-    const denominator = shape.d;
-    const numerator = shape.n;
-    const k = numerator / denominator;
-    const theta = 0.002;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        for (let i = 0; i < 1; i++) {
+          const noiseX = this.isNoisy
+            ? R.random_dec() * 20
+            : R.random_dec() * 10;
+          const noiseY = this.isNoisy
+            ? R.random_dec() * 20
+            : R.random_dec() * 10;
+
+          const x = radius + Math.sin(i) + c * 10 + noiseX;
+          const y = radius + Math.cos(i) + r * 10 + noiseY;
+
+          point(x, y);
+        }
+      }
+    }
 
     push();
 
-    const lineStep = TWO_PI * reduceDenominator(numerator, denominator);
-
-    beginShape();
-    for (let i = 0; i < lineStep; i += theta) {
-
-      let noise = this.isNoisy ? R.random_dec() : 0;
-
-      let sPos = (this.width * Math.cos(k * i)) / 2;
-      let xPos = sPos * Math.tan(i*k) * Math.cos(i) + this.width / 2 + noise;
-      let yPos = sPos * Math.sin(i) * Math.cos(i)  + this.height / 2 + noise;
-
-      let xBounds = this.width;
-      let yBounds = this.height;
-
-      // if (xPos > xBounds) xPos = xBounds + noise;
-      // if (xPos < 0) xPos = -noise;
-
-      // if (yPos > yBounds) yPos = yBounds + noise;
-      // if (yPos < 0) yPos = -noise;
-
-      curveVertex(xPos, yPos);
-    }
-    endShape();
-
     pop();
+  }
+
+  draw() {
+    const xoff = 10;
+    const yoff = 10;
+    const col = pickRndColor(this.palette);
+    stroke(color(col.r, col.g, col.b));
+    for (let j = 0; j < 1; j++) {
+      for (let i = 0; i < 6; i++) {
+
+        for (let x = 1; x < this.width - yoff * 2; x++) {
+          for (let y = 0; y < this.height - yoff * 2; y++) {
+            var n = noise(x * 0.02, y * 0.02);
+            if (R.random_num(0, 1) > 0.9 - 0.01 * i - n / 5) {
+              strokeWeight(
+                R.random_num(
+                  0.2 + y / 500 - n / 10,
+                  0.3 + y / 100 - n / 10 - j / 5
+                )
+              );
+
+              point(
+                xoff +
+                  x +
+                  (j * (this.width - yoff * 2)) / 5 +
+                  R.random_num(-2, 2),
+                yoff + y + R.random_num(-3, 3)
+              );
+            }
+          }
+        }
+      }
+    }
   }
 }
