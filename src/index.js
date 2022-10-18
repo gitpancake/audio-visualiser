@@ -55,6 +55,7 @@ window.draw = () => {
   );
 
   let blockDimBClone = [];
+  let flowerBlockVisible = [];
 
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
   //   debugGrid(50);
@@ -70,6 +71,7 @@ window.draw = () => {
     );
 
     blockDimBClone.push(blockDimB);
+    flowerBlockVisible.push([]);
 
     for (let b = 0; b < loopTwoCount; b++) {
       let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
@@ -125,6 +127,7 @@ window.draw = () => {
         );
         bamileke.show();
       } else {
+        let flowerVisible = false;
         if (R.random_bool(0.8)) {
           const scribbles = new Scribbles(
             blockW,
@@ -139,7 +142,9 @@ window.draw = () => {
           scribbles.show();
         } else {
           motif.show();
+          flowerVisible = true;
         }
+        flowerBlockVisible[a].push(flowerVisible);
       }
 
       pop();
@@ -148,6 +153,8 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
+
+  console.log(flowerBlockVisible);
 
   // Overlay Grid
   if (cfg.isFloral) {
@@ -170,19 +177,23 @@ window.draw = () => {
           translate(blockTranslateD, blockTranslateC);
         }
 
-        const flower = new Flower(
-          blockW,
-          blockH,
-          cfg.palette,
-          cfg.isNoisy,
-          cfg.isCascade,
-          cfg.isOverstitch,
-          cfg.isGlitch,
-          cfg.isFree
-        );
-        flower.show();
+        // if (flowerBlockVisible[c][d]) {
+        if (R.random_bool(1)) {
+          const flower = new Flower(
+            blockW,
+            blockH,
+            cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            cfg.isOverstitch,
+            cfg.isGlitch,
+            cfg.isFree
+          );
 
-        rect(0, 0, blockW, blockH);
+          flower.show();
+        }
+
+        // rect(0, 0, blockW, blockH);
 
         pop();
 
