@@ -43,7 +43,7 @@ export class Scribbles {
 
     for (let l = 0; l < lineCount; l++) {
       const toggleRot = R.random_bool(0.5);
-      let divider = this.isGlitch ? R.random_int(1, 100) : R.random_int(10, 1000) ;
+      let divider = this.isGlitch ? R.random_int(1, 100) : 100;
       let rotation = radians(l / divider);
 
       const offset = R.random_num(1, 10);

@@ -83,7 +83,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-      //   rect(0, 0, blockW, blockH);
+        // rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - B&W / Grayscale
