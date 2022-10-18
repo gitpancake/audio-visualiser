@@ -28,26 +28,25 @@ export class Motif {
   show() {
     noFill();
     noStroke();
-    strokeWeight(3);
 
-    const density = R.random_int(5,30); // Less is more
+    const density = R.random_int(5, 30); // Less is more
     const rows = this.height / density;
     const cols = this.width / density;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        for (let i = 0; i < 1; i++) {
-          const col = pickRndColor(this.palette);
-          stroke(color(col.r, col.g, col.b));
+        const col = pickRndColor(this.palette);
+        const size = R.random_int(1, 4);
+        stroke(color(col.r, col.g, col.b));
+        strokeWeight(size);
 
-          const noiseX = R.random_dec() * density;
-          const noiseY = R.random_dec() * density;
+        const noiseX = R.random_dec() * density;
+        const noiseY = R.random_dec() * density;
 
-          let x = Math.sin(i) + c * density + noiseX;
-          let y = Math.cos(i) + r * density + noiseY;
+        let x = c * density + noiseX;
+        let y = r * density + noiseY;
 
-          point(x, y);
-        }
+        point(x, y);
       }
     }
 
@@ -63,7 +62,6 @@ export class Motif {
     stroke(color(col.r, col.g, col.b));
     for (let j = 0; j < 1; j++) {
       for (let i = 0; i < 6; i++) {
-
         for (let x = 1; x < this.width - yoff * 2; x++) {
           for (let y = 0; y < this.height - yoff * 2; y++) {
             var n = noise(x * 0.02, y * 0.02);

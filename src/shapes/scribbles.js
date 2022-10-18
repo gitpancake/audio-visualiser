@@ -12,7 +12,7 @@ export class Scribbles {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree,
+    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -29,7 +29,6 @@ export class Scribbles {
 
     const col = pickRndColor(this.palette);
     stroke(color(col.r, col.g, col.b));
-    strokeWeight(2);
 
     const isLineVertical = R.random_bool(0.5);
     const lineSize = isLineVertical ? this.height : this.width;
@@ -41,11 +40,14 @@ export class Scribbles {
     push();
 
     for (let l = 0; l < lineCount; l++) {
+      const thickness = R.random_int(1, 2);
+      strokeWeight(thickness);
+
       const toggleRot = R.random_bool(0.5);
       let divider = this.isGlitch ? R.random_int(1, 100) : 100;
       let rotation = radians(l / divider);
 
-      const offset = R.random_num(1, 10);
+      const offset = R.random_num(1, 5);
       const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
       if (isLineVertical) {
