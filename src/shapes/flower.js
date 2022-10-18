@@ -75,6 +75,7 @@ export class Flower {
   show() {
     noFill();
 
+    push();
     translate(-this.innerContainerWidth / 2, -this.innerContainerHeight / 2);
 
     const flowerOuter = R.random_choice(flowerOptions);
@@ -85,7 +86,7 @@ export class Flower {
     const outerK = outerM / outerN;
     const outerTheta = 0.02;
     const outerDetailCount = outerM * 2;
-    const outerScale = 1; //R.random_num(2, 3.5);
+    const outerScale = 2; //R.random_num(2, 3.5);
     const outerLineStep = TWO_PI * reduceDenominator(outerM, outerN);
 
     // BACKGROUND
@@ -156,5 +157,9 @@ export class Flower {
       vertex(x, y);
     }
     endShape();
+
+    pop();
+
   }
+
 }
