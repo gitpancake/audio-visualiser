@@ -2,7 +2,7 @@ import { palettes, bamPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isBamileke = R.random_bool(0.5);
+const isBamileke = R.random_bool(0.1);
 const isFree = isBamileke ? false : R.random_bool(.25);
 const isOverstitch = isFree || isBamileke ? false : R.random_bool(0.25);
 
