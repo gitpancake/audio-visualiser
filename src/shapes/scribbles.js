@@ -35,20 +35,9 @@ export class Scribbles {
     const lineSize = isLineVertical ? this.height : this.width;
     const lineDiv = this.isGlitch && !this.isFree ? R.random_num(1.1, 2) : 1;
     const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_num(1, 10);
+    const curveSize = R.random_num(1, 8);
     const lineCount = containerSize / curveSize / lineDiv;
     let lineTranslate = curveSize;
-
-    // console.table({
-    //   isLineVertical,
-    //   lineSize,
-    //   lineDiv,
-    //   containerSize,
-    //   curveSize,
-    //   lineCount,
-    //   lineTranslate,
-    //   toggleRot
-    // });
 
     push();
 

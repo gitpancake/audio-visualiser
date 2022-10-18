@@ -1,10 +1,11 @@
 import { gridDivider, debugGrid } from "./helpers";
-import { Random } from "./random";
+import { Random, tokenData } from "./random";
 const R = new Random();
 import { config } from "./config";
 const c = config;
 import { Bamileke, Flower, Scribbles } from "./shapes";
 import { Motif } from "./shapes/motif";
+import { calculateFeatures } from "./meta";
 
 // Setup Canvas
 window.setup = () => {
@@ -14,6 +15,7 @@ window.setup = () => {
   noStroke();
   const bg = c.palette.background;
   background(color(bg.r, bg.g, bg.b));
+  calculateFeatures(tokenData);
 };
 
 const gridWidth = c.canvasWidth - c.gridMargin.x * 2;
@@ -81,7 +83,7 @@ window.draw = () => {
       }
 
       // SHAPE LOGIC - HERE
-    //   rect(0, 0, blockW, blockH);
+      //   rect(0, 0, blockW, blockH);
 
       // Colour Palettes - 5 Options
       // - B&W / Grayscale
@@ -129,39 +131,27 @@ window.draw = () => {
         c.isFree
       );
 
+      const flower = new Flower(
+        blockW,
+        blockH,
+        c.isNoisy,
+        c.palette,
+        Math.floor(Math.sqrt(blockW * blockH) / 100)
+      );
+
       if (c.isBamileke) {
-          motif.show();
-        if (R.random_bool(0.8)) {
-        }
+        motif.show();
         bamileke.show();
       } else {
-          if (R.random_bool(0.8)) {
-            scribbles.show();
+        if (R.random_bool(0.8)) {
+          scribbles.show();
         } else {
-            if (R.random_bool(0.5)) {
-                motif.draw();
-            } else {
-                motif.show()
-            }
+          motif.show();
+          if (c.isFloral) {
+            flower.draw();
+          }
         }
       }
-
-      //   if (c.isFloral) {
-      //     const p3 = 0.5; // percentage - 0.1 = 10% etc..
-      //     const h3 = blockH;
-      //     const w3 = blockW;
-
-      //     if (h3 > w3 + w3 * p3) {
-      //       const flower = new Flower(
-      //         blockW,
-      //         blockH,
-      //         c.isNoisy,
-      //         c.palette,
-      //         Math.floor(Math.sqrt(blockW * blockH) / 100)
-      //       );
-      //         flower.draw();
-      //     }
-      //   }
 
       pop();
 
