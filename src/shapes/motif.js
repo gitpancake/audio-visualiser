@@ -28,28 +28,23 @@ export class Motif {
   show() {
     noFill();
     noStroke();
-
-    const col = pickRndColor(this.palette);
-    stroke(color(col.r, col.g, col.b));
     strokeWeight(3);
 
-    const rows = this.height / 10;
-    const cols = this.width / 10;
-    const radius = 5;
-    const angle = TWO_PI / 10;
+    const density = R.random_int(5,30); // Less is more
+    const rows = this.height / density;
+    const cols = this.width / density;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         for (let i = 0; i < 1; i++) {
-          const noiseX = this.isNoisy
-            ? R.random_dec() * 20
-            : R.random_dec() * 10;
-          const noiseY = this.isNoisy
-            ? R.random_dec() * 20
-            : R.random_dec() * 10;
+          const col = pickRndColor(this.palette);
+          stroke(color(col.r, col.g, col.b));
 
-          const x = radius + Math.sin(i) + c * 10 + noiseX;
-          const y = radius + Math.cos(i) + r * 10 + noiseY;
+          const noiseX = R.random_dec() * density;
+          const noiseY = R.random_dec() * density;
+
+          let x = Math.sin(i) + c * density + noiseX;
+          let y = Math.cos(i) + r * density + noiseY;
 
           point(x, y);
         }
