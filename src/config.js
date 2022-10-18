@@ -13,7 +13,7 @@ let rarities = {
   isBamileke,
   isGlitch: isBamileke ? false : R.random_bool(0.25),
   isNoisy: isFree || isBamileke ? true : R.random_bool(0.25),
-  isFloral: isFree || isOverstitch || isBamileke ? false : R.random_bool(0.25),
+  isFloral: isFree || isOverstitch || isBamileke ? false : R.random_bool(5),
 };
 
 export const config = {
@@ -24,8 +24,8 @@ export const config = {
     y: 40,
   },
   gridSize: {
-    x: R.random_int(2, 20),
-    y: R.random_int(2, 20),
+    x: 4,//R.random_int(2, 20),
+    y: 4//R.random_int(2, 20),
   },
   gridSpacing: R.random_choice([4, 8, 12, 16, 20]),
   palette: isBamileke && R.random_bool(0.4) ? bamPalette : R.random_choice(palettes),

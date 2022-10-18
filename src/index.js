@@ -94,31 +94,8 @@ window.draw = () => {
       // Coils - need to implement from prev project iter
 
       // Foreground - 3 Options? // maybe
-      // Flowers ?
       // Eyes ?
       // Shields / Trigonmetric TAN
-
-      const scribbles = new Scribbles(
-        blockW,
-        blockH,
-        c.palette,
-        c.isNoisy,
-        c.isCascade,
-        c.isOverstitch,
-        c.isGlitch,
-        c.isFree
-      );
-
-      const bamileke = new Bamileke(
-        blockW,
-        blockH,
-        c.palette,
-        c.isNoisy,
-        c.isCascade,
-        c.isOverstitch,
-        c.isGlitch,
-        c.isFree
-      );
 
       const motif = new Motif(
         blockW,
@@ -131,24 +108,46 @@ window.draw = () => {
         c.isFree
       );
 
-      const flower = new Flower(
-        blockW,
-        blockH,
-        c.isNoisy,
-        c.palette,
-        Math.floor(Math.sqrt(blockW * blockH) / 100)
-      );
-
       if (c.isBamileke) {
         motif.show();
+        const bamileke = new Bamileke(
+          blockW,
+          blockH,
+          c.palette,
+          c.isNoisy,
+          c.isCascade,
+          c.isOverstitch,
+          c.isGlitch,
+          c.isFree
+        );
         bamileke.show();
       } else {
         if (R.random_bool(0.8)) {
+          const scribbles = new Scribbles(
+            blockW,
+            blockH,
+            c.palette,
+            c.isNoisy,
+            c.isCascade,
+            c.isOverstitch,
+            c.isGlitch,
+            c.isFree
+          );
           scribbles.show();
         } else {
           motif.show();
           if (c.isFloral) {
-            flower.draw();
+            const flower = new Flower(
+              blockW,
+              blockH,
+              c.palette,
+              c.isNoisy,
+              c.isCascade,
+              c.isOverstitch,
+              c.isGlitch,
+              c.isFree
+            );
+            flower.show();
           }
         }
       }
