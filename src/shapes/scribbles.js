@@ -33,7 +33,7 @@ export class Scribbles {
     const isLineVertical = R.random_bool(0.5);
     const lineSize = isLineVertical ? this.height : this.width;
     const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_int(2, 10);
+    const curveSize = R.random_int(2, 6);
     const lineCountOffset = 1;
     const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
     let lineTranslate = curveSize;
