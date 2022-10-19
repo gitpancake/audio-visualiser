@@ -177,8 +177,8 @@ window.draw = () => {
           translate(blockTranslateD, blockTranslateC);
         }
 
-        // if (flowerBlockVisible[c][d]) {
-        if (R.random_bool(1)) {
+        if (flowerBlockVisible[c][d]) {
+        // if (R.random_bool(1)) {
           const flower = new Flower(
             blockW,
             blockH,

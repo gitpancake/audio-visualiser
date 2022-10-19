@@ -1,4 +1,4 @@
-import { pickRndColor, reduceDenominator } from "../helpers";
+import { normalise, pickRndColor, reduceDenominator } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 import { flowerOptions } from "./shape-options";
@@ -23,6 +23,7 @@ export class Flower {
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
     this.isFree = isFree;
+    this.strokeSize = 1;
 
     this.radius = this.width;
     this.isQuadrilateral = false;
@@ -73,23 +74,27 @@ export class Flower {
   }
 
   show() {
-    noFill();
 
+    const strokeSize = Math.round(10 * normalise(this.radius, width-80, 0))
+    console.log(this.radius, this.width, strokeSize)
+
+    noFill();
+    noStroke();
     push();
     translate(-this.innerContainerWidth / 2, -this.innerContainerHeight / 2);
 
-    const flowerOuter = R.random_choice(flowerOptions);
-    const outerM = flowerOuter.m;
-    const outerN = flowerOuter.n;
-    const outerO = flowerOuter.o; // draw offset
-    const outerC = flowerOuter.c; // draw crop
-    const outerK = outerM / outerN;
-    const outerTheta = 0.02;
-    const outerDetailCount = outerM * 2;
-    const outerScale = 2; //R.random_num(2, 3.5);
-    const outerLineStep = TWO_PI * reduceDenominator(outerM, outerN);
+    // FLOWER BACKGROUND
+    const flowerBg = R.random_choice(flowerOptions);
+    const bgM = flowerBg.m;
+    const bgN = flowerBg.n;
+    // const bgO = flowerBg.o; // draw offset
+    // const bgC = flowerBg.c; // draw crop
+    const bgK = bgM / bgN;
+    const bgTheta = 0.002;
+    // const bgDetailCount = bgM * 2;
+    const bgScale = 1.9; //R.random_num(2, 3.5);
+    const bgLineStep = TWO_PI * reduceDenominator(bgM, bgN);
 
-    // BACKGROUND
     fill(
       color(
         this.palette.background.r,
@@ -97,6 +102,33 @@ export class Flower {
         this.palette.background.b
       )
     );
+    strokeWeight(strokeSize);
+
+    beginShape();
+    for (let i = 0; i < bgLineStep; i += bgTheta) {
+      const noiseX = R.random_dec() * 2; //this.isNoisy ? R.random_dec() : 0;
+      const noiseY = R.random_dec() * 2; //this.isNoisy ? R.random_dec() : 0;
+      const size = (this.radius / bgScale) * Math.sin(i * bgK);
+      const x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
+      const y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
+      curveVertex(x, y);
+    }
+    endShape();
+    // FLOWER BACKGROUND - END
+
+    // FLOWER OUTER
+    const flowerOuter = flowerBg;
+    const outerM = flowerOuter.m;
+    const outerN = flowerOuter.n;
+    const outerO = flowerOuter.o; // draw offset
+    const outerC = flowerOuter.c; // draw crop
+    const outerK = outerM / outerN;
+    const outerTheta = 0.002;
+    const outerDetailCount = outerM * 2;
+    const outerScale = 2.1; //R.random_num(2, 3.5);
+    const outerLineStep = TWO_PI * reduceDenominator(outerM, outerN);
+
+    let col = pickRndColor(this.palette);
     stroke(
       color(
         this.palette.background.r,
@@ -104,25 +136,11 @@ export class Flower {
         this.palette.background.b
       )
     );
-    strokeWeight(20)
-    beginShape();
-    for (let i = 0; i < outerLineStep; i += outerTheta) {
-      const noiseX = R.random_dec()*2//this.isNoisy ? R.random_dec() : 0;
-      const noiseY = R.random_dec()*2//this.isNoisy ? R.random_dec() : 0;
+    strokeWeight(strokeSize);
 
-      let size = (this.radius / outerScale) * Math.sin(i * outerK);
-      let x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
-      let y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
-      curveVertex(x, y);
-    }
-    endShape();
+    col = pickRndColor(this.palette);
+    fill(color(col.r, col.g, col.b));
 
-    const col = pickRndColor(this.palette);
-    stroke(color(col.r, col.g, col.b));
-    strokeWeight(1);
-
-    // OVERLAY
-    noFill()
     beginShape();
     for (let i = 0; i < outerLineStep; i += outerTheta) {
       const noiseX = this.isNoisy ? R.random_dec() : 0;
@@ -131,11 +149,13 @@ export class Flower {
       let size = (this.radius / outerScale) * Math.sin(i * outerK);
       let x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
       let y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
-      vertex(x, y);
+      curveVertex(x, y);
     }
     endShape();
+    // FLOWER OUTER - END
 
-    const flowerInner = R.random_choice(flowerOptions);
+    // FLOWER INNER
+    const flowerInner = flowerBg //R.random_choice(flowerOptions);
     const innerM = flowerInner.m;
     const innerN = flowerInner.n;
     const innerO = flowerInner.o; // draw offset
@@ -146,6 +166,18 @@ export class Flower {
     const innerScale = 3; //R.random_num(2, 2.5);
     const innerLineStep = TWO_PI * reduceDenominator(innerM, innerN);
 
+    stroke(
+      color(
+        this.palette.background.r,
+        this.palette.background.g,
+        this.palette.background.b
+      )
+    );
+    strokeWeight(strokeSize);
+
+    col = pickRndColor(this.palette);
+    fill(color(col.r, col.g, col.b));
+
     beginShape();
     for (let i = 0; i < innerLineStep; i += innerTheta) {
       const noiseX = this.isNoisy ? R.random_dec() : 0;
@@ -154,12 +186,11 @@ export class Flower {
       let size = (this.radius / innerScale) * Math.sin(i * innerK);
       let x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
       let y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
-      vertex(x, y);
+      curveVertex(x, y);
     }
     endShape();
+    // FLOWER INNER - END
 
     pop();
-
   }
-
 }

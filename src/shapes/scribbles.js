@@ -33,7 +33,7 @@ export class Scribbles {
     const isLineVertical = R.random_bool(0.5);
     const lineSize = isLineVertical ? this.height : this.width;
     const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_num(1, 8);
+    const curveSize = R.random_int(2, 10);
     const lineCountOffset = 1;
     const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
     let lineTranslate = curveSize;
@@ -41,7 +41,7 @@ export class Scribbles {
     push();
 
     for (let l = 0; l < lineCount ; l++) {
-      const thickness = R.random_int(1, 2);
+      const thickness = R.random_int(1, 3);
       strokeWeight(thickness);
 
       const toggleRot = R.random_bool(0.5);
