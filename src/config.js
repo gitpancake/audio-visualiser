@@ -13,7 +13,7 @@ const gridSize = {
 const gridXLessThan = 4 >= gridSize.x;
 const gridYLessThan = 4 >= gridSize.y;
 
-console.log(gridXLessThan, gridYLessThan)
+// console.log(gridXLessThan, gridYLessThan)
 
 let rarities = {
   isCascade: R.random_bool(0.5),

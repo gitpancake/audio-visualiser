@@ -154,7 +154,7 @@ window.draw = () => {
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
 
-  console.log(flowerBlockVisible);
+  // console.log(flowerBlockVisible);
 
   // Overlay Grid
   if (cfg.isFloral) {
