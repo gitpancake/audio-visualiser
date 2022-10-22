@@ -37,14 +37,17 @@ export class Scribbles {
     const lineCountOffset = 1;
     const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
     let lineTranslate = curveSize;
+    let toggleRot = R.random_bool(0.5);
 
     push();
 
-    for (let l = 0; l < lineCount ; l++) {
+    for (let l = 0; l < lineCount; l++) {
       const thickness = R.random_int(1, 3);
       strokeWeight(thickness);
 
-      const toggleRot = R.random_bool(0.5);
+      if (this.isGlitch) {
+        toggleRot = R.random_bool(0.5);
+      }
       let divider = this.isGlitch ? R.random_int(1, 100) : 100;
       let rotation = radians(l / divider);
 

@@ -59,6 +59,27 @@ export const palettes = [
       },
     ],
   },
+  // {
+  //   name: "DRC",
+  //   background: {
+  //     r: 207,
+  //     g: 7,
+  //     b: 27,
+  //   },
+  //   colors: [
+  //     {
+  //       r: 0,
+  //       g: 128,
+  //       b: 255,
+  //     },
+
+  //     {
+  //       r: 247,
+  //       g: 215,
+  //       b: 17,
+  //     },
+  //   ],
+  // },
 ];
 
 export const defaultPalette = {
