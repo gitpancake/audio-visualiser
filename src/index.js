@@ -1,7 +1,7 @@
-import { gridDivider, debugGrid } from "./helpers";
+import { gridDivider, debugGrid, allAreTruthy } from "./helpers";
 import { Random, tokenData } from "./random";
 import { config } from "./config";
-import { Bamileke, Flower, Scribbles } from "./shapes";
+import { Bamileke, Coils, Flower, Scribbles } from "./shapes";
 import { Motif } from "./shapes/motif";
 import { calculateFeatures } from "./meta";
 const R = new Random();
@@ -90,18 +90,6 @@ window.draw = () => {
       // SHAPE LOGIC - HERE
       // rect(0, 0, blockW, blockH);
 
-      // Colour Palettes - 5 Options
-      // - B&W / Grayscale
-      // - TBC
-      // - TBC
-
-      // Background - 3 Options
-      // Coils - need to implement from prev project iter
-
-      // Foreground - 3 Options? // maybe
-      // Eyes ?
-      // Shields / Trigonmetric TAN
-
       const motif = new Motif(
         blockW,
         blockH,
@@ -128,7 +116,20 @@ window.draw = () => {
         bamileke.show();
       } else {
         let flowerVisible = false;
-        if (R.random_bool(0.8)) {
+
+        if (R.random_bool(0.5)) {
+          const coils = new Coils(
+            blockW,
+            blockH,
+            cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            cfg.isOverstitch,
+            cfg.isGlitch,
+            cfg.isFree
+          );
+          coils.show();
+        } else if (R.random_bool(0.5)) {
           const scribbles = new Scribbles(
             blockW,
             blockH,
@@ -144,9 +145,11 @@ window.draw = () => {
           motif.show();
           flowerVisible = true;
         }
+
         flowerBlockVisible[a].push(flowerVisible);
       }
 
+      // rect(0, 0, blockW, blockH);
       pop();
 
       blockTranslateB += blockDimB[b] + loopTwoSpacing;
@@ -154,10 +157,14 @@ window.draw = () => {
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
 
-  // console.log(flowerBlockVisible);
-
   // Overlay Grid
   if (cfg.isFloral) {
+    if (!allAreTruthy(flowerBlockVisible)) {
+      const rowIndex = R.random_int(0, flowerBlockVisible.length - 1);
+      const rndIndex = R.random_int(0, flowerBlockVisible[rowIndex].length - 1);
+      flowerBlockVisible[rowIndex][rndIndex] = true;
+    }
+
     let blockTranslateC = loopOneMargin + spacing / (loopOneCount * 2);
 
     for (let c = 0; c < loopOneCount; c++) {
@@ -178,7 +185,6 @@ window.draw = () => {
         }
 
         if (flowerBlockVisible[c][d]) {
-        // if (R.random_bool(1)) {
           const flower = new Flower(
             blockW,
             blockH,
@@ -202,4 +208,8 @@ window.draw = () => {
       blockTranslateC += blockDimA[c] + loopOneSpacing;
     }
   }
+};
+
+window.mouseClicked = () => {
+  // save("mySVG.svg"); // give file name
 };
