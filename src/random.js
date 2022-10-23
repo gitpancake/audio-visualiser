@@ -29,6 +29,10 @@ export const tokenData = genTokenData(17);
 //   hash: "0xa3f972218ce61d61ab4d441e6f98b30c075ab7aefdfa18936babfc058ef62b18",
 //   tokenId: "13000166",
 // };
+// export const tokenData = {
+//   "hash": "0xe62ddccaf59b5665883d8d357ed1b12111638abeea6c903ddfca2aa70302066f",
+//   "tokenId": "17000992"
+// }
 console.log(tokenData);
 
 export class Random {

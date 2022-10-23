@@ -2,13 +2,13 @@ import { palettes, bamPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isBamileke = R.random_bool(0.2);
+const isBamileke = R.random_bool(0.3);
 const isFree = isBamileke ? false : R.random_bool(0.25);
-const isOverstitch = isBamileke || isFree ? false : R.random_bool(.3);
+const isOverstitch = isBamileke || isFree ? false : R.random_bool(.2);
 
 const gridSize = {
   x: R.random_int(1, 12),
-  y: R.random_int(2, 14),
+  y: R.random_int(2, 12),
 };
 
 const maxSize = 4;
@@ -22,10 +22,10 @@ let rarities = {
   isFree,
   isOverstitch,
   isBamileke,
-  isGlitch: isBamileke ? false : R.random_bool(0.5),
+  isGlitch: isBamileke ? false : R.random_bool(0.3),
   isNoisy: isBamileke || isFree ? true : R.random_bool(0.8),
   isFloral:
-    isBamileke || !gridXLessThan || !gridYLessThan ? false : R.random_bool(1),
+    isBamileke || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
 };
 
 export const config = {
