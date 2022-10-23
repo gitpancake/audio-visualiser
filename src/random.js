@@ -1,5 +1,5 @@
 import { genTokenData } from "./token";
-// export const tokenData = genTokenData(13);
+export const tokenData = genTokenData(17);
 // export const tokenData = {
 //   "hash": "0x420f6be7ab91c8118ee51517a66704d827fca47e143f15fe6f04ae51f0873e65",
 //   "tokenId": "13000725"
@@ -25,10 +25,10 @@ import { genTokenData } from "./token";
 //   tokenId: "13000818",
 // };
 
-export const tokenData = {
-  hash: "0xa3f972218ce61d61ab4d441e6f98b30c075ab7aefdfa18936babfc058ef62b18",
-  tokenId: "13000166",
-};
+// export const tokenData = {
+//   hash: "0xa3f972218ce61d61ab4d441e6f98b30c075ab7aefdfa18936babfc058ef62b18",
+//   tokenId: "13000166",
+// };
 console.log(tokenData);
 
 export class Random {

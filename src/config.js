@@ -7,8 +7,8 @@ const isFree = isBamileke ? false : R.random_bool(0.25);
 const isOverstitch = isBamileke || isFree ? false : R.random_bool(.3);
 
 const gridSize = {
-  x: R.random_int(2, 15),
-  y: R.random_int(2, 15),
+  x: R.random_int(1, 12),
+  y: R.random_int(2, 14),
 };
 
 const maxSize = 4;
@@ -23,7 +23,7 @@ let rarities = {
   isOverstitch,
   isBamileke,
   isGlitch: isBamileke ? false : R.random_bool(0.5),
-  isNoisy: isBamileke || isFree ? true : R.random_bool(0.7),
+  isNoisy: isBamileke || isFree ? true : R.random_bool(0.8),
   isFloral:
     isBamileke || !gridXLessThan || !gridYLessThan ? false : R.random_bool(1),
 };

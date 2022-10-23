@@ -51,7 +51,7 @@ export class Scribbles {
       let divider = this.isGlitch ? R.random_int(1, 100) : 100;
       let rotation = radians(l / divider);
 
-      const offset = R.random_num(1, 20);
+      const offset = R.random_num(1, 10);
       const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
       if (isLineVertical) {
