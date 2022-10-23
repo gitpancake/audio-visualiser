@@ -67,3 +67,14 @@ export const debugGrid = (spacer = 50, s = 255, sw = 4, noisey = true) => {
 export const normalise = (val, max, min) => {
   return (val - min) / (max - min);
 };
+
+// Rescue function to draw rose in random array
+export const allAreTruthy = (arr) => {
+  // console.log("hit");
+  let res = [];
+  arr.forEach((e) => {
+    res.push(e.find((element) => element === true));
+  });
+  // console.log(res);
+  return res.find((element) => element === true);
+};

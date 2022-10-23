@@ -74,9 +74,8 @@ export class Flower {
   }
 
   show() {
-
-    const strokeSize = Math.round(10 * normalise(this.radius, width-80, 0))
-    console.log(this.radius, this.width, strokeSize)
+    const strokeSize = Math.round(10 * normalise(this.radius, width - 80, 0));
+    console.log(this.radius, this.width, strokeSize);
 
     noFill();
     noStroke();
@@ -155,7 +154,7 @@ export class Flower {
     // FLOWER OUTER - END
 
     // FLOWER INNER
-    const flowerInner = flowerBg //R.random_choice(flowerOptions);
+    const flowerInner = R.random_choice(flowerOptions);
     const innerM = flowerInner.m;
     const innerN = flowerInner.n;
     const innerO = flowerInner.o; // draw offset
@@ -191,6 +190,9 @@ export class Flower {
     endShape();
     // FLOWER INNER - END
 
+    // FLOWER INNER DETAILS
+
+    // FLOWER INNER DETAILS - END
     pop();
   }
 }
