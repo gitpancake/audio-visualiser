@@ -12,7 +12,6 @@ export class Scribbles {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -21,7 +20,6 @@ export class Scribbles {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFree = isFree;
   }
 
   show() {
@@ -33,26 +31,19 @@ export class Scribbles {
     const isLineVertical = R.random_bool(0.5);
     const lineSize = isLineVertical ? this.height : this.width;
     const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_int(2, 6);
+    const curveSize = R.random_int(2, 8);
     const lineCountOffset = 1;
     const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
     let lineTranslate = curveSize;
     let toggleRot = R.random_bool(0.5);
+    let divider = 100;
 
     push();
 
     for (let l = 0; l < lineCount; l++) {
+
       const thickness = R.random_int(1, 3);
       strokeWeight(thickness);
-
-      if (this.isGlitch) {
-        toggleRot = R.random_bool(0.5);
-      }
-      let divider = this.isGlitch ? R.random_int(1, 100) : 100;
-      let rotation = radians(l / divider);
-
-      const offset = R.random_num(1, 10);
-      const curveType = R.random_choice([HALF_PI, PI, TAU]);
 
       if (isLineVertical) {
         translate(lineTranslate, 0);
@@ -60,14 +51,20 @@ export class Scribbles {
         translate(0, lineTranslate);
       }
 
-      if (this.isFree) {
+      if (this.isGlitch) {
+        toggleRot = R.random_bool(0.5);
+        divider = R.random_int(1, 100);
+
+        const rotation = radians(l / divider);
         const newRotation = toggleRot ? -rotation : rotation;
-        if (this.isGlitch) {
-          rotate(newRotation);
-        } else {
-          rotate(newRotation);
-        }
+        rotate(newRotation);
+
+        const col = pickRndColor(this.palette);
+        stroke(color(col.r, col.g, col.b));
       }
+
+      const offset = R.random_num(1, 10);
+      const curveType = R.random_choice([QUARTER_PI, HALF_PI, PI]);
 
       beginShape();
 

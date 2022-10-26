@@ -1,6 +1,9 @@
 import { genTokenData } from "./token";
 export const tokenData = genTokenData(17);
-
+// export const tokenData = {
+//   "hash": "0xec6e6bd2ae12e3754aafbc7bbd8c558235de3e6ef9e8b459824c1a30e8860f85",
+//   "tokenId": "17000243"
+// }
 console.log(tokenData);
 
 export class Random {

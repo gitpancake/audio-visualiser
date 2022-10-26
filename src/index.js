@@ -57,8 +57,13 @@ window.draw = () => {
   let blockDimBClone = [];
   let flowerBlockVisible = [];
 
+  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false; 
+  const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
+  const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
+
+  console.log(stitchOverideOne, stitchOverideTwo)
+
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
-  //   debugGrid(50);
 
   for (let a = 0; a < loopOneCount; a++) {
     let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
@@ -98,10 +103,9 @@ window.draw = () => {
         cfg.isCascade,
         cfg.isOverstitch,
         cfg.isGlitch,
-        cfg.isFree
       );
 
-      if (cfg.isBamileke) {
+      if (cfg.isNdop) {
         motif.show();
         const bamileke = new Bamileke(
           blockW,
@@ -111,34 +115,33 @@ window.draw = () => {
           cfg.isCascade,
           cfg.isOverstitch,
           cfg.isGlitch,
-          cfg.isFree
         );
         bamileke.show();
       } else {
         let flowerVisible = false;
 
-        if (R.random_bool(0.5)) {
+
+
+        if (R.random_bool(0.4)) {
           const coils = new Coils(
             blockW,
             blockH,
             cfg.palette,
             cfg.isNoisy,
             cfg.isCascade,
-            cfg.isOverstitch,
+            stitchOverideOne,
             cfg.isGlitch,
-            cfg.isFree
           );
           coils.show();
-        } else if (R.random_bool(0.5)) {
+        } else if (R.random_bool(0.6)) {
           const scribbles = new Scribbles(
             blockW,
             blockH,
             cfg.palette,
             cfg.isNoisy,
             cfg.isCascade,
-            cfg.isOverstitch,
+            stitchOverideTwo,
             cfg.isGlitch,
-            cfg.isFree
           );
           scribbles.show();
         } else {
@@ -193,13 +196,10 @@ window.draw = () => {
             cfg.isCascade,
             cfg.isOverstitch,
             cfg.isGlitch,
-            cfg.isFree
           );
 
           flower.show();
         }
-
-        // rect(0, 0, blockW, blockH);
 
         pop();
 

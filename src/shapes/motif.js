@@ -1,7 +1,6 @@
 import { pickRndColor, reduceDenominator } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
-import { motifOptions } from "./shape-options";
 const R = new Random();
 
 export class Motif {
@@ -13,7 +12,6 @@ export class Motif {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -22,7 +20,6 @@ export class Motif {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFree = isFree;
   }
 
   show() {

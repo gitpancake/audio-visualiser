@@ -12,7 +12,6 @@ export class Coils {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -21,7 +20,6 @@ export class Coils {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFree = isFree;
   }
 
   show() {
@@ -51,14 +49,14 @@ export class Coils {
       const altTranslate = coilTranslate / (coilAmount * 4);
 
       if (isOrientationVertical) {
-        if (this.isFree) {
+        if (this.isGlitch) {
           const transY = R.random_bool(0.5) ? altTranslate : -altTranslate;
           translate(coilTranslate, transY);
         } else {
           translate(coilTranslate, 0);
         }
       } else {
-        if (this.isFree) {
+        if (this.isGlitch) {
           const transX = R.random_bool(0.5) ? altTranslate : -altTranslate;
           translate(transX, coilTranslate);
         } else {
@@ -67,7 +65,6 @@ export class Coils {
       }
 
       let dotStep = R.random_int(5, 10);
-      const dotNoise = this.isNoisy ? R.random_dec() * R.random_int(2, 10) : 0;
 
       // top curve
       beginShape();
@@ -125,20 +122,21 @@ export class Coils {
           stroke(color(col.r, col.g, col.b));
         }
 
-        const noise = this.isNoisy ? R.random_dec() : 0;
         let xPos = i;
-        let yPos = cos(i * radians(radian)) * coilWidth + noise;
+        let yPos = cos(i * radians(radian)) * coilWidth;
 
         if (isOrientationVertical) {
-          xPos = sin(i * radians(radian)) * coilWidth + noise;
+          xPos = sin(i * radians(radian)) * coilWidth;
           yPos = i;
         }
 
+        const noise = this.isNoisy ? R.random_dec() * 4 : R.random_dec();
+
         if (Math.round(i) % dotStep == 0) {
           if (isOrientationVertical) {
-            point(xPos + dotNoise, yPos);
+            point(xPos + noise, yPos);
           } else {
-            point(xPos, yPos + dotNoise);
+            point(xPos, yPos + noise);
           }
         }
       }
@@ -152,21 +150,21 @@ export class Coils {
           stroke(color(col.r, col.g, col.b));
         }
 
-        const noise = this.isNoisy ? R.random_dec() : 0;
-
         let xPos = i;
-        let yPos = -cos(i * radians(radian)) * coilWidth + noise;
+        let yPos = -cos(i * radians(radian)) * coilWidth;
 
         if (isOrientationVertical) {
-          xPos = -sin(i * radians(radian)) * coilWidth + noise;
+          xPos = -sin(i * radians(radian)) * coilWidth;
           yPos = i;
         }
 
+        const noise = this.isNoisy ? R.random_dec() * 4 : R.random_dec();
+
         if (Math.round(i) % dotStep == 0) {
           if (isOrientationVertical) {
-            point(xPos + dotNoise, yPos);
+            point(xPos - noise, yPos);
           } else {
-            point(xPos, yPos + dotNoise);
+            point(xPos, yPos - noise);
           }
         }
       }

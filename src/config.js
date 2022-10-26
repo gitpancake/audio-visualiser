@@ -2,41 +2,44 @@ import { palettes, bamPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isBamileke = R.random_bool(0.3);
-const isFree = isBamileke ? false : R.random_bool(0.25);
-const isOverstitch = isBamileke || isFree ? false : R.random_bool(.2);
-
+const isNdop = R.random_bool(0.2);
+const isGlitch = isNdop ? false : R.random_bool(0.4);
+const isOverstitch = isNdop || isGlitch ? false : R.random_bool(0.1);
 const gridSize = {
-  x: R.random_int(1, 15),
-  y: R.random_int(2, 15),
+  x: isNdop ? R.random_int(2, 8) : R.random_int(1, 12),
+  y: isNdop ? R.random_int(2, 8) : R.random_int(1, 12),
 };
 
-const maxSize = 4;
+const randMargin = R.random_int(5, 9) * 10;
+
+const maxSize = 5;
 const gridXLessThan = gridSize.x <= maxSize;
 const gridYLessThan = gridSize.y <= maxSize;
 
+const isNoisy = isNdop ? true : R.random_bool(0.5);
+
+
 let rarities = {
-  isCascade: R.random_bool(0.6),
-  isFree,
+  isCascade: R.random_bool(0.5),
   isOverstitch,
-  isBamileke,
-  isGlitch: isBamileke ? false : R.random_bool(0.25),
-  isNoisy: isBamileke || isFree ? true : R.random_bool(0.8),
+  isNdop,
+  isGlitch,
+  isNoisy,
   isFloral:
-    isBamileke || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
+    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(0.3),
 };
 
 export const config = {
   gridSize,
   gridMargin: {
-    x: 40,
-    y: 40,
+    x: isGlitch ? randMargin : 40,
+    y: isGlitch ? randMargin : 40,
   },
   canvasWidth: 900,
   canvasHeight: 1200,
   gridSpacing: R.random_choice([8, 12, 16, 20]),
   palette:
-    isBamileke && R.random_bool(0.4) ? bamPalette : R.random_choice(palettes),
+    isNdop && R.random_bool(0.9) ? bamPalette : R.random_choice(palettes),
   ...rarities,
 };
 
