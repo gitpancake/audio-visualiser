@@ -50,40 +50,5 @@ export class Motif {
       }
     }
 
-    push();
-
-    pop();
-  }
-
-  draw() {
-    const xoff = 10;
-    const yoff = 10;
-    const col = pickRndColor(this.palette);
-    stroke(color(col.r, col.g, col.b));
-    for (let j = 0; j < 1; j++) {
-      for (let i = 0; i < 6; i++) {
-        for (let x = 1; x < this.width - yoff * 2; x++) {
-          for (let y = 0; y < this.height - yoff * 2; y++) {
-            var n = noise(x * 0.02, y * 0.02);
-            if (R.random_num(0, 1) > 0.9 - 0.01 * i - n / 5) {
-              strokeWeight(
-                R.random_num(
-                  0.2 + y / 500 - n / 10,
-                  0.3 + y / 100 - n / 10 - j / 5
-                )
-              );
-
-              point(
-                xoff +
-                  x +
-                  (j * (this.width - yoff * 2)) / 5 +
-                  R.random_num(-2, 2),
-                yoff + y + R.random_num(-3, 3)
-              );
-            }
-          }
-        }
-      }
-    }
   }
 }
