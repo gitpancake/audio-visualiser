@@ -1,38 +1,6 @@
 import { genTokenData } from "./token";
 export const tokenData = genTokenData(17);
-// export const tokenData = {
-//   "hash": "0x420f6be7ab91c8118ee51517a66704d827fca47e143f15fe6f04ae51f0873e65",
-//   "tokenId": "13000725"
-// }
 
-// export const tokenData = {
-//   "hash": "0xf383c4b6250fedbd36a399fce4c9c1f894ffbbbb67084d8fc807daad6d86c7e4",
-//   "tokenId": "13000789"
-// }
-
-// export const tokenData = {
-//   "hash": "0xe6709c52042889eee8fee0cc7f2fff2cc878219e6ffc4c96aef088eedd4b887b",
-//   "tokenId": "13000703"
-// }
-
-// export const tokenData = {
-//   hash: "0xe42caa6164393171715835a3f556238c686754d6f639b3115f7f2153fb212496",
-//   tokenId: "13000400",
-// };
-
-// export const tokenData = {
-//   hash: "0x11ac492f4350df73599eaf4ee9da8fdc0a68821d847a412de9c2b48ba4b0ee6f",
-//   tokenId: "13000818",
-// };
-
-// export const tokenData = {
-//   hash: "0xa3f972218ce61d61ab4d441e6f98b30c075ab7aefdfa18936babfc058ef62b18",
-//   tokenId: "13000166",
-// };
-// export const tokenData = {
-//   "hash": "0xe62ddccaf59b5665883d8d357ed1b12111638abeea6c903ddfca2aa70302066f",
-//   "tokenId": "17000992"
-// }
 console.log(tokenData);
 
 export class Random {

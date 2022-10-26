@@ -7,22 +7,20 @@ const isFree = isBamileke ? false : R.random_bool(0.25);
 const isOverstitch = isBamileke || isFree ? false : R.random_bool(.2);
 
 const gridSize = {
-  x: R.random_int(1, 12),
-  y: R.random_int(2, 12),
+  x: R.random_int(1, 15),
+  y: R.random_int(2, 15),
 };
 
 const maxSize = 4;
 const gridXLessThan = gridSize.x <= maxSize;
 const gridYLessThan = gridSize.y <= maxSize;
 
-console.log(gridXLessThan, gridYLessThan);
-
 let rarities = {
-  isCascade: R.random_bool(0.5),
+  isCascade: R.random_bool(0.6),
   isFree,
   isOverstitch,
   isBamileke,
-  isGlitch: isBamileke ? false : R.random_bool(0.3),
+  isGlitch: isBamileke ? false : R.random_bool(0.25),
   isNoisy: isBamileke || isFree ? true : R.random_bool(0.8),
   isFloral:
     isBamileke || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
