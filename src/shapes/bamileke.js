@@ -14,7 +14,6 @@ export class Bamileke {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -23,7 +22,6 @@ export class Bamileke {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFree = isFree;
   }
 
   show() {
@@ -63,7 +61,7 @@ export class Bamileke {
       if (yPos > yBounds) yPos = yBounds + noise;
       if (yPos < 0) yPos = -noise;
 
-      curveVertex(xPos, yPos);
+      vertex(xPos, yPos);
     }
     endShape();
 
@@ -93,7 +91,7 @@ export class Bamileke {
       if (yPos > yBounds) yPos = yBounds + noise;
       if (yPos < 0) yPos = -noise;
 
-      curveVertex(xPos, yPos);
+      vertex(xPos, yPos);
     }
     endShape();
 

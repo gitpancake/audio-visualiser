@@ -13,7 +13,6 @@ export class Flower {
     isCascade,
     isOverstitch,
     isGlitch,
-    isFree
   ) {
     this.width = w;
     this.height = h;
@@ -22,7 +21,6 @@ export class Flower {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
-    this.isFree = isFree;
     this.strokeSize = 1;
 
     this.radius = this.width;
