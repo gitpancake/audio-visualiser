@@ -10,8 +10,6 @@ export const calculateFeatures = (tokenData) => {
   features["Grid Dimensions"] = `${config.gridSize.x} x ${config.gridSize.y}`;
   features["Grid Spacing"] = config.gridSpacing;
   features["Overstitch"] = config.isOverstitch;
-  features["Canvas Height"] = config.canvasHeight;
-  features["Canvas Width"] = config.canvasWidth;
   features["Gemini Tendecies"] = config.isGlitch;
   features["Choatic Vibes"] = config.isChaotic;
 
