@@ -4,6 +4,7 @@ import { config } from "./config";
 import { Bamileke, Coils, Flower, Scribbles } from "./shapes";
 import { Motif } from "./shapes/motif";
 import { calculateFeatures } from "./meta";
+import { defaultPalette, ndopPalette } from "./palettes";
 const R = new Random();
 const cfg = config;
 const bg = cfg.palette.background;
@@ -60,10 +61,8 @@ window.draw = () => {
   const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false; 
   const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
   const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
-
-  console.log(stitchOverideOne, stitchOverideTwo)
-
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
+  let reRunLoop = cfg.isChaotic;
 
   for (let a = 0; a < loopOneCount; a++) {
     let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
@@ -110,7 +109,7 @@ window.draw = () => {
         const bamileke = new Bamileke(
           blockW,
           blockH,
-          cfg.palette,
+          reRunLoop ? defaultPalette : cfg.palette,
           cfg.isNoisy,
           cfg.isCascade,
           cfg.isOverstitch,
@@ -120,8 +119,6 @@ window.draw = () => {
       } else {
         let flowerVisible = false;
 
-
-
         if (R.random_bool(0.4)) {
           const coils = new Coils(
             blockW,
@@ -130,7 +127,7 @@ window.draw = () => {
             cfg.isNoisy,
             cfg.isCascade,
             stitchOverideOne,
-            cfg.isGlitch,
+            reRunLoop ? false : cfg.isGlitch
           );
           coils.show();
         } else if (R.random_bool(0.6)) {
@@ -141,7 +138,7 @@ window.draw = () => {
             cfg.isNoisy,
             cfg.isCascade,
             stitchOverideTwo,
-            cfg.isGlitch,
+            reRunLoop ? false : cfg.isGlitch
           );
           scribbles.show();
         } else {
@@ -156,6 +153,15 @@ window.draw = () => {
       pop();
 
       blockTranslateB += blockDimB[b] + loopTwoSpacing;
+
+      if(a == loopOneCount-1 && b == loopTwoCount-1 && cfg.isChaotic && reRunLoop){
+        a = 0;
+        b = 0;
+        blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
+        blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
+        reRunLoop = false;
+        console.log('reloop')
+      }
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }

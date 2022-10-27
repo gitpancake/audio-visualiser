@@ -12,7 +12,8 @@ export const calculateFeatures = (tokenData) => {
   features["Overstitch"] = config.isOverstitch;
   features["Canvas Height"] = config.canvasHeight;
   features["Canvas Width"] = config.canvasWidth;
-  features["Gemini Energy"] = config.isGlitch;
+  features["Gemini Tendecies"] = config.isGlitch;
+  features["Choatic Vibes"] = config.isChaotic;
 
   console.table(features)
   return features;

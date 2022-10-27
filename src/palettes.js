@@ -1,6 +1,6 @@
 export const palettes = [
   {
-    name: "Original",
+    name: "Toghu Original",
     background: {
       r: 10,
       g: 10,
@@ -89,15 +89,15 @@ export const defaultPalette = {
   },
   colors: [
     {
-      r: 255,
-      g: 255,
-      b: 255,
+      r: 230,
+      g: 230,
+      b: 230,
     },
   ],
 };
 
-export const bamPalette = {
-  name: "Blue Wash",
+export const ndopPalette = {
+  name: "Ndop Original",
   background: {
     r: 2,
     g: 62,
