@@ -6,20 +6,20 @@ const isNdop = R.random_bool(0.1);
 const palette =
   isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
 const isNdopPalette = palette == ndopPalette;
-const isChaotic = isNdopPalette ? false : R.random_bool(.7);
+const isChaotic = isNdopPalette ? false : R.random_bool(.6);
 const isGlitch = isNdop ? false : R.random_bool(0.6);
 const isOverstitch =
   isNdop || isGlitch || isChaotic ? false : R.random_bool(0.2);
 const gridSize = {
-  x: isNdop ? R.random_int(2, 10) : R.random_int(1, 15),
-  y: isNdop ? R.random_int(2, 10) : R.random_int(1, 15),
+  x: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
+  y: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
 };
 
 const maxSize = 5;
 const gridXLessThan = gridSize.x <= maxSize;
 const gridYLessThan = gridSize.y <= maxSize;
 const randMargin = R.random_int(5, 9) * 10;
-const isNoisy = isNdop || isChaotic ? true : R.random_bool(0.5);
+const isNoisy = isNdop ? true : R.random_bool(0.5);
 
 let rarities = {
   isOverstitch,
