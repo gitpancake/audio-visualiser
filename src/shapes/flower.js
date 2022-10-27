@@ -12,7 +12,7 @@ export class Flower {
     isNoisy,
     isCascade,
     isOverstitch,
-    isGlitch,
+    isGlitch
   ) {
     this.width = w;
     this.height = h;
@@ -73,7 +73,6 @@ export class Flower {
 
   show() {
     const strokeSize = Math.round(10 * normalise(this.radius, width - 80, 0));
-    console.log(this.radius, this.width, strokeSize);
 
     noFill();
     noStroke();
@@ -84,12 +83,9 @@ export class Flower {
     const flowerBg = R.random_choice(flowerOptions);
     const bgM = flowerBg.m;
     const bgN = flowerBg.n;
-    // const bgO = flowerBg.o; // draw offset
-    // const bgC = flowerBg.c; // draw crop
     const bgK = bgM / bgN;
     const bgTheta = 0.002;
-    // const bgDetailCount = bgM * 2;
-    const bgScale = 1.9; //R.random_num(2, 3.5);
+    const bgScale = R.random_num(1.8, 2);
     const bgLineStep = TWO_PI * reduceDenominator(bgM, bgN);
 
     fill(
@@ -106,8 +102,8 @@ export class Flower {
       const noiseX = R.random_dec() * 2; //this.isNoisy ? R.random_dec() : 0;
       const noiseY = R.random_dec() * 2; //this.isNoisy ? R.random_dec() : 0;
       const size = (this.radius / bgScale) * Math.sin(i * bgK);
-      const x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
-      const y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
+      const x = size * Math.sin(i) + this.innerContainerWidth + noiseX;
+      const y = size * Math.cos(i) + this.innerContainerHeight + noiseY;
       curveVertex(x, y);
     }
     endShape();
@@ -117,12 +113,9 @@ export class Flower {
     const flowerOuter = flowerBg;
     const outerM = flowerOuter.m;
     const outerN = flowerOuter.n;
-    const outerO = flowerOuter.o; // draw offset
-    const outerC = flowerOuter.c; // draw crop
     const outerK = outerM / outerN;
     const outerTheta = 0.002;
-    const outerDetailCount = outerM * 2;
-    const outerScale = 2.1; //R.random_num(2, 3.5);
+    const outerScale = bgScale + 0.25;
     const outerLineStep = TWO_PI * reduceDenominator(outerM, outerN);
 
     let col = pickRndColor(this.palette);
@@ -144,8 +137,8 @@ export class Flower {
       const noiseY = this.isNoisy ? R.random_dec() : 0;
 
       let size = (this.radius / outerScale) * Math.sin(i * outerK);
-      let x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
-      let y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
+      let x = size * Math.sin(i) + this.innerContainerWidth + noiseX;
+      let y = size * Math.cos(i) + this.innerContainerHeight + noiseY;
       curveVertex(x, y);
     }
     endShape();
@@ -160,7 +153,7 @@ export class Flower {
     const innerK = innerM / innerN;
     const innerTheta = outerTheta;
     const innerDetailCount = innerM * 2;
-    const innerScale = 3; //R.random_num(2, 2.5);
+    const innerScale = R.random_num(2.1, 3);
     const innerLineStep = TWO_PI * reduceDenominator(innerM, innerN);
 
     stroke(
@@ -181,16 +174,34 @@ export class Flower {
       const noiseY = this.isNoisy ? R.random_dec() : 0;
 
       let size = (this.radius / innerScale) * Math.sin(i * innerK);
-      let x = size * Math.cos(i) + this.innerContainerWidth + noiseX;
-      let y = size * Math.sin(i) + this.innerContainerHeight + noiseY;
+      let x = size * Math.sin(i) + this.innerContainerWidth + noiseX;
+      let y = size * Math.cos(i) + this.innerContainerHeight + noiseY;
       curveVertex(x, y);
     }
     endShape();
     // FLOWER INNER - END
 
     // FLOWER INNER DETAILS
+    col = this.palette.background
+    stroke(color(col.r, col.g, col.b));
+    for (let j = innerO; j < innerDetailCount - innerC; j++) {
+      let angle = j;
+      let size = (this.radius / innerDetailCount / innerScale / 4) * j;
+      strokeWeight(size/1.7);
 
+      // DOT STYLE
+      for (let i = 0; i < innerDetailCount; i++) {
+        const noiseX = this.isNoisy ? R.random_dec() : 0;
+        const noiseY = this.isNoisy ? R.random_dec() : 0;
+
+        let x = size * sin(angle) + this.innerContainerWidth + noiseX;
+        let y = size * cos(angle) + this.innerContainerHeight + noiseY;
+        point(x, y);
+        angle += TWO_PI / innerDetailCount;
+      }
+    }
     // FLOWER INNER DETAILS - END
+
     pop();
   }
 }

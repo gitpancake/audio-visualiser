@@ -1,11 +1,10 @@
-import { gridDivider, debugGrid, allAreTruthy } from "./helpers";
-import { Random, tokenData } from "./random";
-import { config } from "./config";
+import { gridDivider, allAreTruthy } from "./helpers";
+import { Random } from "./random";
+const R = new Random();
 import { Bamileke, Coils, Flower, Scribbles } from "./shapes";
 import { Motif } from "./shapes/motif";
-import { calculateFeatures } from "./meta";
-import { defaultPalette, ndopPalette } from "./palettes";
-const R = new Random();
+import { defaultPalette } from "./palettes";
+import { config } from "./config";
 const cfg = config;
 const bg = cfg.palette.background;
 const gridWidth = cfg.canvasWidth - cfg.gridMargin.x * 2;
@@ -18,7 +17,6 @@ window.setup = () => {
   noFill();
   noStroke();
   background(color(bg.r, bg.g, bg.b));
-  calculateFeatures(tokenData);
 };
 
 window.draw = () => {
@@ -33,7 +31,6 @@ window.draw = () => {
   // );
   // DEBUG - END
 
-  stroke(255);
 
   const spacing = cfg.gridSpacing;
   const loopOneCount = cfg.isCascade ? cfg.gridSize.x : cfg.gridSize.y;
@@ -58,7 +55,7 @@ window.draw = () => {
   let blockDimBClone = [];
   let flowerBlockVisible = [];
 
-  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false; 
+  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
   const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
   const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
   let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
@@ -101,7 +98,7 @@ window.draw = () => {
         cfg.isNoisy,
         cfg.isCascade,
         cfg.isOverstitch,
-        cfg.isGlitch,
+        cfg.isGlitch
       );
 
       if (cfg.isNdop) {
@@ -113,7 +110,7 @@ window.draw = () => {
           cfg.isNoisy,
           cfg.isCascade,
           cfg.isOverstitch,
-          cfg.isGlitch,
+          cfg.isGlitch
         );
         bamileke.show();
       } else {
@@ -154,13 +151,17 @@ window.draw = () => {
 
       blockTranslateB += blockDimB[b] + loopTwoSpacing;
 
-      if(a == loopOneCount-1 && b == loopTwoCount-1 && cfg.isChaotic && reRunLoop){
+      if (
+        a == loopOneCount - 1 &&
+        b == loopTwoCount - 1 &&
+        cfg.isChaotic &&
+        reRunLoop
+      ) {
         a = 0;
         b = 0;
         blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
         blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
         reRunLoop = false;
-        console.log('reloop')
       }
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
@@ -201,7 +202,7 @@ window.draw = () => {
             cfg.isNoisy,
             cfg.isCascade,
             cfg.isOverstitch,
-            cfg.isGlitch,
+            cfg.isGlitch
           );
 
           flower.show();

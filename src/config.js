@@ -6,7 +6,7 @@ const isNdop = R.random_bool(0.1);
 const palette =
   isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
 const isNdopPalette = palette == ndopPalette;
-const isChaotic = isNdopPalette ? false : R.random_bool(.6);
+const isChaotic = isNdopPalette ? false : R.random_bool(.7);
 const isGlitch = isNdop ? false : R.random_bool(0.6);
 const isOverstitch =
   isNdop || isGlitch || isChaotic ? false : R.random_bool(0.2);
@@ -29,7 +29,7 @@ let rarities = {
   isChaotic,
   palette,
   isFloral:
-    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(0.3),
+    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.5),
 };
 
 export const config = {
