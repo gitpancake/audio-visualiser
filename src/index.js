@@ -20,18 +20,6 @@ window.setup = () => {
 };
 
 window.draw = () => {
-  // DEBUG
-  // stroke("red");
-  // strokeWeight(4);
-  // rect(
-  //   cfg.gridMargin.x,
-  //   cfg.gridMargin.y,
-  //   cfg.canvasWidth - cfg.gridMargin.x * 2,
-  //   cfg.canvasHeight - cfg.gridMargin.y * 2
-  // );
-  // DEBUG - END
-
-
   const spacing = cfg.gridSpacing;
   const loopOneCount = cfg.isCascade ? cfg.gridSize.x : cfg.gridSize.y;
   const loopOneDiv = loopOneCount * 2;
@@ -215,8 +203,4 @@ window.draw = () => {
       blockTranslateC += blockDimA[c] + loopOneSpacing;
     }
   }
-};
-
-window.mouseClicked = () => {
-  // save("mySVG.svg"); // give file name
 };
