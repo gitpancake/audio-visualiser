@@ -12,6 +12,7 @@ export const calculateFeatures = (tokenData) => {
   features["Overstitch"] = config.isOverstitch;
   features["Gemini Tendecies"] = config.isGlitch;
   features["Choatic Vibes"] = config.isChaotic;
+  features["Floral"] = config.isFloral;
 
   console.table(features)
   return features;
