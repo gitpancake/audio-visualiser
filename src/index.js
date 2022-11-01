@@ -62,15 +62,14 @@ for (let a = 0; a < loopOneCount; a++) {
   flowerBlockVisible.push([]);
   blockDrawOptions.push([]);
   for (let b = 0; b < loopTwoCount; b++) {
-
     let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
     let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
-    blockW = (blockW - spacing);
-    blockH = (blockH - spacing);
+    blockW = blockW - spacing;
+    blockH = blockH - spacing;
 
     let designOption;
 
-    const motif = new Motif(
+    designOption = new Motif(
       blockW,
       blockH,
       cfg.palette,
@@ -81,17 +80,17 @@ for (let a = 0; a < loopOneCount; a++) {
     );
 
     if (cfg.isNdop) {
-      motif.show();
-      const bamileke = new Bamileke(
-        blockW,
-        blockH,
-        reRunLoop ? defaultPalette : cfg.palette,
-        cfg.isNoisy,
-        cfg.isCascade,
-        cfg.isOverstitch,
-        cfg.isGlitch
-      );
-      bamileke.show();
+      // motif.show();
+      // const bamileke = new Bamileke(
+      //   blockW,
+      //   blockH,
+      //   reRunLoop ? defaultPalette : cfg.palette,
+      //   cfg.isNoisy,
+      //   cfg.isCascade,
+      //   cfg.isOverstitch,
+      //   cfg.isGlitch
+      // );
+      // bamileke.show();
     } else {
       let flowerVisible = false;
 
@@ -105,8 +104,7 @@ for (let a = 0; a < loopOneCount; a++) {
           stitchOverideOne,
           reRunLoop ? false : cfg.isGlitch,
         );
-        // coils.show();
-      } else if (R.random_bool(0.6)) {
+        } else if (R.random_bool(0.6)) {
 
         designOption = new Scribbles(
           blockW,
@@ -115,28 +113,26 @@ for (let a = 0; a < loopOneCount; a++) {
           cfg.isNoisy,
           cfg.isCascade,
           stitchOverideTwo,
-          reRunLoop ? false : cfg.isGlitch,
+          reRunLoop ? false : cfg.isGlitch
         );
-        // scribbles.draw();
-        
       } else {
+        designOption = motif;
 
-        // designOption.show();
         flowerVisible = true;
       }
 
       flowerBlockVisible[a].push(flowerVisible);
+      designOption.generate();
+
     }
 
-    blockDrawOptions[a].push(designOption)
-
+    blockDrawOptions[a].push(designOption);
   }
 }
 
-console.log(blockDrawOptions)
+// console.log(blockDrawOptions)
 
-window.init = () => {
-  console.log('init')
+window.draw = () => {
   background(color(bg.r, bg.g, bg.b));
 
   const drawScale = width / cfg.canvasWidth;
@@ -148,9 +144,7 @@ window.init = () => {
     let blockTranslateB =
       loopTwoMargin + (spacing / (loopTwoCount * 2)) * drawScale;
 
-
     for (let b = 0; b < loopTwoCount; b++) {
-
       push();
 
       if (cfg.isCascade) {
@@ -159,14 +153,13 @@ window.init = () => {
         translate(blockTranslateB * drawScale, blockTranslateA * drawScale);
       }
 
-      const blockW = blockDrawOptions[a][b].width* drawScale;
-      const blockH = blockDrawOptions[a][b].height* drawScale;
-
       // SHAPE LOGIC - HERE
-      stroke(255);
-      rect(0, 0, blockW, blockH);
+      // stroke(255);
+      // const blockW = blockDrawOptions[a][b].width* drawScale;
+      // const blockH = blockDrawOptions[a][b].height* drawScale;
+      // rect(0, 0, blockW, blockH);
 
-      blockDrawOptions[a][b].show(drawScale)
+      blockDrawOptions[a][b].show(drawScale);
 
       pop();
 
@@ -235,14 +228,9 @@ window.init = () => {
       blockTranslateC += blockDimA[c] + loopOneSpacing;
     }
   }
-  redraw()
-}
+};
 
 window.windowResized = () => {
   const scaledWidth = window.innerHeight * scaleFactor;
-  resizeCanvas(scaledWidth, window.innerHeight, true);
-
-  init()
+  resizeCanvas(scaledWidth, window.innerHeight);
 };
-
-window.draw = () => {};
