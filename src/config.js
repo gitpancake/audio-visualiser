@@ -39,8 +39,8 @@ export const config = {
     y: isGlitch ? randMargin : 40,
   },
   isCascade: R.random_bool(0.5),
-  canvasWidth: 900,
-  canvasHeight: 1200,
+  canvasWidth: 900*1.2,
+  canvasHeight: 1200*1.2,
   gridSpacing: R.random_choice([8, 12, 16, 20]),
   ...rarities,
 };

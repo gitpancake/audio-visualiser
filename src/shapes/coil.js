@@ -1,4 +1,4 @@
-import { pickRndColor } from "../helpers";
+import { pickRndColor, normalise } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 const R = new Random();
@@ -28,10 +28,10 @@ export class Coils {
 
     // Props
     this.isVertical = R.random_bool(0.5);
-    this.strokeSize = R.random_int(1,10);
     this.radian = R.random_choice([HALF_PI, PI, TAU]);
     this.primaryColor = pickRndColor(this.palette);
     this.containerSize = this.isVertical ? this.width : this.height;
+    this.strokeSize = Math.sqrt(this.width * this.height) / 100;
     this.theta = 1;
     this.thetaDots = 1;
     this.coilSpacing = 2;
@@ -118,8 +118,11 @@ export class Coils {
   show(drawScale = 1) {
     noFill();
 
+    // const strokeSize = ;
+    // strokeWeight(strokeSize);
+    // console.log(this.strokeSize)
     strokeWeight(this.strokeSize * drawScale);
-    
+
     let col = this.primaryColor;
     stroke(color(col.r, col.g, col.b));
 

@@ -157,7 +157,6 @@ window.draw = () => {
   for (let i = 0; i < blocks.length; i++) {
     let translateX = cfg.gridMargin.x * drawScale;
     for (let j = 0; j < blocks[i].length; j++) {
-      const block = blocks[i][j];
 
       push();
 
@@ -166,6 +165,8 @@ window.draw = () => {
       } else {
         translate(translateX, translateY);
       }
+
+      const block = blocks[i][j];
       block.style.show(drawScale);
 
       if (cfg.isCascade) {
