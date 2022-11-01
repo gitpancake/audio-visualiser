@@ -7,137 +7,170 @@ import { defaultPalette } from "./palettes";
 import { config } from "./config";
 const cfg = config;
 const bg = cfg.palette.background;
+
+const scaleFactor = cfg.canvasWidth / cfg.canvasHeight;
+const scaledWidth = window.innerHeight * scaleFactor;
+
 const gridWidth = cfg.canvasWidth - cfg.gridMargin.x * 2;
 const gridHeight = cfg.canvasHeight - cfg.gridMargin.y * 2;
 
 // Setup Canvas
 window.setup = () => {
-  createCanvas(cfg.canvasWidth, cfg.canvasHeight);
+  createCanvas(scaledWidth, window.innerHeight);
   noLoop();
   noFill();
   noStroke();
-  background(color(bg.r, bg.g, bg.b));
 };
 
-window.draw = () => {
-  const spacing = cfg.gridSpacing;
-  const loopOneCount = cfg.isCascade ? cfg.gridSize.x : cfg.gridSize.y;
-  const loopOneDiv = loopOneCount * 2;
-  const loopOneSpacing = spacing / loopOneCount;
-  const loopOneMargin = cfg.isCascade ? cfg.gridMargin.x : cfg.gridMargin.y;
-  const loopOneDim = cfg.isCascade ? gridWidth : gridHeight;
+const spacing = cfg.gridSpacing;
+const loopOneCount = cfg.isCascade ? cfg.gridSize.x : cfg.gridSize.y;
+const loopOneDiv = loopOneCount * 2;
+const loopOneSpacing = spacing / loopOneCount;
+const loopOneMargin = cfg.isCascade ? cfg.gridMargin.x : cfg.gridMargin.y;
+const loopOneDim = cfg.isCascade ? gridWidth : gridHeight;
 
-  const loopTwoCount = cfg.isCascade ? cfg.gridSize.y : cfg.gridSize.x;
-  const loopTwoDiv = loopTwoCount * 2;
-  const loopTwoSpacing = spacing / loopTwoCount;
-  const loopTwoMargin = cfg.isCascade ? cfg.gridMargin.y : cfg.gridMargin.x;
-  const loopTwoDim = cfg.isCascade ? gridHeight : gridWidth;
+const loopTwoCount = cfg.isCascade ? cfg.gridSize.y : cfg.gridSize.x;
+const loopTwoDiv = loopTwoCount * 2;
+const loopTwoSpacing = spacing / loopTwoCount;
+const loopTwoMargin = cfg.isCascade ? cfg.gridMargin.y : cfg.gridMargin.x;
+const loopTwoDim = cfg.isCascade ? gridHeight : gridWidth;
 
-  const blockDimA = gridDivider(
-    loopOneDim / loopOneDiv,
-    loopOneDim,
-    loopOneCount,
-    loopOneDim
+const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
+const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
+const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
+
+let reRunLoop = cfg.isChaotic;
+let flowerBlockVisible = [];
+
+const blockDimA = gridDivider(
+  loopOneDim / loopOneDiv,
+  loopOneDim,
+  loopOneCount,
+  loopOneDim
+);
+let blockDimB = [];
+let blockDrawOptions = [];
+
+for (let a = 0; a < loopOneCount; a++) {
+  const blockDim = gridDivider(
+    loopTwoDim / loopTwoDiv,
+    loopTwoDim,
+    loopTwoCount,
+    loopTwoDim
   );
+  blockDimB.push(blockDim);
+  flowerBlockVisible.push([]);
+  blockDrawOptions.push([]);
+  for (let b = 0; b < loopTwoCount; b++) {
 
-  let blockDimBClone = [];
-  let flowerBlockVisible = [];
+    let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
+    let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
+    blockW = (blockW - spacing);
+    blockH = (blockH - spacing);
 
-  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
-  const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
-  const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
-  let blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
-  let reRunLoop = cfg.isChaotic;
+    let designOption;
 
-  for (let a = 0; a < loopOneCount; a++) {
-    let blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
-
-    const blockDimB = gridDivider(
-      loopTwoDim / loopTwoDiv,
-      loopTwoDim,
-      loopTwoCount,
-      loopTwoDim
+    const motif = new Motif(
+      blockW,
+      blockH,
+      cfg.palette,
+      cfg.isNoisy,
+      cfg.isCascade,
+      cfg.isOverstitch,
+      cfg.isGlitch
     );
 
-    blockDimBClone.push(blockDimB);
-    flowerBlockVisible.push([]);
-
-    for (let b = 0; b < loopTwoCount; b++) {
-      let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
-      let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
-      blockW = blockW - spacing;
-      blockH = blockH - spacing;
-
-      push();
-
-      if (cfg.isCascade) {
-        translate(blockTranslateA, blockTranslateB);
-      } else {
-        translate(blockTranslateB, blockTranslateA);
-      }
-
-      // SHAPE LOGIC - HERE
-      // rect(0, 0, blockW, blockH);
-
-      const motif = new Motif(
+    if (cfg.isNdop) {
+      motif.show();
+      const bamileke = new Bamileke(
         blockW,
         blockH,
-        cfg.palette,
+        reRunLoop ? defaultPalette : cfg.palette,
         cfg.isNoisy,
         cfg.isCascade,
         cfg.isOverstitch,
         cfg.isGlitch
       );
+      bamileke.show();
+    } else {
+      let flowerVisible = false;
 
-      if (cfg.isNdop) {
-        motif.show();
-        const bamileke = new Bamileke(
+      if (R.random_bool(0.4)) {
+        designOption = new Coils(
           blockW,
           blockH,
-          reRunLoop ? defaultPalette : cfg.palette,
+          cfg.palette,
           cfg.isNoisy,
           cfg.isCascade,
-          cfg.isOverstitch,
-          cfg.isGlitch
+          stitchOverideOne,
+          reRunLoop ? false : cfg.isGlitch,
         );
-        bamileke.show();
+        // coils.show();
+      } else if (R.random_bool(0.6)) {
+
+        designOption = new Scribbles(
+          blockW,
+          blockH,
+          cfg.palette,
+          cfg.isNoisy,
+          cfg.isCascade,
+          stitchOverideTwo,
+          reRunLoop ? false : cfg.isGlitch,
+        );
+        // scribbles.draw();
+        
       } else {
-        let flowerVisible = false;
 
-        if (R.random_bool(0.4)) {
-          const coils = new Coils(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            stitchOverideOne,
-            reRunLoop ? false : cfg.isGlitch
-          );
-          coils.show();
-        } else if (R.random_bool(0.6)) {
-          const scribbles = new Scribbles(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            stitchOverideTwo,
-            reRunLoop ? false : cfg.isGlitch
-          );
-          scribbles.show();
-        } else {
-          motif.show();
-          flowerVisible = true;
-        }
-
-        flowerBlockVisible[a].push(flowerVisible);
+        // designOption.show();
+        flowerVisible = true;
       }
 
-      // rect(0, 0, blockW, blockH);
+      flowerBlockVisible[a].push(flowerVisible);
+    }
+
+    blockDrawOptions[a].push(designOption)
+
+  }
+}
+
+console.log(blockDrawOptions)
+
+window.init = () => {
+  console.log('init')
+  background(color(bg.r, bg.g, bg.b));
+
+  const drawScale = width / cfg.canvasWidth;
+
+  let blockTranslateA =
+    loopOneMargin + (spacing / (loopOneCount * 2)) * drawScale;
+
+  for (let a = 0; a < loopOneCount; a++) {
+    let blockTranslateB =
+      loopTwoMargin + (spacing / (loopTwoCount * 2)) * drawScale;
+
+
+    for (let b = 0; b < loopTwoCount; b++) {
+
+      push();
+
+      if (cfg.isCascade) {
+        translate(blockTranslateA * drawScale, blockTranslateB * drawScale);
+      } else {
+        translate(blockTranslateB * drawScale, blockTranslateA * drawScale);
+      }
+
+      const blockW = blockDrawOptions[a][b].width* drawScale;
+      const blockH = blockDrawOptions[a][b].height* drawScale;
+
+      // SHAPE LOGIC - HERE
+      stroke(255);
+      rect(0, 0, blockW, blockH);
+
+      blockDrawOptions[a][b].show(drawScale)
+
       pop();
 
-      blockTranslateB += blockDimB[b] + loopTwoSpacing;
+      blockTranslateB += blockDimB[a][b] + loopTwoSpacing;
 
       if (
         a == loopOneCount - 1 &&
@@ -154,9 +187,8 @@ window.draw = () => {
     }
     blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-
   // Overlay Grid
-  if (cfg.isFloral) {
+  if (false) {
     if (!allAreTruthy(flowerBlockVisible)) {
       const rowIndex = R.random_int(0, flowerBlockVisible.length - 1);
       const rndIndex = R.random_int(0, flowerBlockVisible[rowIndex].length - 1);
@@ -169,17 +201,17 @@ window.draw = () => {
       let blockTranslateD = loopTwoMargin + spacing / (loopTwoCount * 2);
 
       for (let d = 0; d < loopTwoCount; d++) {
-        let blockW = cfg.isCascade ? blockDimA[c] : blockDimBClone[c][d];
-        let blockH = cfg.isCascade ? blockDimBClone[c][d] : blockDimA[c];
-        blockW = blockW - spacing;
-        blockH = blockH - spacing;
+        let blockW = cfg.isCascade ? blockDimA[c] : blockDimB[c][d];
+        let blockH = cfg.isCascade ? blockDimB[c][d] : blockDimA[c];
+        blockW = (blockW - spacing) * drawScale;
+        blockH = (blockH - spacing) * drawScale;
 
         push();
 
         if (cfg.isCascade) {
-          translate(blockTranslateC, blockTranslateD);
+          translate(blockTranslateC * drawScale, blockTranslateD * drawScale);
         } else {
-          translate(blockTranslateD, blockTranslateC);
+          translate(blockTranslateD * drawScale, blockTranslateC * drawScale);
         }
 
         if (flowerBlockVisible[c][d]) {
@@ -198,9 +230,19 @@ window.draw = () => {
 
         pop();
 
-        blockTranslateD += blockDimBClone[c][d] + loopTwoSpacing;
+        blockTranslateD += blockDimB[c][d] + loopTwoSpacing;
       }
       blockTranslateC += blockDimA[c] + loopOneSpacing;
     }
   }
+  redraw()
+}
+
+window.windowResized = () => {
+  const scaledWidth = window.innerHeight * scaleFactor;
+  resizeCanvas(scaledWidth, window.innerHeight, true);
+
+  init()
 };
+
+window.draw = () => {};
