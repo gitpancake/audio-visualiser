@@ -61,6 +61,7 @@ for (let a = 0; a < loopOneCount; a++) {
   blockDimB.push(blockDim);
   flowerBlockVisible.push([]);
   blockDrawOptions.push([]);
+
   for (let b = 0; b < loopTwoCount; b++) {
     let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
     let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
@@ -68,44 +69,29 @@ for (let a = 0; a < loopOneCount; a++) {
     blockH = blockH - spacing;
 
     let designOption;
+    let flowerVisible = false;
 
-    designOption = new Motif(
-      blockW,
-      blockH,
-      cfg.palette,
-      cfg.isNoisy,
-      cfg.isCascade,
-      cfg.isOverstitch,
-      cfg.isGlitch
-    );
+    const pickStyle = cfg.isNdop ? 4 : R.random_int(1, 3);
 
-    if (cfg.isNdop) {
-      // motif.show();
-      // const bamileke = new Bamileke(
-      //   blockW,
-      //   blockH,
-      //   reRunLoop ? defaultPalette : cfg.palette,
-      //   cfg.isNoisy,
-      //   cfg.isCascade,
-      //   cfg.isOverstitch,
-      //   cfg.isGlitch
-      // );
-      // bamileke.show();
-    } else {
-      let flowerVisible = false;
+    switch (pickStyle) {
+      case 1:
+        flowerVisible = true;
 
-      if (R.random_bool(0.4)) {
-        designOption = new Coils(
+        designOption = new Motif(
           blockW,
           blockH,
           cfg.palette,
           cfg.isNoisy,
           cfg.isCascade,
-          stitchOverideOne,
-          reRunLoop ? false : cfg.isGlitch,
+          cfg.isOverstitch,
+          cfg.isGlitch
         );
-        } else if (R.random_bool(0.6)) {
+        designOption.generate();
+        console.log(designOption);
 
+        break;
+
+      case 2:
         designOption = new Scribbles(
           blockW,
           blockH,
@@ -115,22 +101,47 @@ for (let a = 0; a < loopOneCount; a++) {
           stitchOverideTwo,
           reRunLoop ? false : cfg.isGlitch
         );
-      } else {
-        designOption = motif;
+        designOption.generate();
+        console.log(designOption);
 
-        flowerVisible = true;
-      }
+        break;
 
-      flowerBlockVisible[a].push(flowerVisible);
-      designOption.generate();
+      case 3:
+        designOption = new Coils(
+          blockW,
+          blockH,
+          cfg.palette,
+          cfg.isNoisy,
+          cfg.isCascade,
+          stitchOverideOne,
+          reRunLoop ? false : cfg.isGlitch
+        );
+        designOption.generate();
+        console.log(designOption);
 
+        break;
+      default:
+        designOption = new Bamileke(
+          blockW,
+          blockH,
+          reRunLoop ? defaultPalette : cfg.palette,
+          cfg.isNoisy,
+          cfg.isCascade,
+          cfg.isOverstitch,
+          cfg.isGlitch
+        );
+        designOption.generate();
+        console.log(designOption);
+
+        break;
     }
 
+    flowerBlockVisible[a].push(flowerVisible);
     blockDrawOptions[a].push(designOption);
   }
 }
 
-// console.log(blockDrawOptions)
+console.log(blockDrawOptions);
 
 window.draw = () => {
   background(color(bg.r, bg.g, bg.b));
