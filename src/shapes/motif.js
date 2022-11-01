@@ -23,10 +23,10 @@ export class Motif {
 
     // Props
     this.density = R.random_int(5, 30); // Less is more
-    this.pointColours = [];
-    this.pointSizes = [];
     this.rows = this.height / this.density;
     this.cols = this.width / this.density;
+    this.pointColours = [];
+    this.pointSizes = [];
     this.noiseXArr = [];
     this.noiseYArr = [];
   }
