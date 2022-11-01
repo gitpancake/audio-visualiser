@@ -22,10 +22,6 @@ window.setup = () => {
 };
 
 const spacing = cfg.gridSpacing;
-const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
-const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
-const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
-
 const loopOneCount = cfg.isCascade ? cfg.gridSize.x : cfg.gridSize.y;
 const loopOneDiv = loopOneCount * 2;
 const loopOneSpacing = spacing / loopOneCount;
@@ -38,9 +34,6 @@ const loopTwoSpacing = spacing / loopTwoCount;
 const loopTwoMargin = cfg.isCascade ? cfg.gridMargin.y : cfg.gridMargin.x;
 const loopTwoDim = cfg.isCascade ? gridHeight : gridWidth;
 
-let reRunLoop = cfg.isChaotic;
-let blocks = [];
-
 const blockDimA = gridDivider(
   loopOneDim / loopOneDiv,
   loopOneDim,
@@ -48,188 +41,152 @@ const blockDimA = gridDivider(
   loopOneDim
 );
 
-for (let a = 0; a < loopOneCount; a++) {
-  const _blockDimB = gridDivider(
-    loopTwoDim / loopTwoDiv,
-    loopTwoDim,
-    loopTwoCount,
-    loopTwoDim
-  );
-
-  blocks.push([]);
-
-  for (let b = 0; b < loopTwoCount; b++) {
-    let blockW = cfg.isCascade ? blockDimA[a] : _blockDimB[b];
-    let blockH = cfg.isCascade ? _blockDimB[b] : blockDimA[a];
-    blockW = blockW - spacing;
-    blockH = blockH - spacing;
-
-    let flowerVisible = false;
-    let style;
-
-    const pickStyle = cfg.isNdop ? 4 : R.random_int(1, 3);
-    switch (pickStyle) {
-      case 1:
-        flowerVisible = true;
-
-        style = new Dots(
-          blockW,
-          blockH,
-          cfg.palette,
-          cfg.isNoisy,
-          cfg.isCascade,
-          cfg.isOverstitch,
-          cfg.isGlitch
-        );
-        style.generate();
-
-        break;
-
-      case 2:
-        style = new Scribbles(
-          blockW,
-          blockH,
-          cfg.palette,
-          cfg.isNoisy,
-          cfg.isCascade,
-          stitchOverideTwo,
-          reRunLoop ? false : cfg.isGlitch
-        );
-        style.generate();
-
-        break;
-
-      case 3:
-        style = new Coils(
-          blockW,
-          blockH,
-          cfg.palette,
-          cfg.isNoisy,
-          cfg.isCascade,
-          stitchOverideOne,
-          reRunLoop ? false : cfg.isGlitch
-        );
-        style.generate();
-
-        break;
-      default:
-        style = new Ndop(
-          blockW,
-          blockH,
-          reRunLoop ? defaultPalette : cfg.palette,
-          cfg.isNoisy,
-          cfg.isCascade,
-          cfg.isOverstitch,
-          cfg.isGlitch
-        );
-        style.generate();
-
-        break;
-    }
-
-    blocks[a].push({
-      width: blockW,
-      height: blockH,
-      style,
-      flowerVisible,
-    });
-  }
-}
-
-window.draw = () => {
-  const drawScale = width / cfg.canvasWidth;
-
-  background(color(bg.r, bg.g, bg.b));
-
-  // DEBUG
-  stroke("red");
-  rect(
-    cfg.gridMargin.x * drawScale,
-    cfg.gridMargin.y * drawScale,
-    (cfg.canvasWidth - cfg.gridMargin.x * 2) * drawScale,
-    (cfg.canvasHeight - cfg.gridMargin.y * 2) * drawScale
-  );
-  // DEBUG - END
-
-  let translateY = cfg.gridMargin.y * drawScale;
-  const scaledSpacing = cfg.gridSpacing * drawScale;
-
-  for (let i = 0; i < blocks.length; i++) {
-    let translateX = cfg.gridMargin.x * drawScale;
-    for (let j = 0; j < blocks[i].length; j++) {
-
-      push();
-
-      if (cfg.isCascade) {
-        translate(translateY, translateX);
-      } else {
-        translate(translateX, translateY);
-      }
-
-      const block = blocks[i][j];
-      block.style.show(drawScale);
-
-      if (cfg.isCascade) {
-        translateX += blocks[i][j].height * drawScale + scaledSpacing;
-      } else {
-        translateX += blocks[i][j].width * drawScale + scaledSpacing;
-      }
-
-      pop();
-
-    }
-    if (cfg.isCascade) {
-      translateY += blocks[i][0].width * drawScale + scaledSpacing;
-    } else {
-      translateY += blocks[i][0].height * drawScale + scaledSpacing;
-    }
-  }
-
-  /*
-  let blockTranslateA =
-    (loopOneMargin + spacing / (loopOneCount * 2)) * drawScale;
-
+const generateBlocks = (isChaotic = false) => {
+  let blocks = [];
+  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
+  const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
+  const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
   for (let a = 0; a < loopOneCount; a++) {
-    let blockTranslateB =
-      (loopTwoMargin + spacing / (loopTwoCount * 2)) * drawScale;
+    const blockDimB = gridDivider(
+      loopTwoDim / loopTwoDiv,
+      loopTwoDim,
+      loopTwoCount,
+      loopTwoDim
+    );
+
+    blocks.push([]);
 
     for (let b = 0; b < loopTwoCount; b++) {
-      push();
+      let flowerVisible = false;
+      let style;
+      let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
+      let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
+      blockW = blockW - spacing;
+      blockH = blockH - spacing;
 
-      if (cfg.isCascade) {
-        translate(blockTranslateA, blockTranslateB);
-      } else {
-        translate(blockTranslateB, blockTranslateA);
+      const pickStyle = cfg.isNdop ? 4 : R.random_int(1, 3);
+
+      switch (pickStyle) {
+        case 1:
+          flowerVisible = true;
+
+          style = new Dots(
+            blockW,
+            blockH,
+            cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            cfg.isOverstitch,
+            cfg.isGlitch
+          );
+          style.generate();
+
+          break;
+
+        case 2:
+          style = new Scribbles(
+            blockW,
+            blockH,
+            cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            stitchOverideTwo,
+            isChaotic ? false : cfg.isGlitch
+          );
+          style.generate();
+
+          break;
+
+        case 3:
+          style = new Coils(
+            blockW,
+            blockH,
+            cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            stitchOverideOne,
+            isChaotic ? false : cfg.isGlitch
+          );
+          style.generate();
+
+          break;
+        default:
+          style = new Ndop(
+            blockW,
+            blockH,
+            isChaotic ? defaultPalette : cfg.palette,
+            cfg.isNoisy,
+            cfg.isCascade,
+            cfg.isOverstitch,
+            cfg.isGlitch
+          );
+          style.generate();
+
+          break;
       }
 
-      const block = blocks[a][b];
-
-      // SHAPE LOGIC - HERE
-      stroke(255);
-      rect(0, 0, block.width * drawScale, block.height * drawScale);
-
-      // block.style.show(drawScale);
-
-      pop();
-
-      blockTranslateB += blocks[a][b].width + loopTwoSpacing;
-
-      // if (
-      //   a == loopOneCount - 1 &&
-      //   b == loopTwoCount - 1 &&
-      //   cfg.isChaotic &&
-      //   reRunLoop
-      // ) {
-      //   a = 0;
-      //   b = 0;
-      //   blockTranslateA = loopOneMargin + spacing / (loopOneCount * 2);
-      //   blockTranslateB = loopTwoMargin + spacing / (loopTwoCount * 2);
-      //   reRunLoop = false;
-      // }
+      blocks[a].push({
+        width: blockW,
+        height: blockH,
+        style,
+        flowerVisible,
+      });
     }
-    blockTranslateA += blockDimA[a] + loopOneSpacing;
   }
-  */
+  return blocks;
+};
+
+const blocks = generateBlocks();
+
+let blocksChaotic;
+if (cfg.isChaotic) {
+  blocksChaotic = generateBlocks(true);
+}
+
+console.log(blocks);
+console.log(blocksChaotic);
+
+window.draw = () => {
+  background(color(bg.r, bg.g, bg.b));
+
+  const drawScale = width / cfg.canvasWidth;
+  const drawBlocks = (blocks) => {
+    const scaledSpacing = cfg.gridSpacing * drawScale;
+    let translateY = cfg.gridMargin.y * drawScale;
+    for (let i = 0; i < blocks.length; i++) {
+      let translateX = cfg.gridMargin.x * drawScale;
+      for (let j = 0; j < blocks[i].length; j++) {
+        push();
+
+        if (cfg.isCascade) {
+          translate(translateY, translateX);
+        } else {
+          translate(translateX, translateY);
+        }
+
+        const block = blocks[i][j];
+        block.style.show(drawScale);
+
+        if (cfg.isCascade) {
+          translateX += blocks[i][j].height * drawScale + scaledSpacing;
+        } else {
+          translateX += blocks[i][j].width * drawScale + scaledSpacing;
+        }
+
+        pop();
+      }
+      if (cfg.isCascade) {
+        translateY += blocks[i][0].width * drawScale + scaledSpacing;
+      } else {
+        translateY += blocks[i][0].height * drawScale + scaledSpacing;
+      }
+    }
+  };
+
+  drawBlocks(blocks);
+  if (cfg.isChaotic) {
+    drawBlocks(blocksChaotic);
+  }
 
   // Overlay Grid
   if (false) {
