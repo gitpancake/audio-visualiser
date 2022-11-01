@@ -1,4 +1,4 @@
-import { normalise, pickRndColor } from "../helpers";
+import { pickRndColor } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 const R = new Random();
@@ -19,7 +19,7 @@ export class Coils {
     this.isNoisy = isNoisy;
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
-    this.isGlitch = true; //isGlitch;
+    this.isGlitch = isGlitch;
 
     const QUARTER_PI = 0.7853982;
     const HALF_PI = QUARTER_PI * 2;
@@ -28,8 +28,10 @@ export class Coils {
 
     // Props
     this.isVertical = R.random_bool(0.5);
-    this.containerSize = this.isVertical ? this.width : this.height;
+    this.strokeSize = R.random_int(1,10);
     this.radian = R.random_choice([HALF_PI, PI, TAU]);
+    this.primaryColor = pickRndColor(this.palette);
+    this.containerSize = this.isVertical ? this.width : this.height;
     this.theta = 1;
     this.thetaDots = 1;
     this.coilSpacing = 2;
@@ -38,19 +40,15 @@ export class Coils {
     this.coilWidth = this.containerSize / this.coilAmount / this.coilSpacing;
     this.coilLength = this.isVertical ? this.height : this.width;
 
-    this.primaryColor = pickRndColor(this.palette);
     this.transXArr = [];
     this.transYArr = [];
     this.dotStepsArr = [];
-
     this.noiseXTopArr = [];
     this.noiseYTopArr = [];
     this.noiseXBtmArr = [];
     this.noiseYBtmArr = [];
-
     this.noiseTopDotsArr = [];
     this.noiseBtmDotsArr = [];
-
     this.notGlitchCols = [];
     this.lineThickArr = [];
     this.glitchTopCols = [];
@@ -120,12 +118,8 @@ export class Coils {
   show(drawScale = 1) {
     noFill();
 
-    const strokeSize = Math.round(
-      5 / normalise(this.containerSize, width, 0)
-    );
-
-    strokeWeight(strokeSize);
-
+    strokeWeight(this.strokeSize * drawScale);
+    
     let col = this.primaryColor;
     stroke(color(col.r, col.g, col.b));
 
