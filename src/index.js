@@ -39,7 +39,6 @@ const loopTwoMargin = cfg.isCascade ? cfg.gridMargin.y : cfg.gridMargin.x;
 const loopTwoDim = cfg.isCascade ? gridHeight : gridWidth;
 
 let reRunLoop = cfg.isChaotic;
-let blockDetails = [];
 let blocks = [];
 
 const blockDimA = gridDivider(
@@ -137,8 +136,6 @@ for (let a = 0; a < loopOneCount; a++) {
   }
 }
 
-// console.log(blocks);
-
 window.draw = () => {
   const drawScale = width / cfg.canvasWidth;
 
@@ -158,24 +155,33 @@ window.draw = () => {
   const scaledSpacing = cfg.gridSpacing * drawScale;
 
   for (let i = 0; i < blocks.length; i++) {
-
-  let translateX = cfg.gridMargin.x * drawScale;
-
+    let translateX = cfg.gridMargin.x * drawScale;
     for (let j = 0; j < blocks[i].length; j++) {
       const block = blocks[i][j];
 
       push();
 
-      translate(translateX, translateY);
-      console.log(block);
+      if (cfg.isCascade) {
+        translate(translateY, translateX);
+      } else {
+        translate(translateX, translateY);
+      }
       block.style.show(drawScale);
 
-      translateX += (blocks[i][j].width * drawScale) + scaledSpacing;
+      if (cfg.isCascade) {
+        translateX += blocks[i][j].height * drawScale + scaledSpacing;
+      } else {
+        translateX += blocks[i][j].width * drawScale + scaledSpacing;
+      }
 
       pop();
-    }
 
-    translateY += (blocks[i][0].height * drawScale) + scaledSpacing;
+    }
+    if (cfg.isCascade) {
+      translateY += blocks[i][0].width * drawScale + scaledSpacing;
+    } else {
+      translateY += blocks[i][0].height * drawScale + scaledSpacing;
+    }
   }
 
   /*
