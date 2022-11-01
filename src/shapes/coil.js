@@ -69,7 +69,6 @@ export class Coils {
         }
       }
       this.dotStepsArr.push(R.random_int(5, 10));
-
       this.noiseXTopArr.push([]);
       this.noiseYTopArr.push([]);
       for (let i = 0; i < this.coilLength; i += this.theta) {
@@ -78,7 +77,6 @@ export class Coils {
         this.noiseXTopArr[c].push(noiseX);
         this.noiseYTopArr[c].push(noiseY);
       }
-
       this.noiseXBtmArr.push([]);
       this.noiseYBtmArr.push([]);
       for (let i = this.coilLength; i > 0; i -= this.theta) {
@@ -87,12 +85,11 @@ export class Coils {
         this.noiseXBtmArr[c].push(noiseX);
         this.noiseYBtmArr[c].push(noiseY);
       }
-
       if (!this.isGlitch) {
         this.notGlitchCols.push(pickRndColor(this.palette));
       }
 
-      this.lineThickArr.push(R.random_int(1, 3));
+      this.lineThickArr.push(R.random_int(2, 4));
 
       // top curve - dots
       this.glitchTopCols.push([]);
@@ -109,7 +106,6 @@ export class Coils {
       // bottom curve - dots
       this.glitchBtmCols.push([]);
       this.noiseBtmDotsArr.push([]);
-
       for (let i = this.coilLength; i > 0; i -= this.thetaDots) {
         if (this.isGlitch) {
           this.glitchBtmCols[c].push(pickRndColor(this.palette));
@@ -119,17 +115,15 @@ export class Coils {
         this.noiseBtmDotsArr[c].push(noise);
       }
     }
-
-    // console.log(this.glitchTopCols[0][1])
-    // console.log(this.glitchBtmCols[0][1])
   }
 
   show(drawScale = 1) {
     noFill();
 
     const strokeSize = Math.round(
-      10 * normalise(this.containerSize, height, 0)
+      5 / normalise(this.containerSize, width, 0)
     );
+
     strokeWeight(strokeSize);
 
     let col = this.primaryColor;
@@ -237,13 +231,10 @@ export class Coils {
 
       // bottom curve - dots
       beginShape();
-      for (let i = this.coilLength; i > 0; i -= this.thetaDots) {
+      for (let i = this.coilLength - 1; i > 0; i -= this.thetaDots) {
         if (this.isGlitch) {
-          // console.log(i)
-
-          const col = this.glitchBtmCols[0][182];
-          console.log(col);
-          // stroke( color(col.r, col.g, col.b) );
+          let col = this.glitchBtmCols[c][i];
+          stroke(color(col.r, col.g, col.b));
         }
 
         let xPos = i;
@@ -258,9 +249,9 @@ export class Coils {
 
         if (Math.round(i) % dotStep == 0) {
           if (this.isVertical) {
-            point((xPos - noise) * drawScale, yPos * drawScale);
+            point((xPos + noise) * drawScale, yPos * drawScale);
           } else {
-            point(xPos * drawScale, (yPos - noise) * drawScale);
+            point(xPos * drawScale, (yPos + noise) * drawScale);
           }
         }
       }
