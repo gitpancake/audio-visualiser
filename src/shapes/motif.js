@@ -11,7 +11,7 @@ export class Motif {
     isNoisy,
     isCascade,
     isOverstitch,
-    isGlitch,
+    isGlitch
   ) {
     this.width = w;
     this.height = h;
@@ -20,32 +20,52 @@ export class Motif {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
+
+    // Props
+    this.density = R.random_int(5, 30); // Less is more
+    this.pointColours = [];
+    this.pointSizes = [];
+    this.rows = this.height / this.density;
+    this.cols = this.width / this.density;
+    this.noiseXArr = [];
+    this.noiseYArr = [];
   }
 
-  show() {
+  generate() {
+    for (let r = 0; r < this.rows; r++) {
+      this.pointColours.push([]);
+      this.pointSizes.push([]);
+      this.noiseXArr.push([]);
+      this.noiseYArr.push([]);
+
+      for (let c = 0; c < this.cols; c++) {
+        this.pointColours[r].push(pickRndColor(this.palette));
+        this.pointSizes[r].push(R.random_int(1, 4));
+        this.noiseXArr[r].push(R.random_dec() * this.density);
+        this.noiseYArr[r].push(R.random_dec() * this.density);
+      }
+    }
+  }
+
+  show(drawScale = 1) {
     noFill();
     noStroke();
 
-    const density = R.random_int(5, 30); // Less is more
-    const rows = this.height / density;
-    const cols = this.width / density;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const col = pickRndColor(this.palette);
-        const size = R.random_int(1, 4);
+    for (let r = 0; r < this.rows; r++) {
+      for (let c = 0; c < this.cols; c++) {
+        const col = this.pointColours[r][c];
+        const size = this.pointSizes[r][c];
         stroke(color(col.r, col.g, col.b));
-        strokeWeight(size);
+        strokeWeight(size * drawScale);
 
-        const noiseX = R.random_dec() * density;
-        const noiseY = R.random_dec() * density;
+        const noiseX = this.noiseXArr[r][c];
+        const noiseY = this.noiseYArr[r][c];
 
-        let x = c * density + noiseX;
-        let y = r * density + noiseY;
+        let x = c * this.density + noiseX;
+        let y = r * this.density + noiseY;
 
-        point(x, y);
+        point(x * drawScale, y * drawScale);
       }
     }
-
   }
 }
