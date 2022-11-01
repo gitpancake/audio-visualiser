@@ -11,7 +11,7 @@ export class Scribbles {
     isNoisy,
     isCascade,
     isOverstitch,
-    isGlitch,
+    isGlitch
   ) {
     this.width = w;
     this.height = h;
@@ -20,32 +20,45 @@ export class Scribbles {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
+
+    // Store
+    this.isLineVertical = R.random_bool(0.5);
+    this.curveSize = R.random_int(2, 8);
+
+    this.thicknessArr = [];
+    this.toggleRotArr = [];
+    this.dividersArr = [];
+    this.offsetArr = [];
+    this.curveTypeArr = [];
+
   }
 
-  show() {
+  show(drawScale = 1, redraw = false) {
+
+    console.log(drawScale)
     noFill();
 
     const col = pickRndColor(this.palette);
     stroke(color(col.r, col.g, col.b));
 
-    const isLineVertical = R.random_bool(0.5);
-    const lineSize = isLineVertical ? this.height : this.width;
-    const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_int(2, 8);
+    const containerSize = this.isLineVertical
+      ? this.width * drawScale
+      : this.height * drawScale;
     const lineCountOffset = 1;
-    const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
-    let lineTranslate = curveSize;
+    const lineCount =
+      Math.ceil(containerSize / (this.curveSize * drawScale)) - lineCountOffset;
+
+    let lineTranslate = this.curveSize;
     let toggleRot = R.random_bool(0.5);
     let divider = 100;
 
     push();
 
     for (let l = 0; l < lineCount; l++) {
-
       const thickness = R.random_int(1, 3);
       strokeWeight(thickness);
 
-      if (isLineVertical) {
+      if (this.isLineVertical) {
         translate(lineTranslate, 0);
       } else {
         translate(0, lineTranslate);
@@ -63,27 +76,30 @@ export class Scribbles {
         stroke(color(col.r, col.g, col.b));
       }
 
+      // SAVE
+      this.toggleRotArr.push(toggleRot);
+
       const offset = R.random_num(1, 10);
       const curveType = R.random_choice([QUARTER_PI, HALF_PI, PI]);
 
       beginShape();
 
-      for (let i = offset; i < lineSize - offset; i += 1) {
+      for (let i = offset; i < containerSize - offset; i += 1) {
         let x, y;
         let noise = this.isNoisy ? R.random_dec() : 0;
 
-        if (isLineVertical) {
+        if (this.isLineVertical) {
           if (this.isOverstitch && !this.isCascade) {
-            x = tan(i * radians(curveType)) * curveSize + noise;
+            x = tan(i * radians(curveType)) * this.curveSize + noise;
           } else {
-            x = cos(i * radians(curveType)) * curveSize + noise;
+            x = cos(i * radians(curveType)) * this.curveSize + noise;
           }
           y = i * 1;
         } else {
           if (this.isOverstitch && this.isCascade) {
-            y = tan(i * radians(curveType)) * curveSize + noise;
+            y = tan(i * radians(curveType)) * this.curveSize + noise;
           } else {
-            y = cos(i * radians(curveType)) * curveSize + noise;
+            y = cos(i * radians(curveType)) * this.curveSize + noise;
           }
           x = i * 1;
         }
@@ -92,7 +108,7 @@ export class Scribbles {
       }
 
       endShape();
-      lineTranslate = +curveSize;
+      lineTranslate = +this.curveSize;
     }
     pop();
   }
