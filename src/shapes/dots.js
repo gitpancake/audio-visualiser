@@ -3,7 +3,7 @@ import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 const R = new Random();
 
-export class Motif {
+export class Dots {
   constructor(
     w,
     h,

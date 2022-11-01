@@ -1,16 +1,15 @@
 import { gridDivider, allAreTruthy } from "./helpers";
 import { Random } from "./random";
-const R = new Random();
-import { Bamileke, Coils, Flower, Scribbles } from "./shapes";
-import { Motif } from "./shapes/motif";
+import { Dots, Coils, Flower, Ndop, Scribbles } from "./shapes";
 import { defaultPalette } from "./palettes";
 import { config } from "./config";
+
+const R = new Random();
 const cfg = config;
 const bg = cfg.palette.background;
 
 const scaleFactor = cfg.canvasWidth / cfg.canvasHeight;
 const scaledWidth = window.innerHeight * scaleFactor;
-
 const gridWidth = cfg.canvasWidth - cfg.gridMargin.x * 2;
 const gridHeight = cfg.canvasHeight - cfg.gridMargin.y * 2;
 
@@ -77,7 +76,7 @@ for (let a = 0; a < loopOneCount; a++) {
       case 1:
         flowerVisible = true;
 
-        designOption = new Motif(
+        designOption = new Dots(
           blockW,
           blockH,
           cfg.palette,
@@ -121,7 +120,7 @@ for (let a = 0; a < loopOneCount; a++) {
 
         break;
       default:
-        designOption = new Bamileke(
+        designOption = new Ndop(
           blockW,
           blockH,
           reRunLoop ? defaultPalette : cfg.palette,
