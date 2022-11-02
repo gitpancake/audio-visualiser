@@ -60,7 +60,7 @@ export const palettes = [
     ],
   },
   {
-    name: "Pink",
+    name: "Rose",
     background: {
       r: 10,
       g: 10,
