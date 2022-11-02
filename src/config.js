@@ -2,12 +2,12 @@ import { palettes, ndopPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isNdop = R.random_bool(0.15);
+const isNdop = R.random_bool(0.1);
 const palette =
-  isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
+  isNdop && R.random_bool(0.5) ? ndopPalette : R.random_choice(palettes);
 const isNdopPalette = palette == ndopPalette;
 const isChaotic = isNdopPalette ? false : R.random_bool(.6);
-const isGlitch = isNdop ? false : R.random_bool(0.4);
+const isGlitch = isNdop ? false : R.random_bool(0.6);
 const isOverstitch =
   isNdop || isGlitch || isChaotic ? false : R.random_bool(0.25);
 const gridSize = {
@@ -16,8 +16,9 @@ const gridSize = {
 };
 
 const maxSize = 7;
-const gridXLessThan = gridSize.x <= maxSize;
-const gridYLessThan = gridSize.y <= maxSize;
+const minSize = 2;
+const gridXLessThan = gridSize.x >= minSize && gridSize.x <= maxSize;
+const gridYLessThan = gridSize.y >= minSize && gridSize.y <= maxSize;
 const randMargin = R.random_int(4, 9) * 10;
 const isNoisy = isNdop ? true : R.random_bool(0.8);
 
