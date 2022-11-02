@@ -2,9 +2,9 @@ export const palettes = [
   {
     name: "Toghu Original",
     background: {
-      r: 10,
-      g: 10,
-      b: 10,
+      r: 0,
+      g: 0,
+      b: 0,
     },
     colors: [
       {
@@ -32,9 +32,9 @@ export const palettes = [
   {
     name: "Regal",
     background: {
-      r: 10,
-      g: 10,
-      b: 10,
+      r: 0,
+      g: 0,
+      b: 0,
     },
     colors: [
       {
@@ -62,9 +62,9 @@ export const palettes = [
   {
     name: "Rose",
     background: {
-      r: 10,
-      g: 10,
-      b: 10,
+      r: 0,
+      g: 0,
+      b: 0,
     },
     colors: [
       { r: 250, g: 221, b: 225 },
