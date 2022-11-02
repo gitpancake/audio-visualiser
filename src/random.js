@@ -1,4 +1,5 @@
 import { genTokenData } from "./token";
+
 export const tokenData = genTokenData(17);
 console.log(tokenData);
 

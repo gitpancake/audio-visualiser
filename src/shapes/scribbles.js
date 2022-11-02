@@ -11,7 +11,7 @@ export class Scribbles {
     isNoisy,
     isCascade,
     isOverstitch,
-    isGlitch,
+    isGlitch
   ) {
     this.width = w;
     this.height = h;
@@ -20,79 +20,112 @@ export class Scribbles {
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
     this.isGlitch = isGlitch;
+
+    // Props
+    this.isVertical = R.random_bool(0.5);
+    this.lineSize = this.isVertical ? this.height : this.width;
+    this.containerSize = this.isVertical ? this.width : this.height;
+    this.curveSize = R.random_int(2, 8);
+    this.lineCount = Math.ceil(this.containerSize / this.curveSize) - 1;
+    this.primaryCol = pickRndColor(this.palette);
+    this.secondaryColArr = [];
+
+    this.toggleRotInit = R.random_bool(0.5);
+    this.toggleRotArr = [];
+
+    this.dividerArr = [];
+
+    this.lineThickArr = [];
+    this.offsetArr = [];
+    this.curveTypeArr = [];
+    this.noiseArr = [];
   }
 
-  show() {
+  generate() {
+    const QUARTER_PI = 0.7853982;
+    const HALF_PI = QUARTER_PI * 2;
+    const PI = HALF_PI * 2;
+
+    for (let l = 0; l < this.lineCount; l++) {
+      this.lineThickArr.push(R.random_int(1, 3));
+
+      if (this.isGlitch) {
+        this.toggleRotArr.push(R.random_bool(0.5));
+        this.dividerArr.push(R.random_int(1, 100));
+        this.secondaryColArr.push(pickRndColor(this.palette));
+      }
+
+      const offset = R.random_int(1, 10);
+      this.offsetArr.push(offset);
+      this.curveTypeArr.push(R.random_choice([QUARTER_PI, HALF_PI, PI]));
+
+      this.noiseArr.push([]);
+
+      for (let i = offset; i < this.lineSize - offset; i += 1) {
+        const noise = this.isNoisy ? R.random_dec() : 0;
+        this.noiseArr[l].push(noise);
+      }
+    }
+  }
+
+  show(drawScale = 1) {
     noFill();
 
-    const col = pickRndColor(this.palette);
+    const col = this.primaryCol;
     stroke(color(col.r, col.g, col.b));
 
-    const isLineVertical = R.random_bool(0.5);
-    const lineSize = isLineVertical ? this.height : this.width;
-    const containerSize = isLineVertical ? this.width : this.height;
-    const curveSize = R.random_int(2, 8);
-    const lineCountOffset = 1;
-    const lineCount = Math.ceil(containerSize / curveSize) - lineCountOffset;
-    let lineTranslate = curveSize;
-    let toggleRot = R.random_bool(0.5);
-    let divider = 100;
+    let lineTranslate = this.curveSize;
 
     push();
 
-    for (let l = 0; l < lineCount; l++) {
+    for (let l = 0; l < this.lineCount; l++) {
+      strokeWeight(this.lineThickArr[l] * drawScale);
 
-      const thickness = R.random_int(1, 3);
-      strokeWeight(thickness);
-
-      if (isLineVertical) {
-        translate(lineTranslate, 0);
+      if (this.isVertical) {
+        translate(lineTranslate * drawScale, 0);
       } else {
-        translate(0, lineTranslate);
+        translate(0, lineTranslate * drawScale);
       }
 
       if (this.isGlitch) {
-        toggleRot = R.random_bool(0.5);
-        divider = R.random_int(1, 100);
-
-        const rotation = radians(l / divider);
-        const newRotation = toggleRot ? -rotation : rotation;
+        const rotation = radians(l / this.dividerArr[l]);
+        const newRotation = this.toggleRotArr[l] ? -rotation : rotation;
         rotate(newRotation);
 
-        const col = pickRndColor(this.palette);
+        const col = this.secondaryColArr[l];
         stroke(color(col.r, col.g, col.b));
       }
 
-      const offset = R.random_num(1, 10);
-      const curveType = R.random_choice([QUARTER_PI, HALF_PI, PI]);
+      const offset = this.offsetArr[l];
+      const curveType = this.curveTypeArr[l];
 
       beginShape();
 
-      for (let i = offset; i < lineSize - offset; i += 1) {
+      for (let i = offset; i < this.lineSize - offset; i += 1) {
         let x, y;
-        let noise = this.isNoisy ? R.random_dec() : 0;
+        let noise = this.noiseArr[l][i];
 
-        if (isLineVertical) {
+        if (this.isVertical) {
           if (this.isOverstitch && !this.isCascade) {
-            x = tan(i * radians(curveType)) * curveSize + noise;
+            x = tan(i * radians(curveType)) * this.curveSize + noise;
           } else {
-            x = cos(i * radians(curveType)) * curveSize + noise;
+            x = cos(i * radians(curveType)) * this.curveSize + noise;
           }
           y = i * 1;
         } else {
           if (this.isOverstitch && this.isCascade) {
-            y = tan(i * radians(curveType)) * curveSize + noise;
+            y = tan(i * radians(curveType)) * this.curveSize + noise;
           } else {
-            y = cos(i * radians(curveType)) * curveSize + noise;
+            y = cos(i * radians(curveType)) * this.curveSize + noise;
           }
           x = i * 1;
         }
 
-        vertex(x, y);
+        vertex(x * drawScale, y * drawScale);
       }
 
       endShape();
-      lineTranslate = +curveSize;
+      lineTranslate = +this.curveSize;
     }
     pop();
   }

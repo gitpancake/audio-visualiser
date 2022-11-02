@@ -7,19 +7,19 @@ const palette =
   isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
 const isNdopPalette = palette == ndopPalette;
 const isChaotic = isNdopPalette ? false : R.random_bool(.6);
-const isGlitch = isNdop ? false : R.random_bool(0.6);
+const isGlitch = isNdop ? false : R.random_bool(0.4);
 const isOverstitch =
-  isNdop || isGlitch || isChaotic ? false : R.random_bool(0.2);
+  isNdop || isGlitch || isChaotic ? false : R.random_bool(0.25);
 const gridSize = {
-  x: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
-  y: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
+  x: isNdop ? R.random_int(4, 10) : R.random_int(1, 14),
+  y: isNdop ? R.random_int(4, 10) : R.random_int(1, 14),
 };
 
-const maxSize = 5;
+const maxSize = 7;
 const gridXLessThan = gridSize.x <= maxSize;
 const gridYLessThan = gridSize.y <= maxSize;
-const randMargin = R.random_int(5, 9) * 10;
-const isNoisy = isNdop ? true : R.random_bool(0.5);
+const randMargin = R.random_int(4, 9) * 10;
+const isNoisy = isNdop ? true : R.random_bool(0.8);
 
 let rarities = {
   isOverstitch,
@@ -29,7 +29,7 @@ let rarities = {
   isChaotic,
   palette,
   isFloral:
-    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.5),
+    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
 };
 
 export const config = {
@@ -39,8 +39,8 @@ export const config = {
     y: isGlitch ? randMargin : 40,
   },
   isCascade: R.random_bool(0.5),
-  canvasWidth: 900,
-  canvasHeight: 1200,
+  canvasWidth: 900*1.2,
+  canvasHeight: 1200*1.2,
   gridSpacing: R.random_choice([8, 12, 16, 20]),
   ...rarities,
 };

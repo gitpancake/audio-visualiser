@@ -13,7 +13,7 @@ export const flowerOptions = [
 // shape options
 // d - denominator
 // n - numerator
-export const bamilekeOptions = [
+export const ndopOptions = [
   { d: 1, n: 2 },
   { d: 1, n: 4 },
   { d: 1, n: 6 },
@@ -38,7 +38,7 @@ export const bamilekeOptions = [
   { d: 9, n: 10 },
 ];
 
-export const bamilekeOverlayOptions = [
+export const ndopOverlayOptions = [
   { d: 1, n: 5 },
   { d: 1, n: 9 },
   { d: 2, n: 1 },
