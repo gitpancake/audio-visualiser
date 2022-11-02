@@ -18,8 +18,11 @@ const gridHeight = cfg.canvasHeight - cfg.gridMargin.y * 2;
 
 // Setup Canvas
 window.setup = () => {
-  // createCanvas(scaledWidth, window.innerHeight);
-  createCanvas(window.innerWidth, scaledHeight);
+  if (window.innerHeight > window.innerWidth) {
+    createCanvas(window.innerWidth, scaledHeight);
+  } else {
+    createCanvas(scaledWidth, window.innerHeight);
+  }
 
   noLoop();
   noFill();
@@ -198,7 +201,13 @@ window.draw = () => {
 
 window.windowResized = () => {
   const scaledHeight = window.innerWidth / scaleFactor;
-  resizeCanvas(window.innerWidth, scaledHeight);
+  const scaledWidth = window.innerHeight * scaleFactor;
+
+  if (window.innerHeight > window.innerWidth) {
+    resizeCanvas(window.innerWidth, scaledHeight);
+  } else {
+    resizeCanvas(scaledWidth, window.innerHeight);
+  }
 };
 
-calculateFeatures(tokenData)
+calculateFeatures(tokenData);
