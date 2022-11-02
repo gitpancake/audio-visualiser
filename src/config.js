@@ -29,7 +29,7 @@ let rarities = {
   isChaotic,
   palette,
   isFloral:
-    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.4),
+    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
 };
 
 export const config = {
