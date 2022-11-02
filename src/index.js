@@ -11,12 +11,16 @@ const bg = cfg.palette.background;
 
 const scaleFactor = cfg.canvasWidth / cfg.canvasHeight;
 const scaledWidth = window.innerHeight * scaleFactor;
+const scaledHeight = window.innerWidth / scaleFactor;
+
 const gridWidth = cfg.canvasWidth - cfg.gridMargin.x * 2;
 const gridHeight = cfg.canvasHeight - cfg.gridMargin.y * 2;
 
 // Setup Canvas
 window.setup = () => {
-  createCanvas(scaledWidth, window.innerHeight);
+  // createCanvas(scaledWidth, window.innerHeight);
+  createCanvas(window.innerWidth, scaledHeight);
+
   noLoop();
   noFill();
   noStroke();
@@ -193,8 +197,8 @@ window.draw = () => {
 };
 
 window.windowResized = () => {
-  const scaledWidth = window.innerHeight * scaleFactor;
-  resizeCanvas(scaledWidth, window.innerHeight);
+  const scaledHeight = window.innerWidth / scaleFactor;
+  resizeCanvas(window.innerWidth, scaledHeight);
 };
 
 calculateFeatures(tokenData)
