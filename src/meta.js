@@ -3,16 +3,16 @@ import { config } from "./config";
 
 export const calculateFeatures = (tokenData) => {
   const features = {};
-  features["Style Inspiration"] = config.isNdop ? "Ndop" : "Atoghu";
-  features["Palette"] = config.palette.name;
-  features["Grid Style"] = config.isCascade ? "Waterfall" : "Normal";
-  features["Draw Style"] = config.isNoisy? "Dirty" : "Clean";
-  features["Grid Dimensions"] = `${config.gridSize.x} x ${config.gridSize.y}`;
-  features["Grid Spacing"] = config.gridSpacing;
-  features["Overstitch"] = config.isOverstitch;
-  features["Gemini Tendecies"] = config.isGlitch;
-  features["Choatic Vibes"] = config.isChaotic;
-  features["Floral"] = config.isFloral;
+  features["inspiration"] = config.isNdop ? "Ndop" : "Atoghu";
+  features["palette"] = config.palette.name;
+  features["grid ftyle"] = config.isCascade ? "Waterfall" : "Normal";
+  features["sraw style"] = config.isNoisy? "Dirty" : "Clean";
+  features["grid dimensions"] = `${config.gridSize.x} x ${config.gridSize.y}`;
+  features["grid spacing"] = config.gridSpacing;
+  features["overstitch"] = config.isOverstitch;
+  features["glitch"] = config.isGlitch;
+  features["erratic tendencies"] = config.isChaotic;
+  features["floral"] = config.isFloral;
 
   console.table(features)
   return features;

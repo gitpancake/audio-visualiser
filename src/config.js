@@ -2,7 +2,7 @@ import { palettes, ndopPalette } from "./palettes";
 import { Random } from "./random";
 const R = new Random();
 
-const isNdop = R.random_bool(0.1);
+const isNdop = R.random_bool(0.15);
 const palette =
   isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
 const isNdopPalette = palette == ndopPalette;
@@ -44,5 +44,3 @@ export const config = {
   gridSpacing: R.random_choice([8, 12, 16, 20]),
   ...rarities,
 };
-
-console.table(config);

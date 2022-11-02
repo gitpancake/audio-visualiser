@@ -1,8 +1,9 @@
 import { gridDivider, allAreTruthy } from "./helpers";
-import { Random } from "./random";
+import { Random, tokenData } from "./random";
 import { Dots, Coils, Flower, Ndop, Scribbles } from "./shapes";
 import { defaultPalette } from "./palettes";
 import { config } from "./config";
+import { calculateFeatures } from "./meta";
 
 const R = new Random();
 const cfg = config;
@@ -195,3 +196,5 @@ window.windowResized = () => {
   const scaledWidth = window.innerHeight * scaleFactor;
   resizeCanvas(scaledWidth, window.innerHeight);
 };
+
+calculateFeatures(tokenData)
