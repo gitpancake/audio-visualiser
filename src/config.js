@@ -3,13 +3,14 @@ import { Random } from "./random";
 const R = new Random();
 
 const isNdop = R.random_bool(0.1);
+const chanceOfBlue = R.random_bool(.2) ? palettes.concat(ndopPalette) : palettes;
 const palette =
-  isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(palettes);
+  isNdop && R.random_bool(0.7) ? ndopPalette : R.random_choice(chanceOfBlue);
 const isNdopPalette = palette == ndopPalette;
 const isChaotic = isNdopPalette ? false : R.random_bool(.6);
-const isGlitch = isNdop ? false : R.random_bool(0.6);
+const isGlitch = isNdop ? false : R.random_bool(0.4);
 const isOverstitch =
-  isNdop || isGlitch || isChaotic ? false : R.random_bool(0.2);
+  isNdop || isGlitch || isChaotic ? false : R.random_bool(0.25);
 const gridSize = {
   x: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
   y: isNdop ? R.random_int(2, 10) : R.random_int(1, 12),
@@ -29,7 +30,7 @@ let rarities = {
   isChaotic,
   palette,
   isFloral:
-    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.5),
+    isNdop || !gridXLessThan || !gridYLessThan ? false : R.random_bool(.25),
 };
 
 export const config = {
