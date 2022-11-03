@@ -11,12 +11,19 @@ const bg = cfg.palette.background;
 
 const scaleFactor = cfg.canvasWidth / cfg.canvasHeight;
 const scaledWidth = window.innerHeight * scaleFactor;
+const scaledHeight = window.innerWidth / scaleFactor;
+
 const gridWidth = cfg.canvasWidth - cfg.gridMargin.x * 2;
 const gridHeight = cfg.canvasHeight - cfg.gridMargin.y * 2;
 
 // Setup Canvas
 window.setup = () => {
-  createCanvas(scaledWidth, window.innerHeight);
+  if (window.innerHeight > window.innerWidth) {
+    createCanvas(window.innerWidth, scaledHeight);
+  } else {
+    createCanvas(scaledWidth, window.innerHeight);
+  }
+
   noLoop();
   noFill();
   noStroke();
@@ -193,8 +200,14 @@ window.draw = () => {
 };
 
 window.windowResized = () => {
+  const scaledHeight = window.innerWidth / scaleFactor;
   const scaledWidth = window.innerHeight * scaleFactor;
-  resizeCanvas(scaledWidth, window.innerHeight);
+
+  if (window.innerHeight > window.innerWidth) {
+    resizeCanvas(window.innerWidth, scaledHeight);
+  } else {
+    resizeCanvas(scaledWidth, window.innerHeight);
+  }
 };
 
-calculateFeatures(tokenData)
+calculateFeatures(tokenData);
