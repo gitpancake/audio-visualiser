@@ -1,25 +1,16 @@
-import { pickRndColor, normalise } from "../helpers";
+import { pickRndColor } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 const R = new Random();
 
 export class Coils {
-  constructor(
-    w,
-    h,
-    palette = defaultPalette,
-    isNoisy,
-    isCascade,
-    isOverstitch,
-    isGlitch
-  ) {
+  constructor(w, h, palette = defaultPalette, isNoisy, isCascade, isOverstitch, isGlitch) {
     this.width = w;
     this.height = h;
     this.palette = palette;
     this.isNoisy = isNoisy;
     this.isCascade = isCascade;
     this.isOverstitch = isOverstitch;
-    this.isGlitch = isGlitch;
 
     const QUARTER_PI = 0.7853982;
     const HALF_PI = QUARTER_PI * 2;

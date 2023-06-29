@@ -1,28 +1,15 @@
-import { pickRndColor, reduceDenominator } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 const R = new Random();
 
-export class Dots {
-  constructor(
-    w,
-    h,
-    palette = defaultPalette,
-    isNoisy,
-    isCascade,
-    isOverstitch,
-    isGlitch
-  ) {
+export class Strokes {
+  constructor(w, h, palette = defaultPalette) {
     this.width = w;
     this.height = h;
     this.palette = palette;
-    this.isNoisy = isNoisy;
-    this.isCascade = isCascade;
-    this.isOverstitch = isOverstitch;
-    this.isGlitch = isGlitch;
 
     // Props
-    this.density = R.random_int(5, 30); // Less is more
+    this.density = R.random_int(3, 4); // Less is more
     this.rows = Math.ceil(this.height / this.density);
     this.cols = Math.ceil(this.width / this.density);
     this.pointColours = [];
@@ -39,7 +26,6 @@ export class Dots {
       this.noiseYArr.push([]);
 
       for (let c = 0; c < this.cols; c++) {
-        this.pointColours[r].push(pickRndColor(this.palette));
         this.pointSizes[r].push(R.random_int(1, 4));
         this.noiseXArr[r].push(R.random_dec() * this.density);
         this.noiseYArr[r].push(R.random_dec() * this.density);
@@ -48,14 +34,14 @@ export class Dots {
   }
 
   show(drawScale = 1) {
-    noFill();
-    noStroke();
+    const randomColor = R.random_choice(this.palette.colors);
 
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
-        const col = this.pointColours[r][c];
         const size = this.pointSizes[r][c];
-        stroke(color(col.r, col.g, col.b));
+
+        stroke(color(randomColor.r, randomColor.g, randomColor.b));
+
         strokeWeight(size * drawScale);
 
         const noiseX = this.noiseXArr[r][c];
@@ -64,7 +50,15 @@ export class Dots {
         let x = c * this.density + noiseX;
         let y = r * this.density + noiseY;
 
-        point(x * drawScale, y * drawScale);
+        line(5, y * drawScale, x * drawScale, y * drawScale, 10);
+
+        strokeWeight(0.2);
+        stroke("black");
+        line(5, y * drawScale + 0.2, x * drawScale + 0.2, y * drawScale + 0.2);
+
+        strokeWeight(0.1);
+        stroke("white");
+        line(5, y * drawScale + 0.4, x * drawScale + 0.4, y * drawScale + 0.4);
       }
     }
   }

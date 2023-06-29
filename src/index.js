@@ -1,9 +1,9 @@
-import { gridDivider, allAreTruthy } from "./helpers";
-import { Random, tokenData } from "./random";
-import { Dots, Coils, Flower, Ndop, Scribbles } from "./shapes";
-import { defaultPalette } from "./palettes";
 import { config } from "./config";
+import { gridDivider } from "./helpers";
 import { calculateFeatures } from "./meta";
+import { Random, tokenData } from "./random";
+import { Strokes } from "./shapes";
+import { Rect } from "./shapes/rect";
 
 const R = new Random();
 const cfg = config;
@@ -37,105 +37,35 @@ const loopTwoCount = cfg.isCascade ? cfg.gridSize.y : cfg.gridSize.x;
 const loopTwoDiv = loopTwoCount * 2;
 const loopTwoDim = cfg.isCascade ? gridHeight : gridWidth;
 
-const blockDimA = gridDivider(
-  loopOneDim / loopOneDiv,
-  loopOneDim,
-  loopOneCount,
-  loopOneDim
-);
+const blockDimA = gridDivider(loopOneDim / loopOneDiv, loopOneDim, loopOneCount, loopOneDim);
 
-const generateBlocks = (isChaotic = false) => {
+const generateBlocks = () => {
   let blocks = [];
-  const chosenOne = R.random_bool(0.5) ? cfg.isOverstitch : false;
-  const stitchOverideOne = cfg.isOverstitch ? chosenOne : false;
-  const stitchOverideTwo = cfg.isOverstitch ? !chosenOne : false;
+
   for (let a = 0; a < loopOneCount; a++) {
-    const blockDimB = gridDivider(
-      loopTwoDim / loopTwoDiv,
-      loopTwoDim,
-      loopTwoCount,
-      loopTwoDim
-    );
+    const blockDimB = gridDivider(loopTwoDim / loopTwoDiv, loopTwoDim, loopTwoCount, loopTwoDim);
 
     blocks.push([]);
 
     for (let b = 0; b < loopTwoCount; b++) {
-      let flowerVisible = false;
       let style;
       let blockW = cfg.isCascade ? blockDimA[a] : blockDimB[b];
       let blockH = cfg.isCascade ? blockDimB[b] : blockDimA[a];
+
       blockW = blockW - spacing;
       blockH = blockH - spacing;
 
-      const max = cfg.isFloral ? 4 : 3;
-      const pickStyle = cfg.isNdop ? 5 : R.random_int(1, max);
+      let pickStyle = R.random_int(2, 2);
 
       switch (pickStyle) {
         case 1:
-          flowerVisible = true;
-          style = new Dots(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            cfg.isOverstitch,
-            cfg.isGlitch
-          );
+          style = new Rect(blockW, blockH, cfg.palette);
           style.generate();
 
           break;
 
         case 2:
-          style = new Scribbles(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            stitchOverideTwo,
-            isChaotic ? false : cfg.isGlitch
-          );
-          style.generate();
-
-          break;
-
-        case 3:
-          style = new Coils(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            stitchOverideOne,
-            isChaotic ? false : cfg.isGlitch
-          );
-          style.generate();
-
-          break;
-        case 4:
-          style = new Flower(
-            blockW,
-            blockH,
-            cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            stitchOverideOne,
-            isChaotic ? false : cfg.isGlitch
-          );
-          style.generate();
-
-          break;
-        default:
-          style = new Ndop(
-            blockW,
-            blockH,
-            isChaotic ? defaultPalette : cfg.palette,
-            cfg.isNoisy,
-            cfg.isCascade,
-            cfg.isOverstitch,
-            cfg.isGlitch
-          );
+          style = new Strokes(blockW, blockH, cfg.palette);
           style.generate();
 
           break;
@@ -145,7 +75,6 @@ const generateBlocks = (isChaotic = false) => {
         width: blockW,
         height: blockH,
         style,
-        flowerVisible,
       });
     }
   }
@@ -153,19 +82,18 @@ const generateBlocks = (isChaotic = false) => {
 };
 
 const blocks = generateBlocks();
-let blocksChaotic;
-if (cfg.isChaotic) {
-  blocksChaotic = generateBlocks(true);
-}
 
 window.draw = () => {
   background(color(bg.r, bg.g, bg.b));
   const drawScale = width / cfg.canvasWidth;
-  const drawBlocks = (blocks, floralOnly = false) => {
+
+  const drawBlocks = (blocks) => {
     const scaledSpacing = cfg.gridSpacing * drawScale;
     let translateY = cfg.gridMargin.y * drawScale;
+
     for (let i = 0; i < blocks.length; i++) {
       let translateX = cfg.gridMargin.x * drawScale;
+
       for (let j = 0; j < blocks[i].length; j++) {
         push();
 
@@ -176,6 +104,7 @@ window.draw = () => {
         }
 
         const block = blocks[i][j];
+
         block.style.show(drawScale);
 
         if (cfg.isCascade) {
@@ -193,9 +122,7 @@ window.draw = () => {
       }
     }
   };
-  if (cfg.isChaotic) {
-    drawBlocks(blocksChaotic);
-  }
+
   drawBlocks(blocks);
 };
 

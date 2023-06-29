@@ -1,21 +1,12 @@
 import { pickRndColor, reduceDenominator } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
-import { Dots } from "./dots";
+import { ndopOptions, ndopOverlayOptions } from "./shape-options";
+import { Strokes } from "./strokes";
 const R = new Random();
 
-import { ndopOptions, ndopOverlayOptions } from "./shape-options";
-
 export class Ndop {
-  constructor(
-    w,
-    h,
-    palette = defaultPalette,
-    isNoisy,
-    isCascade,
-    isOverstitch,
-    isGlitch
-  ) {
+  constructor(w, h, palette = defaultPalette, isNoisy, isCascade, isOverstitch, isGlitch) {
     this.width = w;
     this.height = h;
     this.palette = palette;
@@ -36,9 +27,7 @@ export class Ndop {
     this.numerator = this.shape.n;
     this.k = this.numerator / this.denominator;
     this.theta = 0.002;
-    this.lineStep = Math.round(
-      PI * reduceDenominator(this.numerator, this.denominator)
-    );
+    this.lineStep = Math.round(PI * reduceDenominator(this.numerator, this.denominator));
     this.noiseArr = [];
     this.noiseTwoArr = [];
 
@@ -46,19 +35,9 @@ export class Ndop {
     this.denominatorTwo = this.shapeTwo.d;
     this.numeratorTwo = this.shapeTwo.n;
     this.kTwo = this.numeratorTwo / this.denominatorTwo;
-    this.lineStepTwo = Math.round(
-      PI * reduceDenominator(this.numeratorTwo, this.denominatorTwo)
-    );
+    this.lineStepTwo = Math.round(PI * reduceDenominator(this.numeratorTwo, this.denominatorTwo));
 
-    this.dotMotif = new Dots(
-      this.width,
-      this.height,
-      this.palette,
-      this.isNoisy,
-      this.isCascade,
-      this.isOverstitch,
-      this.isGlitch
-    );
+    this.dotMotif = new Strokes(this.width, this.height, this.palette, this.isNoisy, this.isCascade, this.isOverstitch, this.isGlitch);
   }
 
   generate() {

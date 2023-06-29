@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "a boilerplate to create a generative art project",
   "main": "index.js",
-  "author": "fingacode",
+  "author": "gitpancake",
   "license": "MIT",
   "scripts": {
     "build": "webpack --config ./config/webpack.config.prod.js",

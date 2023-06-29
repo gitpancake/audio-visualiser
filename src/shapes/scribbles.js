@@ -4,15 +4,7 @@ import { Random } from "../random";
 const R = new Random();
 
 export class Scribbles {
-  constructor(
-    w,
-    h,
-    palette = defaultPalette,
-    isNoisy,
-    isCascade,
-    isOverstitch,
-    isGlitch
-  ) {
+  constructor(w, h, palette = defaultPalette, isNoisy, isCascade, isOverstitch, isGlitch) {
     this.width = w;
     this.height = h;
     this.palette = palette;

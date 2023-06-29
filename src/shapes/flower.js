@@ -2,19 +2,11 @@ import { normalise, pickRndColor, reduceDenominator } from "../helpers";
 import { defaultPalette } from "../palettes";
 import { Random } from "../random";
 import { flowerOptions } from "./shape-options";
-import { Dots } from "./dots";
+import { Strokes } from "./strokes";
 const R = new Random();
 
 export class Flower {
-  constructor(
-    w,
-    h,
-    palette = defaultPalette,
-    isNoisy,
-    isCascade,
-    isOverstitch,
-    isGlitch
-  ) {
+  constructor(w, h, palette = defaultPalette, isNoisy, isCascade, isOverstitch, isGlitch) {
     this.width = w;
     this.height = h;
     this.palette = palette;
@@ -77,9 +69,7 @@ export class Flower {
     const PI = HALF_PI * 2;
     const TAU = PI * 2;
 
-    this.strokeSize = Math.round(
-      10 * normalise(this.radius, window.innerWidth - 80, 0)
-    );
+    this.strokeSize = Math.round(10 * normalise(this.radius, window.innerWidth - 80, 0));
     this.flowerBg = R.random_choice(flowerOptions);
     this.bgScale = R.random_num(1.8, 2);
     this.bgM = this.flowerBg.m;
@@ -124,15 +114,7 @@ export class Flower {
 
     this.flowerOutline = R.random_bool(0.5);
 
-    this.dotMotif = new Dots(
-      this.width,
-      this.height,
-      this.palette,
-      this.isNoisy,
-      this.isCascade,
-      this.isOverstitch,
-      this.isGlitch
-    );
+    this.dotMotif = new Strokes(this.width, this.height, this.palette, this.isNoisy, this.isCascade, this.isOverstitch, this.isGlitch);
   }
 
   generate() {
@@ -179,18 +161,9 @@ export class Flower {
     }
 
     push();
-    translate(
-      (-this.innerContainerWidth / this.translateNoise) * drawScale,
-      (-this.innerContainerHeight / this.translateNoise) * drawScale
-    );
+    translate((-this.innerContainerWidth / this.translateNoise) * drawScale, (-this.innerContainerHeight / this.translateNoise) * drawScale);
     // FLOWER BACKGROUND
-    fill(
-      color(
-        this.palette.background.r,
-        this.palette.background.g,
-        this.palette.background.b
-      )
-    );
+    fill(color(this.palette.background.r, this.palette.background.g, this.palette.background.b));
     strokeWeight(this.strokeSize * drawScale);
 
     beginShape();
@@ -207,13 +180,7 @@ export class Flower {
 
     // FLOWER OUTER
     let col = this.flowerOuterStroke;
-    stroke(
-      color(
-        this.palette.background.r,
-        this.palette.background.g,
-        this.palette.background.b
-      )
-    );
+    stroke(color(this.palette.background.r, this.palette.background.g, this.palette.background.b));
 
     col = this.flowerOuterFill;
     fill(color(col.r, col.g, col.b));
@@ -231,13 +198,7 @@ export class Flower {
     // FLOWER OUTER - END
 
     // FLOWER INNER
-    stroke(
-      color(
-        this.palette.background.r,
-        this.palette.background.g,
-        this.palette.background.b
-      )
-    );
+    stroke(color(this.palette.background.r, this.palette.background.g, this.palette.background.b));
     col = this.flowerInnerFill;
     fill(color(col.r, col.g, col.b));
     beginShape();
@@ -257,8 +218,7 @@ export class Flower {
     stroke(color(col.r, col.g, col.b));
     for (let j = this.innerO; j < this.innerDetailCount - this.innerC; j++) {
       let angle = j;
-      let size =
-        (this.radius / this.innerDetailCount / this.innerScale / 4) * j;
+      let size = (this.radius / this.innerDetailCount / this.innerScale / 4) * j;
       strokeWeight((size / 1.7) * drawScale);
 
       // DOT STYLE
