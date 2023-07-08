@@ -1,13 +1,20 @@
 export class Waveform {
-  constructor(waveform, analyserNode, frequencyData, scaleSize) {
+  constructor({ waveform, analyserNode, frequencyData, angleDeviation, scaleSize, strokeColor, fillColor, historyLength, minBaseHz, maxBaseHz }) {
     this.waveform = waveform;
     this.analyserNode = analyserNode;
     this.frequencyData = frequencyData;
     this.scaleSize = scaleSize;
 
+    this.minBaseHz = minBaseHz;
+    this.maxBaseHz = maxBaseHz;
+
     this.normalizedFreq = 0;
     this.maxFrequencyTarget = 0;
-    this.signalHistory = Array(25).fill(0);
+    this.signalHistory = Array(historyLength).fill(0);
+
+    this.strokeColor = strokeColor;
+    this.fillColor = fillColor;
+    this.angleDeviation = angleDeviation;
   }
 
   damp(a, b, lambda, dt) {
@@ -21,6 +28,7 @@ export class Waveform {
   audioMaxFrequency(analyserNode, frequencies) {
     let maxSignal = -Infinity;
     let maxSignalIndex = 0;
+
     for (let i = 0; i < frequencies.length; i++) {
       const signal = frequencies[i];
       if (signal > maxSignal) {
@@ -28,6 +36,7 @@ export class Waveform {
         maxSignalIndex = i;
       }
     }
+
     return this.indexToFrequency(maxSignalIndex, analyserNode.context.sampleRate, analyserNode.frequencyBinCount);
   }
 
@@ -65,9 +74,9 @@ export class Waveform {
 
   draw() {
     const growthRate = 0.0001; // Controls the speed of growth.
-    const count = 20000;
-    const minBaseHz = 0;
-    const maxBaseHz = count;
+    const count = this.maxBaseHz - this.minBaseHz;
+    const minBaseHz = this.minBaseHz;
+    const maxBaseHz = this.maxBaseHz;
 
     if (this.analyserNode) {
       this.analyserNode.getFloatFrequencyData(this.frequencyData);
@@ -109,18 +118,16 @@ export class Waveform {
 
       const size = baseSize + this.waveform.size * averageSignal;
 
-      const angle = map(i, 0, 360, 0, PI);
+      const angle = map(i, 0, this.angleDeviation, 0, PI);
 
       const x = this.waveform.x + size * cos(angle);
       const y = this.waveform.y + size * sin(angle);
 
-      stroke(194, 165, 152, 75); // Light blue.
-      fill(194, 165, 152, 25);
+      stroke(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.strokeColor.o); // Light blue.
+      noFill();
 
       vertex(x, y);
     }
-
-    console.log(this.waveform);
 
     endShape(CLOSE);
   }
