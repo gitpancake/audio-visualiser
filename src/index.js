@@ -110,12 +110,8 @@ window.setup = () => {
 
   createCanvas(windowWidth, windowHeight);
 
-  // Optional:
-  // If the user inserts/removes bluetooth headphones or pushes
-  // the play/pause media keys, we can use the following to ignore the action
   navigator.mediaSession.setActionHandler("pause", () => {});
 
-  // Initialize the first circle.
   waveform = { x: width / 2, y: height / 2, size: initialSize, lifespan: maxLifespan };
   waveform_two = { x: width / 2, y: height / 2, size: initialSize, lifespan: 100 };
 };
