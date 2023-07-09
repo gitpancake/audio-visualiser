@@ -1,9 +1,9 @@
 export class Waveform {
-  constructor({ waveform, analyserNode, frequencyData, angleDeviation, scaleSize, strokeColor, fillColor, historyLength, minBaseHz, maxBaseHz }) {
-    this.waveform = waveform;
+  constructor({ size, analyserNode, frequencyData, angleDeviation, frequencyScaleSize, strokeColor, fillColor, historyLength, minBaseHz, maxBaseHz, spins }) {
+    this.size = size;
     this.analyserNode = analyserNode;
     this.frequencyData = frequencyData;
-    this.scaleSize = scaleSize;
+    this.frequencyScaleSize = frequencyScaleSize;
 
     this.minBaseHz = minBaseHz;
     this.maxBaseHz = maxBaseHz;
@@ -15,6 +15,8 @@ export class Waveform {
     this.strokeColor = strokeColor;
     this.fillColor = fillColor;
     this.angleDeviation = angleDeviation;
+
+    this.spins = spins;
   }
 
   damp(a, b, lambda, dt) {
@@ -73,6 +75,8 @@ export class Waveform {
   }
 
   draw() {
+    rectMode(CENTER);
+
     const growthRate = 0.0001; // Controls the speed of growth.
     const count = this.maxBaseHz - this.minBaseHz;
     const minBaseHz = this.minBaseHz;
@@ -81,21 +85,30 @@ export class Waveform {
     if (this.analyserNode) {
       this.analyserNode.getFloatFrequencyData(this.frequencyData);
 
-      this.maxFrequencyTarget = map(this.audioMaxFrequency(this.analyserNode, this.frequencyData), 0, this.scaleSize, 0, 720, true);
+      this.maxFrequencyTarget = map(this.audioMaxFrequency(this.analyserNode, this.frequencyData), 0, this.frequencyScaleSize, 0, 720, true);
       const maxFreq = this.audioMaxFrequency(this.analyserNode, this.frequencyData);
 
-      this.normalizedFreq = this.damp(this.normalizedFreq, map(maxFreq, 0, this.scaleSize, 0, 1), 0.1, deltaTime);
+      this.normalizedFreq = this.damp(this.normalizedFreq, map(maxFreq, 0, this.frequencyScaleSize, 0, 1), 0.1, deltaTime);
     }
 
     const maxSize = Math.min(width, height) / 32;
 
-    if (this.waveform.size >= height) {
-      this.waveform.size -= Math.min(this.waveform.size + growthRate * this.normalizedFreq, maxSize); //
+    const growth = Math.min(this.size + growthRate * this.normalizedFreq, maxSize);
+
+    if (this.size >= height) {
+      this.size -= growth; //
     } else {
-      this.waveform.size += Math.min(this.waveform.size + growthRate * this.normalizedFreq, maxSize); // The waveform grows faster when the music is louder.
+      this.size += growth;
     }
 
+    push();
+
+    fill("black");
     beginShape();
+
+    if (this.spins) {
+      rotate(100);
+    }
 
     const historyLength = this.signalHistory.length;
 
@@ -109,21 +122,22 @@ export class Waveform {
 
       const averageSignal = this.signalHistory.reduce((a, b) => a + b, 0) / historyLength;
 
-      const baseSize = map(i, 0, count - 1, this.waveform.size, this.waveform.size) * this.normalizedFreq * 0.05;
+      const baseSize = map(i, 0, count - 1, this.size, this.size) * this.normalizedFreq * 0.05;
 
-      const size = baseSize + this.waveform.size * averageSignal;
+      let size = baseSize + this.size * averageSignal;
 
-      const angle = map(i, 0, this.angleDeviation, 0, PI);
+      const angle = map(i, 0, this.angleDeviation, 0, TWO_PI);
 
-      const x = this.waveform.x + size * cos(angle);
-      const y = this.waveform.y + size * sin(angle);
+      const x = 0 + size * sin(angle);
+      const y = 0 + size * cos(angle);
 
-      stroke(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.strokeColor.o); // Light blue.
-      noFill();
+      stroke(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.strokeColor.o);
+      // fill(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.spins ? 100 : this.strokeColor.o);
 
       vertex(x, y);
     }
 
     endShape(CLOSE);
+    pop();
   }
 }

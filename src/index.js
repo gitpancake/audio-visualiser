@@ -64,10 +64,10 @@ function createAudioContext() {
   }
 }
 
-let waveform, waveform_two, waveform_three;
-let initialSize = 0;
 let soundFile;
 let inputButton;
+
+let initialSize;
 
 const waveformClasses = [];
 
@@ -97,13 +97,11 @@ window.setup = () => {
   inputButton.parent("controls");
   inputButton.attribute("accept", "audio/*");
 
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight, WEBGL);
 
   navigator.mediaSession.setActionHandler("pause", () => {});
 
-  waveform = { x: width / 2, y: height / 2, size: initialSize };
-  waveform_two = { x: width / 2, y: height / 2, size: 10 };
-  waveform_three = { x: width / 2, y: height / 2, size: 20 };
+  initialSize = height / 2;
 };
 
 window.draw = () => {
@@ -115,42 +113,45 @@ window.draw = () => {
       const firstColors = hashToRGB(tokenData.hash, 0);
       const secondColors = hashToRGB(tokenData.hash, 2);
       const thirdColors = hashToRGB(tokenData.hash, 4);
+      const fourthColors = hashToRGB(tokenData.hash, 6);
 
-      const highPass = new Waveform({
-        waveform,
-        analyserNode,
-        frequencyData,
-        scaleSize: r.random_int(10, 20),
-        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(70, 90) },
-        historyLength: r.random_int(20, 30),
-        minBaseHz: r.random_int(14000, 16000),
-        maxBaseHz: r.random_int(19000, 21000),
-        angleDeviation: r.random_int(360, 720),
-      });
       const lowPass = new Waveform({
-        waveform: waveform_two,
+        size: initialSize,
         analyserNode,
         frequencyData,
-        scaleSize: r.random_int(100, 400),
-        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(90, 100) },
+        frequencyScaleSize: 100,
+        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(90, 100) },
         historyLength: r.random_int(50, 60),
         minBaseHz: r.random_int(0, 100),
         maxBaseHz: r.random_int(3000, 5000),
         angleDeviation: r.random_int(360, 420),
       });
-      const midPass = new Waveform({
-        waveform: waveform_three,
+      const midPassOne = new Waveform({
+        size: initialSize,
         analyserNode,
         frequencyData,
-        scaleSize: r.random_int(100, 400),
-        strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: r.random_int(40, 60) },
+        frequencyScaleSize: 200,
+        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(40, 60) },
         historyLength: r.random_int(80, 100),
-        minBaseHz: r.random_int(3000, 5000),
-        maxBaseHz: r.random_int(12000, 14000),
+        minBaseHz: r.random_int(5000, 5000),
+        maxBaseHz: r.random_int(8000, 13000),
         angleDeviation: r.random_int(680, 760),
       });
 
-      waveformClasses.push(lowPass, midPass, highPass);
+      const highPass = new Waveform({
+        size: initialSize,
+        analyserNode,
+        frequencyData,
+        frequencyScaleSize: 400,
+        strokeColor: { r: fourthColors[0], g: fourthColors[1], b: fourthColors[2], o: r.random_int(70, 90) },
+        historyLength: r.random_int(20, 30),
+        minBaseHz: r.random_int(14000, 16000),
+        maxBaseHz: r.random_int(19000, 25000),
+        angleDeviation: r.random_int(360, 720),
+        spins: true,
+      });
+
+      waveformClasses.push(lowPass, midPassOne, highPass);
     }
   }
 
