@@ -1,8 +1,5 @@
-import { Hash } from "./hash";
 import { Waveform } from "./modules/waveform";
 import { Random, tokenData } from "./random";
-
-new Hash().initialize();
 
 const r = new Random();
 
