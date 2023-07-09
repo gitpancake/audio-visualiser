@@ -140,10 +140,10 @@ window.draw = () => {
         frequencyData,
         scaleSize: r.random_int(100, 400),
         strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: 75 },
-        historyLength: 25,
+        historyLength: r.random_int(20, 30),
         minBaseHz: 15000,
         maxBaseHz: 20000,
-        angleDeviation: 10,
+        angleDeviation: r.random_int(5, 15),
       });
       const secondWaveForm = new Waveform({
         waveform: waveform_two,
@@ -151,10 +151,10 @@ window.draw = () => {
         frequencyData,
         scaleSize: r.random_int(100, 400),
         strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: 100 },
-        historyLength: 50,
+        historyLength: r.random_int(50, 60),
         minBaseHz: 0,
         maxBaseHz: 15000,
-        angleDeviation: 360,
+        angleDeviation: r.random_int(360, 420),
       });
       const thirdWaveForm = new Waveform({
         waveform: waveform_three,
@@ -162,10 +162,10 @@ window.draw = () => {
         frequencyData,
         scaleSize: r.random_int(100, 400),
         strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: 50 },
-        historyLength: 100,
+        historyLength: r.random_int(80, 100),
         minBaseHz: 2500,
         maxBaseHz: 5000,
-        angleDeviation: 720,
+        angleDeviation: r.random_int(680, 760),
       });
       const fourthWaveForm = new Waveform({
         waveform: waveform_four,
@@ -173,10 +173,10 @@ window.draw = () => {
         frequencyData,
         scaleSize: r.random_int(100, 400),
         strokeColor: { r: fourthColors[0], g: fourthColors[1], b: fourthColors[2], o: 10 },
-        historyLength: 11,
+        historyLength: r.random_int(5, 11),
         minBaseHz: 0,
         maxBaseHz: 20000,
-        angleDeviation: 1400,
+        angleDeviation: r.random_int(1000, 1500),
       });
 
       waveformClasses.push(firstWaveForm, secondWaveForm, thirdWaveForm, fourthWaveForm);
