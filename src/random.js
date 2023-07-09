@@ -4,10 +4,6 @@ export const tokenData = genTokenData(17);
 
 export class Random {
   constructor() {
-    const url = new URL(location);
-    url.searchParams.set("hash", tokenData.hash);
-    history.pushState({}, "", url);
-
     this.useA = false;
     let sfc32 = function (uint128Hex) {
       let a = parseInt(uint128Hex.substr(0, 8), 16);

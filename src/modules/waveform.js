@@ -87,18 +87,13 @@ export class Waveform {
       this.normalizedFreq = this.damp(this.normalizedFreq, map(maxFreq, 0, this.scaleSize, 0, 1), 0.1, deltaTime);
     }
 
-    // Update and draw waveforms.
-
     const maxSize = Math.min(width, height) / 32;
 
-    // Update size and lifespan.
     if (this.waveform.size >= height) {
       this.waveform.size -= Math.min(this.waveform.size + growthRate * this.normalizedFreq, maxSize); //
     } else {
       this.waveform.size += Math.min(this.waveform.size + growthRate * this.normalizedFreq, maxSize); // The waveform grows faster when the music is louder.
     }
-
-    // Draw waveform.
 
     beginShape();
 

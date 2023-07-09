@@ -1,10 +1,19 @@
-import { config } from "./config";
-import { calculateFeatures } from "./meta";
+import { Hash } from "./hash";
 import { Waveform } from "./modules/waveform";
 import { Random, tokenData } from "./random";
 
-const R = new Random();
-const cfg = config;
+new Hash().initialize();
+
+const r = new Random();
+
+function hashToRGB(hashValue, step) {
+  // Extract the red, green, and blue components from the hash
+  const red = parseInt(hashValue.substr(2 + step, 2), 16);
+  const green = parseInt(hashValue.substr(4 + step, 2), 16);
+  const blue = parseInt(hashValue.substr(6 + step, 2), 16);
+
+  return [red, green, blue];
+}
 
 let audioContext;
 let frequencyData;
@@ -48,9 +57,6 @@ function createAudioContext() {
     // Enable looping
     audio.loop = true;
 
-    // Set source
-    audio.crossOrigin = "Anonymous";
-
     audio.src = soundFile.url;
 
     // Connect source into the WebAudio context
@@ -74,9 +80,8 @@ function createAudioContext() {
   }
 }
 
-let waveform, waveform_two;
+let waveform, waveform_two, waveform_three, waveform_four;
 let initialSize = 0;
-const maxLifespan = 20000; // Time (in frames) until a circle disappears.
 let soundFile;
 let inputButton;
 
@@ -112,11 +117,11 @@ window.setup = () => {
 
   navigator.mediaSession.setActionHandler("pause", () => {});
 
-  waveform = { x: width / 2, y: height / 2, size: initialSize, lifespan: maxLifespan };
-  waveform_two = { x: width / 2, y: height / 2, size: initialSize, lifespan: 100 };
+  waveform = { x: width / 2, y: height / 2, size: initialSize };
+  waveform_two = { x: width / 2, y: height / 2, size: 10 };
+  waveform_three = { x: width / 2, y: height / 2, size: 20 };
+  waveform_four = { x: width / 2, y: height / 2, size: 30 };
 };
-
-let scaleSize = 500;
 
 window.draw = () => {
   // fill background
@@ -124,12 +129,17 @@ window.draw = () => {
 
   if (analyserNode) {
     if (!waveformClasses.length) {
+      const firstColors = hashToRGB(tokenData.hash, 0);
+      const secondColors = hashToRGB(tokenData.hash, 2);
+      const thirdColors = hashToRGB(tokenData.hash, 4);
+      const fourthColors = hashToRGB(tokenData.hash, 6);
+
       const firstWaveForm = new Waveform({
         waveform,
         analyserNode,
         frequencyData,
-        scaleSize,
-        strokeColor: { r: 128, g: 0, b: 255, o: 75 },
+        scaleSize: r.random_int(100, 400),
+        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: 75 },
         historyLength: 25,
         minBaseHz: 15000,
         maxBaseHz: 20000,
@@ -139,30 +149,30 @@ window.draw = () => {
         waveform: waveform_two,
         analyserNode,
         frequencyData,
-        scaleSize,
-        strokeColor: { r: 128, g: 0, b: 255, o: 100 },
+        scaleSize: r.random_int(100, 400),
+        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: 100 },
         historyLength: 50,
         minBaseHz: 0,
         maxBaseHz: 15000,
         angleDeviation: 360,
       });
       const thirdWaveForm = new Waveform({
-        waveform: waveform_two,
+        waveform: waveform_three,
         analyserNode,
         frequencyData,
-        scaleSize,
-        strokeColor: { r: 128, g: 0, b: 255, o: 50 },
+        scaleSize: r.random_int(100, 400),
+        strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: 50 },
         historyLength: 100,
         minBaseHz: 2500,
         maxBaseHz: 5000,
         angleDeviation: 720,
       });
       const fourthWaveForm = new Waveform({
-        waveform: waveform_two,
+        waveform: waveform_four,
         analyserNode,
         frequencyData,
-        scaleSize,
-        strokeColor: { r: 255, g: 255, b: 255, o: 10 },
+        scaleSize: r.random_int(100, 400),
+        strokeColor: { r: fourthColors[0], g: fourthColors[1], b: fourthColors[2], o: 10 },
         historyLength: 11,
         minBaseHz: 0,
         maxBaseHz: 20000,
@@ -188,5 +198,3 @@ window.draw = () => {
 window.windowResized = () => {
   resizeCanvas(windowWidth, windowHeight);
 };
-
-calculateFeatures(tokenData);
