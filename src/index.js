@@ -116,18 +116,18 @@ window.draw = () => {
       const secondColors = hashToRGB(tokenData.hash, 2);
       const thirdColors = hashToRGB(tokenData.hash, 4);
 
-      const firstWaveForm = new Waveform({
+      const highPass = new Waveform({
         waveform,
         analyserNode,
         frequencyData,
-        scaleSize: r.random_int(100, 400),
+        scaleSize: r.random_int(10, 20),
         strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(70, 90) },
         historyLength: r.random_int(20, 30),
         minBaseHz: r.random_int(14000, 16000),
         maxBaseHz: r.random_int(19000, 21000),
-        angleDeviation: r.random_int(5, 15),
+        angleDeviation: r.random_int(360, 720),
       });
-      const secondWaveForm = new Waveform({
+      const lowPass = new Waveform({
         waveform: waveform_two,
         analyserNode,
         frequencyData,
@@ -135,22 +135,22 @@ window.draw = () => {
         strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(90, 100) },
         historyLength: r.random_int(50, 60),
         minBaseHz: r.random_int(0, 100),
-        maxBaseHz: r.random_int(13000, 16000),
+        maxBaseHz: r.random_int(3000, 5000),
         angleDeviation: r.random_int(360, 420),
       });
-      const thirdWaveForm = new Waveform({
+      const midPass = new Waveform({
         waveform: waveform_three,
         analyserNode,
         frequencyData,
         scaleSize: r.random_int(100, 400),
         strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: r.random_int(40, 60) },
         historyLength: r.random_int(80, 100),
-        minBaseHz: r.random_int(2000, 3000),
-        maxBaseHz: r.random_int(4500, 6000),
+        minBaseHz: r.random_int(3000, 5000),
+        maxBaseHz: r.random_int(12000, 14000),
         angleDeviation: r.random_int(680, 760),
       });
 
-      waveformClasses.push(firstWaveForm, secondWaveForm, thirdWaveForm);
+      waveformClasses.push(lowPass, midPass, highPass);
     }
   }
 
