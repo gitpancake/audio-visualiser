@@ -80,7 +80,7 @@ function createAudioContext() {
   }
 }
 
-let waveform, waveform_two, waveform_three, waveform_four;
+let waveform, waveform_two, waveform_three;
 let initialSize = 0;
 let soundFile;
 let inputButton;
@@ -120,7 +120,6 @@ window.setup = () => {
   waveform = { x: width / 2, y: height / 2, size: initialSize };
   waveform_two = { x: width / 2, y: height / 2, size: 10 };
   waveform_three = { x: width / 2, y: height / 2, size: 20 };
-  waveform_four = { x: width / 2, y: height / 2, size: 30 };
 };
 
 window.draw = () => {
@@ -132,17 +131,16 @@ window.draw = () => {
       const firstColors = hashToRGB(tokenData.hash, 0);
       const secondColors = hashToRGB(tokenData.hash, 2);
       const thirdColors = hashToRGB(tokenData.hash, 4);
-      const fourthColors = hashToRGB(tokenData.hash, 6);
 
       const firstWaveForm = new Waveform({
         waveform,
         analyserNode,
         frequencyData,
         scaleSize: r.random_int(100, 400),
-        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: 75 },
+        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(70, 90) },
         historyLength: r.random_int(20, 30),
-        minBaseHz: 15000,
-        maxBaseHz: 20000,
+        minBaseHz: r.random_int(14000, 16000),
+        maxBaseHz: r.random_int(19000, 21000),
         angleDeviation: r.random_int(5, 15),
       });
       const secondWaveForm = new Waveform({
@@ -150,10 +148,10 @@ window.draw = () => {
         analyserNode,
         frequencyData,
         scaleSize: r.random_int(100, 400),
-        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: 100 },
+        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(90, 100) },
         historyLength: r.random_int(50, 60),
-        minBaseHz: 0,
-        maxBaseHz: 15000,
+        minBaseHz: r.random_int(0, 100),
+        maxBaseHz: r.random_int(13000, 16000),
         angleDeviation: r.random_int(360, 420),
       });
       const thirdWaveForm = new Waveform({
@@ -161,25 +159,14 @@ window.draw = () => {
         analyserNode,
         frequencyData,
         scaleSize: r.random_int(100, 400),
-        strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: 50 },
+        strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: r.random_int(40, 60) },
         historyLength: r.random_int(80, 100),
-        minBaseHz: 2500,
-        maxBaseHz: 5000,
+        minBaseHz: r.random_int(2000, 3000),
+        maxBaseHz: r.random_int(4500, 6000),
         angleDeviation: r.random_int(680, 760),
       });
-      const fourthWaveForm = new Waveform({
-        waveform: waveform_four,
-        analyserNode,
-        frequencyData,
-        scaleSize: r.random_int(100, 400),
-        strokeColor: { r: fourthColors[0], g: fourthColors[1], b: fourthColors[2], o: 10 },
-        historyLength: r.random_int(5, 11),
-        minBaseHz: 0,
-        maxBaseHz: 20000,
-        angleDeviation: r.random_int(1000, 1500),
-      });
 
-      waveformClasses.push(firstWaveForm, secondWaveForm, thirdWaveForm, fourthWaveForm);
+      waveformClasses.push(firstWaveForm, secondWaveForm, thirdWaveForm);
     }
   }
 
