@@ -17,6 +17,7 @@ export class Waveform {
     this.angleDeviation = angleDeviation;
 
     this.spins = spins;
+    this.angle = 0;
   }
 
   damp(a, b, lambda, dt) {
@@ -103,7 +104,12 @@ export class Waveform {
 
     push();
 
-    fill("black");
+    // Add ambient and directional lighting
+    ambientLight(50);
+
+    fill(color(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, 5));
+    stroke(color(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.strokeColor.o));
+
     beginShape();
 
     if (this.spins) {
@@ -130,9 +136,6 @@ export class Waveform {
 
       const x = 0 + size * sin(angle);
       const y = 0 + size * cos(angle);
-
-      stroke(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.strokeColor.o);
-      // fill(this.strokeColor.r, this.strokeColor.g, this.strokeColor.b, this.spins ? 100 : this.strokeColor.o);
 
       vertex(x, y);
     }

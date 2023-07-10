@@ -113,41 +113,40 @@ window.draw = () => {
       const firstColors = hashToRGB(tokenData.hash, 0);
       const secondColors = hashToRGB(tokenData.hash, 2);
       const thirdColors = hashToRGB(tokenData.hash, 4);
-      const fourthColors = hashToRGB(tokenData.hash, 6);
 
       const lowPass = new Waveform({
         size: initialSize,
         analyserNode,
         frequencyData,
         frequencyScaleSize: 100,
-        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(90, 100) },
+        strokeColor: { r: firstColors[0], g: firstColors[1], b: firstColors[2], o: r.random_int(85, 90) },
         historyLength: r.random_int(50, 60),
         minBaseHz: r.random_int(0, 100),
         maxBaseHz: r.random_int(3000, 5000),
-        angleDeviation: r.random_int(360, 420),
+        angleDeviation: r.random_int(50, 150),
       });
       const midPassOne = new Waveform({
         size: initialSize,
         analyserNode,
         frequencyData,
         frequencyScaleSize: 200,
-        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(40, 60) },
+        strokeColor: { r: secondColors[0], g: secondColors[1], b: secondColors[2], o: r.random_int(80, 85) },
         historyLength: r.random_int(80, 100),
         minBaseHz: r.random_int(5000, 5000),
         maxBaseHz: r.random_int(8000, 13000),
-        angleDeviation: r.random_int(680, 760),
+        angleDeviation: r.random_int(360, 720),
+        spins: true,
       });
-
       const highPass = new Waveform({
         size: initialSize,
         analyserNode,
         frequencyData,
-        frequencyScaleSize: 400,
-        strokeColor: { r: fourthColors[0], g: fourthColors[1], b: fourthColors[2], o: r.random_int(70, 90) },
+        frequencyScaleSize: 200,
+        strokeColor: { r: thirdColors[0], g: thirdColors[1], b: thirdColors[2], o: r.random_int(80, 85) },
         historyLength: r.random_int(20, 30),
         minBaseHz: r.random_int(14000, 16000),
         maxBaseHz: r.random_int(19000, 25000),
-        angleDeviation: r.random_int(360, 720),
+        angleDeviation: r.random_int(720, 1000),
         spins: true,
       });
 
